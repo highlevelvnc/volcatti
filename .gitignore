@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local dev
+.cache/
+.tmp/
+node_modules/
+
+# Claude
+.claude/
