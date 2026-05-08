@@ -86,7 +86,8 @@ export const SERVICES = [
   },
 ] as const;
 
-export const GALLERY: ReadonlyArray<{
+export type GalleryItem = {
+  slug: string;
   src: string;
   alt: string;
   title: string;
@@ -95,8 +96,14 @@ export const GALLERY: ReadonlyArray<{
   area?: string;
   year?: string;
   location?: string;
-}> = [
+  duration?: string;
+  scope?: string;
+  description?: string;
+};
+
+export const GALLERY: ReadonlyArray<GalleryItem> = [
   {
+    slug: "piscina-iluminada-lisboa",
     src: "/portfolio/piscina-noturna.png",
     alt: "Piscina iluminada com LED de noite",
     title: "Piscina Iluminada",
@@ -105,8 +112,13 @@ export const GALLERY: ReadonlyArray<{
     area: "48 m²",
     year: "2024",
     location: "Lisboa",
+    duration: "65 dias úteis",
+    scope: "Piscina · Iluminação LED · Calçada portuguesa",
+    description:
+      "Construção de raiz de piscina retangular num condomínio em Lisboa, com iluminação LED perimetral e remate em calçada portuguesa. Impermeabilização técnica em 3 camadas e sistema de filtragem com bomba silenciosa.",
   },
   {
+    slug: "barbearia-comercial-lisboa",
     src: "/portfolio/barbearia.png",
     alt: "Interior de barbearia",
     title: "Barbearia · Remodelação Comercial",
@@ -114,8 +126,13 @@ export const GALLERY: ReadonlyArray<{
     area: "62 m²",
     year: "2024",
     location: "Lisboa",
+    duration: "42 dias úteis",
+    scope: "Layout · Eletricidade · Iluminação técnica · Tijoleira",
+    description:
+      "Remodelação completa de espaço comercial para barbearia premium. Tijolo aparente nas paredes, tetos suspensos com iluminação LED em linha e piso flutuante de carvalho. Quadro elétrico novo certificado.",
   },
   {
+    slug: "wc-marmore-cascais",
     src: "/portfolio/wc-marmore.png",
     alt: "Casa de banho mármore",
     title: "WC em Mármore",
@@ -123,8 +140,13 @@ export const GALLERY: ReadonlyArray<{
     area: "8 m²",
     year: "2024",
     location: "Cascais",
+    duration: "21 dias úteis",
+    scope: "Mármore · Box duche · Canalização nova",
+    description:
+      "Remodelação de casa de banho em apartamento de Cascais com revestimentos de mármore Estatuário, box duche em vidro temperado e mobiliário em carvalho. Canalização e elétrica refeitas a 100%.",
   },
   {
+    slug: "piscina-spa-sintra",
     src: "/portfolio/piscina-diurna.png",
     alt: "Piscina diurna com deck",
     title: "Piscina + Spa",
@@ -133,8 +155,13 @@ export const GALLERY: ReadonlyArray<{
     area: "72 m²",
     year: "2023",
     location: "Sintra",
+    duration: "82 dias úteis",
+    scope: "Piscina · Spa em pedra · Deck madeira · Filtragem",
+    description:
+      "Conjunto piscina + spa em moradia de Sintra. Deck em madeira tratada, spa em pedra natural e sistema de filtragem com automação. Iluminação subaquática LED multicor com controlo via app.",
   },
   {
+    slug: "hall-terracota-lisboa",
     src: "/portfolio/corredor-terracota.png",
     alt: "Corredor terracota",
     title: "Hall Terracota",
@@ -142,8 +169,13 @@ export const GALLERY: ReadonlyArray<{
     area: "14 m²",
     year: "2024",
     location: "Lisboa",
+    duration: "18 dias úteis",
+    scope: "Pavimento · Carpintaria · Pintura",
+    description:
+      "Remodelação de hall de entrada com pavimento em terracota, porta interior em madeira maciça e carpintaria personalizada. Pintura nova em todas as paredes.",
   },
   {
+    slug: "espaco-comercial-oeiras",
     src: "/portfolio/espaco-comercial.png",
     alt: "Espaço comercial branco",
     title: "Espaço Comercial",
@@ -151,8 +183,13 @@ export const GALLERY: ReadonlyArray<{
     area: "180 m²",
     year: "2023",
     location: "Oeiras",
+    duration: "95 dias úteis",
+    scope: "Estrutura · Acabamento · Iluminação técnica · Domótica",
+    description:
+      "Construção de raiz de espaço comercial em Oeiras. Acabamentos em branco minimal, tetos suspensos com iluminação técnica LED em malha e pré-instalação de sistema de domótica.",
   },
   {
+    slug: "marquise-iluminacao-lisboa",
     src: "/portfolio/marquise.png",
     alt: "Marquise envidraçada",
     title: "Marquise + Iluminação",
@@ -160,6 +197,10 @@ export const GALLERY: ReadonlyArray<{
     area: "12 m²",
     year: "2024",
     location: "Lisboa",
+    duration: "12 dias úteis",
+    scope: "Carpintaria de alumínio · Iluminação LED · Pavimento",
+    description:
+      "Fechamento de varanda com marquise em alumínio com vidro duplo e rede de proteção, com pavimento técnico e iluminação LED indireta. Solução térmica que ganha um divisão útil ao apartamento.",
   },
 ];
 

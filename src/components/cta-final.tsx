@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { COMPANY, WHATSAPP_URL } from "@/lib/constants";
-import { ArrowRight, WhatsAppIcon } from "./icons";
+import { WhatsAppIcon } from "./icons";
+import { ContactForm } from "./contact-form";
 
 export function CtaFinal() {
   return (
@@ -23,7 +24,7 @@ export function CtaFinal() {
         className="absolute inset-0 -z-[1]"
         style={{
           background:
-            "linear-gradient(180deg, rgba(23,50,56,0.85) 0%, rgba(17,17,17,0.95) 100%)",
+            "linear-gradient(180deg, rgba(23,50,56,0.88) 0%, rgba(17,17,17,0.96) 100%)",
         }}
       />
 
@@ -34,44 +35,58 @@ export function CtaFinal() {
         <line x1="0" y1="580" x2="1440" y2="580" stroke="rgba(244,241,234,0.14)" strokeWidth="1" />
       </svg>
 
-      <div className="relative z-[1] max-w-container mx-auto px-5 md:px-8 lg:px-12 max-w-[980px]">
-        <span data-reveal className="inline-block font-mono text-[0.72rem] tracking-[0.18em] uppercase text-offwhite/65 mb-7 pl-3.5 border-l-2 border-bronze">
-          N.º 09 · Orçamento
-        </span>
+      <div className="relative z-[1] max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-start">
+        {/* Pitch column */}
+        <div>
+          <span data-reveal className="inline-block font-mono text-[0.72rem] tracking-[0.18em] uppercase text-offwhite/65 mb-7 pl-3.5 border-l-2 border-bronze">
+            N.º 09 · Orçamento
+          </span>
 
-        <h2 className="display display--light mb-9 lg:mb-12">
-          <span data-reveal="line"><span>Tem uma obra,</span></span>
-          <span data-reveal="line" data-d="100"><span>remodelação ou piscina</span></span>
-          <span data-reveal="line" data-d="200"><span><em>em mente?</em></span></span>
-        </h2>
+          <h2 className="display display--light mb-9 lg:mb-12">
+            <span data-reveal="line"><span>Tem uma obra,</span></span>
+            <span data-reveal="line" data-d="100"><span>remodelação ou piscina</span></span>
+            <span data-reveal="line" data-d="200"><span><em>em mente?</em></span></span>
+          </h2>
 
-        <p data-reveal data-d="300" className="lead lead--light mb-10 lg:mb-13 max-w-[56ch]">
-          Fale com a Volcatti e receba um orçamento personalizado para o seu projeto.
-          Sem compromisso, com a clareza que merece.
-        </p>
+          <p data-reveal data-d="300" className="lead lead--light mb-10 max-w-[52ch]">
+            Conte-nos sobre o seu projeto. Visita técnica gratuita,
+            orçamento detalhado em 5 dias úteis.
+          </p>
 
-        <div data-reveal data-d="400" className="flex flex-wrap gap-3.5 mb-14 lg:mb-22">
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="btn btn--bronze btn--lg">
-            <WhatsAppIcon className="w-[18px] h-[18px]" />
-            <span>Pedir pelo WhatsApp</span>
-          </a>
-          <a href={`mailto:${COMPANY.email}`} className="btn btn--ghost btn--ghost-light btn--lg">
-            <span>Enviar mensagem</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </a>
+          <div data-reveal data-d="400" className="flex flex-wrap gap-3 mb-10">
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="btn btn--bronze">
+              <WhatsAppIcon className="w-[18px] h-[18px]" />
+              <span>Pedir pelo WhatsApp</span>
+            </a>
+            <a href={`tel:${COMPANY.phoneCompact}`} className="btn btn--ghost btn--ghost-light" data-cursor="Ligar">
+              <span>Ligar agora</span>
+            </a>
+          </div>
+
+          <div data-reveal data-d="500" className="grid grid-cols-2 gap-x-6 gap-y-5 pt-8 border-t border-offwhite/15 max-w-[420px]">
+            {[
+              { lbl: "Email", val: COMPANY.email },
+              { lbl: "Telefone", val: COMPANY.phone },
+              { lbl: "Sede", val: COMPANY.region },
+              { lbl: "Resposta", val: "≤ 24h úteis" },
+            ].map((c) => (
+              <div key={c.lbl} className="flex flex-col gap-1">
+                <span className="font-mono text-[0.66rem] tracking-[0.14em] uppercase text-offwhite/45">{c.lbl}</span>
+                <span className="font-display text-[1.05rem] text-offwhite">{c.val}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div data-reveal data-d="500" className="grid sm:grid-cols-3 gap-6 sm:gap-12 pt-9 lg:pt-14 border-t border-offwhite/18">
-          {[
-            { lbl: "Telefone", val: COMPANY.phone },
-            { lbl: "Email", val: COMPANY.email },
-            { lbl: "Resposta média", val: "24 horas úteis" },
-          ].map((c) => (
-            <div key={c.lbl} className="flex flex-col gap-1.5">
-              <span className="font-mono text-[0.68rem] tracking-[0.14em] uppercase text-offwhite/55">{c.lbl}</span>
-              <span className="font-display font-normal text-offwhite" style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.25rem)" }}>{c.val}</span>
-            </div>
-          ))}
+        {/* Form column */}
+        <div data-reveal data-d="200" className="lg:pl-8 lg:border-l lg:border-offwhite/12">
+          <h3 className="font-display font-light text-offwhite mb-2" style={{ fontSize: "clamp(1.4rem, 2vw, 1.75rem)", letterSpacing: "-0.015em" }}>
+            <span className="text-bronze">▸</span> Pedido de orçamento
+          </h3>
+          <p className="font-mono text-[0.7rem] tracking-[0.14em] uppercase text-offwhite/50 mb-8">
+            Preencha · Recebemos · Respondemos
+          </p>
+          <ContactForm />
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { GALLERY, GALLERY_FILTERS } from "@/lib/constants";
 import { GhostNumber } from "./ghost-number";
@@ -9,7 +10,6 @@ type FilterValue = (typeof GALLERY_FILTERS)[number]["value"];
 
 export function Gallery() {
   const [filter, setFilter] = useState<FilterValue>("all");
-  const [lightbox, setLightbox] = useState<number | null>(null);
 
   return (
     <section
@@ -55,12 +55,13 @@ export function Gallery() {
             const visible = filter === "all" || item.cat === filter;
             const sizeClass = item.size === "tall" ? "row-span-2" : item.size === "wide" ? "col-span-2" : "";
             return (
-              <button
+              <Link
                 key={item.src}
-                onClick={() => setLightbox(i)}
+                href={`/obras/${item.slug}`}
                 data-reveal
                 data-d={i * 60}
-                data-cursor="Ver +"
+                data-cursor="Ver obra →"
+                aria-label={`Ver obra: ${item.title} em ${item.location}`}
                 className={`group relative overflow-hidden bg-graphite block ${sizeClass} ${
                   visible ? "" : "hidden"
                 }`}
@@ -74,12 +75,10 @@ export function Gallery() {
                   style={{ filter: "grayscale(15%) contrast(1.04)" }}
                 />
 
-                {/* Number stamp top-left */}
                 <span className="absolute top-3 left-3 font-mono text-[0.55rem] tracking-[0.18em] uppercase text-offwhite/90 px-1.5 py-0.5 bg-graphite/55 backdrop-blur-sm">
                   N.º {String(i + 1).padStart(2, "0")}
                 </span>
 
-                {/* Hover overlay */}
                 <span
                   className="absolute inset-0 flex flex-col justify-end p-5 text-offwhite opacity-0 translate-y-3 transition-[opacity,transform] duration-500 group-hover:opacity-100 group-hover:translate-y-0"
                   style={{ background: "linear-gradient(180deg, rgba(17,17,17,0) 35%, rgba(17,17,17,0.92) 100%)" }}
@@ -96,12 +95,11 @@ export function Gallery() {
                     {item.year && <span><span className="text-bronze">▸</span> {item.year}</span>}
                   </span>
                 </span>
-              </button>
+              </Link>
             );
           })}
         </div>
 
-        {/* Footer note */}
         <div className="mt-12 flex items-center justify-between gap-4 pt-8 border-t border-graphite/12 font-mono text-[0.7rem] tracking-[0.16em] uppercase text-graphite/55">
           <span>Total · {GALLERY.length} obras</span>
           <span className="hidden sm:block">Mais projetos sob pedido</span>
@@ -110,44 +108,6 @@ export function Gallery() {
           </a>
         </div>
       </div>
-
-      {/* Lightbox */}
-      {lightbox !== null && (
-        <div
-          className="fixed inset-0 z-[150] bg-graphite/95 backdrop-blur-sm flex items-center justify-center p-6 cursor-pointer"
-          onClick={() => setLightbox(null)}
-          data-cursor="Fechar"
-        >
-          <div className="relative w-full max-w-5xl aspect-[4/3]" onClick={(e) => e.stopPropagation()}>
-            <Image
-              src={GALLERY[lightbox].src}
-              alt={GALLERY[lightbox].alt}
-              fill
-              sizes="90vw"
-              className="object-contain"
-              priority
-            />
-            <div className="absolute -top-12 left-0 right-0 flex items-center justify-between font-mono text-[0.7rem] tracking-[0.18em] uppercase text-offwhite/85">
-              <span><span className="text-bronze">▸</span> {GALLERY[lightbox].title}</span>
-              <span className="flex gap-4">
-                <span>{GALLERY[lightbox].area}</span>
-                <span>{GALLERY[lightbox].location}</span>
-                <span>{GALLERY[lightbox].year}</span>
-              </span>
-            </div>
-            <button
-              onClick={() => setLightbox(null)}
-              className="absolute -top-12 right-0 w-9 h-9 -mt-1 inline-flex items-center justify-center border border-offwhite/30 text-offwhite hover:bg-bronze hover:border-bronze hover:text-graphite transition-colors duration-300"
-              aria-label="Fechar"
-              data-cursor="Fechar"
-            >
-              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                <path d="M3 3 L13 13 M13 3 L3 13" stroke="currentColor" strokeWidth="1.4" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

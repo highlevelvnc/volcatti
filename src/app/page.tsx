@@ -8,9 +8,11 @@ import { FeatureElectric } from "@/components/feature-electric";
 import { Gallery } from "@/components/gallery";
 import { BeforeAfter } from "@/components/before-after";
 import { Materials } from "@/components/materials";
+import { StickyStorytelling } from "@/components/sticky-storytelling";
 import { Process } from "@/components/process";
 import { Testimonials } from "@/components/testimonials";
 import { Differentials } from "@/components/differentials";
+import { Faq } from "@/components/faq";
 import { CtaFinal } from "@/components/cta-final";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
@@ -19,6 +21,7 @@ import { ScrollProgress } from "@/components/scroll-progress";
 import { RevealInit } from "@/components/reveal-init";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { Cursor } from "@/components/cursor";
+import { CookieBanner } from "@/components/cookie-banner";
 
 export default function Home() {
   return (
@@ -39,13 +42,16 @@ export default function Home() {
         <Gallery />
         <BeforeAfter />
         <Materials />
+        <StickyStorytelling />
         <Process />
         <Testimonials />
         <Differentials />
+        <Faq />
         <CtaFinal />
       </main>
       <Footer />
       <WhatsAppFloat />
+      <CookieBanner />
     </>
   );
 }
