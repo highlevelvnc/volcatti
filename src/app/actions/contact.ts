@@ -1,6 +1,6 @@
 "use server";
 
-import { COMPANY } from "@/lib/constants";
+import { sendLead } from "@/lib/email";
 
 export type ContactState = {
   status: "idle" | "ok" | "error";
@@ -18,7 +18,6 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
   const message = String(formData.get("message") ?? "").trim();
   const honeypot = String(formData.get("website") ?? "");
 
-  // Honeypot → silently succeed for bots
   if (honeypot) return { status: "ok", message: "Recebido. Em breve entraremos em contacto." };
 
   const errors: ContactState["errors"] = {};
@@ -32,15 +31,11 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
     return { status: "error", errors, message: "Verifique os campos." };
   }
 
-  // TODO: Integrate real email send (Resend, AWS SES, etc) when API keys
-  // are provisioned. For now we log + return ok — the form is wired so
-  // swapping the transport is one-line change.
-  if (process.env.NODE_ENV !== "production") {
-    console.log("[contact form]", { name, email, phone, service, message });
-  }
+  const send = await sendLead({ name, email, phone: phone || undefined, service, message });
 
-  // Simulate latency for natural UX feel
-  await new Promise((r) => setTimeout(r, 600));
+  if (!send.ok) {
+    return { status: "error", message: send.error };
+  }
 
   return {
     status: "ok",
@@ -48,4 +43,26 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
   };
 }
 
-export const CONTACT_SUBJECT = `Pedido de orçamento — ${COMPANY.name}`;
+export type NewsletterState = {
+  status: "idle" | "ok" | "error";
+  message?: string;
+};
+
+export async function subscribeNewsletter(_prev: NewsletterState, formData: FormData): Promise<NewsletterState> {
+  const email = String(formData.get("email") ?? "").trim();
+  const honeypot = String(formData.get("website") ?? "");
+
+  if (honeypot) return { status: "ok", message: "Subscrito." };
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { status: "error", message: "Email inválido." };
+  }
+
+  // Newsletter list — soft fallback for now (logs only). Easy upgrade
+  // path when ready: Resend audiences API or Mailchimp.
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[newsletter]", email);
+  }
+
+  return { status: "ok", message: "Subscrito. Receberá novidades das obras." };
+}

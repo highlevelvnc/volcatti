@@ -10,8 +10,10 @@ import { BeforeAfter } from "@/components/before-after";
 import { Materials } from "@/components/materials";
 import { StickyStorytelling } from "@/components/sticky-storytelling";
 import { Process } from "@/components/process";
+import { ZonesMap } from "@/components/zones-map";
 import { Testimonials } from "@/components/testimonials";
 import { Differentials } from "@/components/differentials";
+import { Trust } from "@/components/trust";
 import { Faq } from "@/components/faq";
 import { CtaFinal } from "@/components/cta-final";
 import { Footer } from "@/components/footer";
@@ -44,8 +46,10 @@ export default function Home() {
         <Materials />
         <StickyStorytelling />
         <Process />
+        <ZonesMap />
         <Testimonials />
         <Differentials />
+        <Trust />
         <Faq />
         <CtaFinal />
       </main>

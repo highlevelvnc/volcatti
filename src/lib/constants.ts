@@ -35,56 +35,172 @@ export const NAV_LINKS = [
   { label: "Contacto", href: "#contacto" },
 ] as const;
 
-export const SERVICES = [
+export type ServiceItem = {
+  slug: string;
+  num: string;
+  title: string;
+  blurb: string;
+  image: string;
+  alt: string;
+  intro?: string;
+  scope?: readonly string[];
+  faq?: ReadonlyArray<{ q: string; a: string }>;
+  relatedCat?: "construcao" | "remodelacao" | "piscinas" | "eletrica" | "acabamentos";
+};
+
+export const SERVICES: ReadonlyArray<ServiceItem> = [
   {
+    slug: "construcao-civil",
     num: "01",
     title: "Construção Civil",
     blurb:
       "Obras novas com método. Do alvará ao acabamento, tratamos cada fase com rigor técnico e responsabilidade.",
     image: "/portfolio/espaco-comercial.png",
     alt: "Espaço amplo recém-construído com iluminação técnica",
+    relatedCat: "construcao",
+    intro:
+      "Construímos do zero — fundações, estrutura, fachadas, acabamentos. Equipa própria coordenada com fornecedores certificados, cronograma transparente e reportes semanais. Cada obra acompanhada por um responsável técnico em estaleiro.",
+    scope: [
+      "Estudo prévio e licenciamento",
+      "Fundações e estrutura armada",
+      "Alvenarias e impermeabilizações",
+      "Coberturas e fachadas",
+      "Instalações técnicas integradas",
+      "Acabamentos e entrega chave-na-mão",
+    ],
+    faq: [
+      { q: "Que dimensão de obra fazem?", a: "De moradias unifamiliares a edifícios de até 6 fogos. Para escala maior, articulamos parcerias." },
+      { q: "Tratam do projeto de arquitetura?", a: "Trabalhamos com arquitetos parceiros e também com os do cliente." },
+      { q: "Que prazo médio para uma vivenda T3?", a: "10–14 meses, dependendo de localização, terreno e acabamentos." },
+    ],
   },
   {
+    slug: "remodelacoes",
     num: "02",
     title: "Remodelações",
     blurb:
       "Casas, apartamentos e espaços comerciais transformados com soluções de alto padrão e atenção ao detalhe.",
     image: "/portfolio/corredor-terracota.png",
     alt: "Hall remodelado com pavimento terracota",
+    relatedCat: "remodelacao",
+    intro:
+      "Pegamos em espaços existentes e devolvemos-lhe valor. Apartamentos antigos, casas que precisam de ganhar luz, lojas que querem reposicionar-se — temos método para cada caso. Levantamento técnico, projeto faseado de demolição, e execução por capítulos para minimizar o impacto.",
+    scope: [
+      "Demolição controlada e tratamento de resíduos",
+      "Recuperação de estrutura quando necessário",
+      "Canalização e elétrica novas",
+      "Carpintaria à medida",
+      "Pinturas, pavimentos, revestimentos",
+      "Instalação de cozinhas e WCs completos",
+    ],
+    faq: [
+      { q: "É preciso desocupar a casa?", a: "Em remodelações totais sim. Para parciais, faseamos para manter zonas habitáveis." },
+      { q: "Aceitam projetos pequenos (1 WC, 1 cozinha)?", a: "Sim. Tratamos com o mesmo rigor de uma obra grande." },
+      { q: "Quanto custa remodelar um T2 em Lisboa?", a: "Tipicamente 800–1500 €/m² para qualidade média-alta. Damos breakdown por capítulo no orçamento." },
+    ],
   },
   {
+    slug: "piscinas",
     num: "03",
     title: "Construção de Piscinas",
     blurb:
       "Da escavação à iluminação. Piscinas modernas, duráveis e com acabamento que valoriza o espaço.",
     image: "/portfolio/piscina-diurna.png",
     alt: "Piscina retangular com deck madeira e spa em pedra",
+    relatedCat: "piscinas",
+    intro:
+      "Piscinas que duram. Estrutura armada com fundação dimensionada ao terreno, impermeabilização técnica em três camadas e revestimentos de qualidade. Sistemas de filtragem silenciosos e iluminação LED com automação opcional.",
+    scope: [
+      "Estudo geotécnico do terreno",
+      "Implantação e marcação de cotas",
+      "Estrutura armada em betão",
+      "Impermeabilização em 3 camadas",
+      "Revestimentos premium (vidro, pedra, mosaico)",
+      "Filtragem, aquecimento, iluminação, automação",
+      "Deck, spa, jacuzzi, jardim envolvente",
+    ],
+    faq: [
+      { q: "É preciso licenciamento?", a: "Para piscinas em terreno próprio até dimensão regulada, geralmente comunicação prévia. Tratamos do processo." },
+      { q: "Quanto demora a construção?", a: "Tipicamente 8–14 semanas para piscina + envolvente." },
+      { q: "Preço médio para piscina 8x4 m?", a: "Entre 25 000–45 000 €, consoante revestimento, sistemas e envolvente." },
+    ],
   },
   {
+    slug: "eletrica",
     num: "04",
     title: "Serviços Elétricos",
     blurb:
       "Instalações novas, certificações e melhorias com foco em segurança, eficiência e organização técnica.",
     image: "/portfolio/marquise.png",
     alt: "Marquise envidraçada com vista de cidade",
+    relatedCat: "eletrica",
+    intro:
+      "Quadros novos, circuitos refeitos, certificações IEP. Trabalhamos com técnicos credenciados para garantir que tudo passa com nota máxima nas inspeções. Iluminação técnica, automação e domótica para casa ou empresa.",
+    scope: [
+      "Diagnóstico e auditoria elétrica",
+      "Quadros eléctricos novos",
+      "Circuitos de iluminação, tomadas, força",
+      "Certificação IEP (CERTIEL)",
+      "Iluminação técnica LED interior + exterior",
+      "Automação e domótica",
+    ],
+    faq: [
+      { q: "Emitem o certificado de instalação?", a: "Sim, fazemos toda a instalação certificada com técnicos credenciados (CERTIEL)." },
+      { q: "Trabalham 24h para emergências?", a: "Sim, equipa de plantão para clientes ativos com contrato de manutenção." },
+      { q: "Fazem domótica?", a: "Sim — pré-instalação ou instalação completa em sistemas KNX, Loxone, ou marcas mais acessíveis." },
+    ],
   },
   {
+    slug: "acabamentos",
     num: "05",
     title: "Acabamentos Finos",
     blurb:
       "Mármores, carvalho, pintura e remates. O que distingue uma obra entregue de uma obra acabada.",
     image: "/portfolio/wc-marmore.png",
     alt: "Casa de banho com revestimento mármore e box duche",
+    relatedCat: "acabamentos",
+    intro:
+      "O acabamento é onde se vê o cuidado. Trabalhamos com mármore, carvalho, latão, vidro temperado e técnicas especializadas. Pintura à régua, juntas perfeitas, ferragens à medida. É o último 10% que faz toda a diferença.",
+    scope: [
+      "Mármores e pedras naturais",
+      "Carpintaria em carvalho e nogueira",
+      "Pintura técnica e estuque veneziano",
+      "Revestimentos cerâmicos premium",
+      "Ferragens, latão, bronze polido",
+      "Vidros temperados (box duche, divisórias)",
+    ],
+    faq: [
+      { q: "Trabalham com fornecedores próprios?", a: "Temos parceiros certificados, mas se já tem fornecedor de confiança, integramos." },
+      { q: "Fazem reparação de mármores existentes?", a: "Sim — polimento, cristalização, reparação de fissuras." },
+      { q: "Quanto custa pintura interior de um T2?", a: "Pintura simples 4–6 €/m², estuque veneziano 35–60 €/m²." },
+    ],
   },
   {
+    slug: "manutencao",
     num: "06",
     title: "Manutenção & Reparações",
     blurb:
       "Pequenas e médias intervenções para manter o espaço sempre em condições — antes que vire problema.",
     image: "/portfolio/barbearia.png",
     alt: "Interior de barbearia remodelada",
+    relatedCat: "remodelacao",
+    intro:
+      "Manter custa muito menos que recuperar. Oferecemos contratos anuais para condomínios, escritórios e clientes que valorizam ter uma equipa de confiança disponível para intervenções rápidas — desde fugas a manutenção elétrica.",
+    scope: [
+      "Diagnóstico anual preventivo",
+      "Reparações canalização e elétricas",
+      "Pintura de manutenção",
+      "Pequenas obras (até 1 mês)",
+      "Limpeza e tratamento de fachadas",
+      "Manutenção de piscinas",
+    ],
+    faq: [
+      { q: "Existem contratos de manutenção?", a: "Sim — anuais ou semestrais, com visitas programadas e resposta prioritária a emergências." },
+      { q: "Fazem reparações urgentes?", a: "Sim, com prazo de resposta de 24–48h para clientes em manutenção, 5 dias úteis para outros." },
+      { q: "Preço típico de visita?", a: "Visita técnica 50 €, deduzida do orçamento se avançar com a reparação." },
+    ],
   },
-] as const;
+];
 
 export type GalleryItem = {
   slug: string;

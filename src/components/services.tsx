@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SERVICES } from "@/lib/constants";
 import { ArrowRight } from "./icons";
 import { GhostNumber } from "./ghost-number";
@@ -31,10 +32,12 @@ export function Services() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-graphite/12 border border-graphite/12">
           {SERVICES.map((s, i) => (
-            <article
+            <Link
               key={s.num}
+              href={`/servicos/${s.slug}`}
               data-reveal
               data-d={i * 80}
+              data-cursor="Saber mais →"
               className="group relative bg-offwhite p-7 sm:p-8 lg:p-10 flex flex-col gap-6 cursor-pointer transition-colors duration-500 hover:bg-offwhite-2 overflow-hidden"
             >
               {/* Bronze underline on hover */}
@@ -64,7 +67,7 @@ export function Services() {
                   <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

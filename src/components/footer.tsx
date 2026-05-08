@@ -1,6 +1,7 @@
 import { COMPANY, WHATSAPP_URL, NAV_LINKS } from "@/lib/constants";
 import { LogoMark } from "./logo";
 import { InstagramIcon, FacebookIcon, LinkedInIcon, WhatsAppIcon } from "./icons";
+import { NewsletterForm } from "./newsletter-form";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -63,6 +64,9 @@ export function Footer() {
                 <span className="text-[0.95rem] text-offwhite/85">{COMPANY.region}</span>
               </li>
             </ul>
+            <div className="pt-4 border-t border-offwhite/12">
+              <NewsletterForm />
+            </div>
           </div>
         </div>
 
