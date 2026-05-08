@@ -1,0 +1,296 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Volcatti — Architectural Blueprint design system
+   ============================================================ */
+
+@layer base {
+  :root {
+    --c-graphite: #111111;
+    --c-offwhite: #f4f1ea;
+    --c-offwhite-2: #ece7dc;
+    --c-concrete: #c9c3b8;
+    --c-bronze: #b88a2a;
+    --c-petroleum: #173238;
+
+    --header-h: 84px;
+    --container: 1320px;
+
+    --ease-elegant: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html, body {
+    /* `clip` not `hidden` — see global rules. Prevents promotion to scroll
+       container, keeps scroll measurements + ScrollTrigger sane. */
+    overflow-x: clip;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-offwhite text-graphite font-sans;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: var(--c-bronze);
+    color: var(--c-graphite);
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+    font-weight: 300;
+  }
+}
+
+@layer components {
+  /* ───────── Buttons ───────── */
+  .btn {
+    @apply relative inline-flex items-center gap-3 px-5 py-3.5 font-sans font-medium text-[0.86rem] uppercase tracking-[0.04em] whitespace-nowrap overflow-hidden;
+    transition:
+      background 0.4s var(--ease-out),
+      color 0.4s var(--ease-out),
+      border-color 0.4s var(--ease-out);
+    border: 1px solid transparent;
+  }
+  .btn--lg { @apply px-7 py-[18px] text-[0.88rem]; }
+
+  .btn--primary {
+    @apply bg-graphite text-offwhite border-graphite;
+  }
+  .btn--primary::before {
+    content: "";
+    @apply absolute inset-0 bg-bronze;
+    transform: translateY(101%);
+    transition: transform 0.55s var(--ease-elegant);
+    z-index: 0;
+  }
+  .btn--primary > * { @apply relative z-[1]; }
+  .btn--primary:hover { @apply text-graphite border-bronze; }
+  .btn--primary:hover::before { transform: translateY(0); }
+
+  .btn--bronze {
+    @apply bg-bronze text-graphite border-bronze;
+  }
+  .btn--bronze::before {
+    content: "";
+    @apply absolute inset-0 bg-graphite;
+    transform: translateY(101%);
+    transition: transform 0.55s var(--ease-elegant);
+    z-index: 0;
+  }
+  .btn--bronze > * { @apply relative z-[1]; }
+  .btn--bronze:hover { @apply text-offwhite; }
+  .btn--bronze:hover::before { transform: translateY(0); }
+
+  .btn--ghost {
+    @apply bg-transparent text-graphite border-graphite;
+  }
+  .btn--ghost:hover { @apply bg-graphite text-offwhite; }
+
+  .btn--ghost-light {
+    @apply text-offwhite;
+    border-color: rgba(244, 241, 234, 0.5);
+  }
+  .btn--ghost-light:hover { @apply bg-offwhite text-graphite border-offwhite; }
+
+  .btn svg { transition: transform 0.45s var(--ease-out); }
+  .btn:hover svg { transform: translateX(4px); }
+
+  /* ───────── Section index label ───────── */
+  .section-index {
+    @apply inline-flex items-baseline gap-3.5 font-mono text-[0.72rem] font-medium tracking-[0.16em] uppercase text-graphite/60;
+  }
+  .section-index__num { @apply text-bronze text-[0.78rem]; }
+  .section-index__label {
+    @apply relative pl-3.5;
+  }
+  .section-index__label::before {
+    content: "";
+    @apply absolute left-0 top-1/2 w-2 h-px bg-graphite/60 -translate-y-1/2;
+  }
+  .section-index--light { @apply text-offwhite/60; }
+  .section-index--light .section-index__label::before { background: rgba(244, 241, 234, 0.4); }
+
+  /* ───────── Lead text ───────── */
+  .lead {
+    @apply font-display font-light;
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+  }
+  .lead--light { @apply text-offwhite/85; }
+
+  /* ───────── Display headings ───────── */
+  .display {
+    @apply font-display font-light text-graphite;
+    font-size: clamp(2.4rem, 5.4vw, 5.2rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+  }
+  .display em {
+    @apply not-italic text-bronze;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .display--light { @apply text-offwhite; }
+  .display--light em { color: #d4a047; }
+}
+
+@layer utilities {
+  /* ============================================================
+     SCROLL REVEAL — visible-by-default + data-reveal pattern
+     (from global rules)
+     ============================================================ */
+  [data-revealed="false"] {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  [data-revealed="false"][data-reveal="left"] {
+    transform: translate3d(-40px, 0, 0);
+  }
+  [data-revealed="false"][data-reveal="right"] {
+    transform: translate3d(40px, 0, 0);
+  }
+  [data-revealed="false"][data-reveal="scale"] {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  [data-revealed="false"][data-reveal="line"] > * {
+    transform: translateY(110%);
+  }
+  [data-reveal] {
+    transition:
+      opacity 0.9s var(--ease-elegant),
+      transform 0.9s var(--ease-elegant);
+  }
+  [data-reveal="line"] {
+    overflow: hidden;
+    display: block;
+    line-height: 1.05;
+    padding: 0.04em 0.06em;
+    margin: -0.04em -0.06em;
+  }
+  [data-reveal="line"] > * {
+    display: inline-block;
+    will-change: transform;
+    transition: transform 1.05s var(--ease-elegant);
+  }
+
+  /* Stagger via CSS variable */
+  [data-reveal][data-d] { transition-delay: var(--d, 0ms); }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-revealed="false"] { opacity: 1; transform: none; }
+    [data-revealed="false"][data-reveal="line"] > * { transform: none; }
+    [data-reveal] { transition: none; }
+  }
+
+  /* ============================================================
+     Concrete texture overlay
+     ============================================================ */
+  .texture-concrete {
+    position: relative;
+  }
+  .texture-concrete::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.025 0'/></filter><rect width='400' height='400' filter='url(%23n)'/></svg>");
+  }
+  .texture-concrete > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Grain on dark sections */
+  .texture-grain {
+    position: relative;
+  }
+  .texture-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+
+  /* WhatsApp pulse */
+  @keyframes wa-pulse {
+    0%   { transform: scale(1);   opacity: 0.55; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  .wa-pulse { animation: wa-pulse 2.4s ease-out infinite; }
+
+  /* Hero zoom */
+  @keyframes hero-zoom {
+    to { transform: scale(1.12); }
+  }
+  .hero-zoom { animation: hero-zoom 24s ease-in-out infinite alternate; }
+
+  /* Marquee scroll */
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-scroll { animation: marquee-scroll 40s linear infinite; }
+
+  /* Blueprint draw */
+  @keyframes draw-line {
+    from { stroke-dashoffset: 1500; }
+    to { stroke-dashoffset: 0; }
+  }
+  .draw-line { animation: draw-line 2s var(--ease-out) 0.4s forwards; }
+
+  /* Scroll line indicator */
+  @keyframes scroll-line-indicator {
+    0%, 100% { transform: scaleY(0.4); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+  }
+  .scroll-line-indicator { animation: scroll-line-indicator 2.5s ease-in-out infinite; }
+
+  /* Pulse label (curtain) */
+  @keyframes pulse-label {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+  }
+  .pulse-label { animation: pulse-label 1.4s ease-in-out infinite alternate; }
+
+  /* Curtain blueprint draw - slower for full plan */
+  @keyframes draw-blueprint {
+    from { stroke-dashoffset: 4000; }
+    to { stroke-dashoffset: 0; }
+  }
+  .draw-blueprint { animation: draw-blueprint 2.4s var(--ease-out) forwards; }
+
+  /* Electric line draw */
+  @keyframes draw-electric {
+    to { stroke-dashoffset: 0; }
+  }
+  [data-revealed="true"] .electric-line { animation: draw-electric 2.4s var(--ease-elegant) forwards; }
+
+  /* Timeline progress */
+  @keyframes timeline-fill {
+    to { transform: scaleX(1); }
+  }
+  [data-revealed="true"].timeline-track::before { animation: timeline-fill 1.6s var(--ease-elegant) forwards; }
+
+  /* ───────── Misc utilities ───────── */
+  .hairline { background: rgba(17, 17, 17, 0.12); height: 1px; }
+  .hairline-light { background: rgba(244, 241, 234, 0.16); height: 1px; }
+}
