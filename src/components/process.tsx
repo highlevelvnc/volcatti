@@ -1,13 +1,15 @@
 import { PROCESS_STEPS } from "@/lib/constants";
+import { GhostNumber } from "./ghost-number";
 
 export function Process() {
   return (
     <section
       id="processo"
-      className="bg-offwhite-2 border-b border-graphite/12"
+      className="relative bg-offwhite-2 border-b border-graphite/12 overflow-hidden"
       style={{ paddingBlock: "clamp(80px, 11vw, 160px)" }}
     >
-      <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12">
+      <GhostNumber num="07" position="left" />
+      <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-12 lg:pb-20">
           <div className="flex flex-col gap-7">
             <div data-reveal className="section-index">

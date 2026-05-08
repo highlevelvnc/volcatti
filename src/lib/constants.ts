@@ -92,50 +92,74 @@ export const GALLERY: ReadonlyArray<{
   title: string;
   cat: "construcao" | "remodelacao" | "piscinas" | "eletrica" | "acabamentos";
   size?: "tall" | "wide";
+  area?: string;
+  year?: string;
+  location?: string;
 }> = [
   {
     src: "/portfolio/piscina-noturna.png",
     alt: "Piscina iluminada com LED de noite",
-    title: "Piscina Iluminada · Lisboa",
+    title: "Piscina Iluminada",
     cat: "piscinas",
     size: "tall",
+    area: "48 m²",
+    year: "2024",
+    location: "Lisboa",
   },
   {
     src: "/portfolio/barbearia.png",
     alt: "Interior de barbearia",
     title: "Barbearia · Remodelação Comercial",
     cat: "remodelacao",
+    area: "62 m²",
+    year: "2024",
+    location: "Lisboa",
   },
   {
     src: "/portfolio/wc-marmore.png",
     alt: "Casa de banho mármore",
-    title: "WC em Mármore · Cascais",
+    title: "WC em Mármore",
     cat: "acabamentos",
+    area: "8 m²",
+    year: "2024",
+    location: "Cascais",
   },
   {
     src: "/portfolio/piscina-diurna.png",
     alt: "Piscina diurna com deck",
-    title: "Piscina + Spa · Sintra",
+    title: "Piscina + Spa",
     cat: "piscinas",
     size: "wide",
+    area: "72 m²",
+    year: "2023",
+    location: "Sintra",
   },
   {
     src: "/portfolio/corredor-terracota.png",
     alt: "Corredor terracota",
-    title: "Hall Terracota · Lisboa",
+    title: "Hall Terracota",
     cat: "remodelacao",
+    area: "14 m²",
+    year: "2024",
+    location: "Lisboa",
   },
   {
     src: "/portfolio/espaco-comercial.png",
     alt: "Espaço comercial branco",
-    title: "Espaço Comercial · Oeiras",
+    title: "Espaço Comercial",
     cat: "construcao",
+    area: "180 m²",
+    year: "2023",
+    location: "Oeiras",
   },
   {
     src: "/portfolio/marquise.png",
     alt: "Marquise envidraçada",
-    title: "Marquise + Iluminação · Lisboa",
+    title: "Marquise + Iluminação",
     cat: "eletrica",
+    area: "12 m²",
+    year: "2024",
+    location: "Lisboa",
   },
 ];
 

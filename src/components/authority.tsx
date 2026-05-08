@@ -1,15 +1,17 @@
 import Image from "next/image";
 import { STATS } from "@/lib/constants";
 import { StatCounter } from "./stat-counter";
+import { GhostNumber } from "./ghost-number";
 
 export function Authority() {
   return (
     <section
       id="sobre"
-      className="texture-concrete bg-offwhite border-b border-graphite/12"
+      className="relative texture-concrete bg-offwhite border-b border-graphite/12 overflow-hidden"
       style={{ paddingBlock: "clamp(80px, 11vw, 160px)" }}
     >
-      <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[280px_1fr] gap-10 lg:gap-16 xl:gap-24">
+      <GhostNumber num="02" position="right" />
+      <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[280px_1fr] gap-10 lg:gap-16 xl:gap-24">
         {/* Sidebar */}
         <aside className="flex flex-row lg:flex-col lg:sticky lg:top-32 self-start gap-6 lg:gap-10 items-center lg:items-start">
           <div data-reveal className="section-index">
