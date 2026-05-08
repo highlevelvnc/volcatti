@@ -293,4 +293,96 @@
   /* ───────── Misc utilities ───────── */
   .hairline { background: rgba(17, 17, 17, 0.12); height: 1px; }
   .hairline-light { background: rgba(244, 241, 234, 0.16); height: 1px; }
+
+  /* ───────── Legal prose (privacidade/termos/cookies) ───────── */
+  .legal-prose h2 {
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--c-graphite);
+    margin: 3rem 0 1.25rem;
+  }
+  .legal-prose h2:first-child { margin-top: 0; }
+  .legal-prose h2 em { font-style: italic; color: var(--c-bronze); font-weight: 300; }
+  .legal-prose h3 {
+    font-family: var(--ff-display);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+    line-height: 1.25;
+    color: var(--c-graphite);
+    margin: 2rem 0 0.75rem;
+  }
+  .legal-prose p {
+    font-family: var(--ff-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 1rem;
+  }
+  .legal-prose ul, .legal-prose ol {
+    margin: 0.5rem 0 1.25rem;
+    padding-left: 1.5rem;
+  }
+  .legal-prose ul li, .legal-prose ol li {
+    font-family: var(--ff-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin-bottom: 0.5rem;
+    list-style: none;
+    position: relative;
+  }
+  .legal-prose ul li::before {
+    content: "▸";
+    color: var(--c-bronze);
+    position: absolute;
+    left: -1.4rem;
+    font-size: 0.8em;
+    top: 0.18em;
+  }
+  .legal-prose ol { counter-reset: legal; }
+  .legal-prose ol li { counter-increment: legal; }
+  .legal-prose ol li::before {
+    content: counter(legal, decimal-leading-zero) " /";
+    color: var(--c-bronze);
+    font-family: var(--ff-mono);
+    font-size: 0.7em;
+    letter-spacing: 0.14em;
+    position: absolute;
+    left: -2.4rem;
+    top: 0.32em;
+  }
+  .legal-prose a {
+    color: var(--c-bronze);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration: underline;
+    transition: color 0.3s var(--ease-out);
+  }
+  .legal-prose a:hover { color: var(--c-graphite); }
+  .legal-prose strong { color: var(--c-graphite); font-weight: 500; }
+  .legal-prose hr {
+    border: 0;
+    border-top: 1px solid rgba(17, 17, 17, 0.12);
+    margin: 2.5rem 0;
+  }
+  .legal-prose blockquote {
+    border-left: 2px solid var(--c-bronze);
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    margin: 1.5rem 0;
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--c-graphite);
+  }
+  .legal-prose code {
+    font-family: var(--ff-mono);
+    font-size: 0.85em;
+    background: var(--c-offwhite-2);
+    padding: 0.15em 0.4em;
+    color: var(--c-graphite);
+  }
 }

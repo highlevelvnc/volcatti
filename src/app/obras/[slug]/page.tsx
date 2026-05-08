@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { RevealInit } from "@/components/reveal-init";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export async function generateStaticParams() {
   return GALLERY.map((g) => ({ slug: g.slug }));
@@ -42,8 +43,22 @@ export default async function ObraPage({ params }: Props) {
   const prev = GALLERY[(idx - 1 + GALLERY.length) % GALLERY.length];
   const cat = GALLERY_FILTERS.find((f) => f.value === obra.cat)?.label;
 
+  // CreativeWork schema for the project
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: obra.title,
+    description: obra.description ?? obra.alt,
+    creator: { "@type": "Organization", name: COMPANY.name, url: COMPANY.url },
+    locationCreated: { "@type": "Place", name: obra.location },
+    image: `${COMPANY.url}${obra.src}`,
+    dateCreated: obra.year,
+    keywords: [cat, obra.location, ...(obra.scope?.split(" · ") ?? [])].filter(Boolean).join(", "),
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }} />
       <ScrollProgress />
       <RevealInit />
       <Header />
@@ -51,16 +66,16 @@ export default async function ObraPage({ params }: Props) {
         {/* Hero */}
         <section className="relative pt-[calc(var(--header-h)+40px)] pb-12 lg:pb-16 bg-graphite text-offwhite overflow-hidden">
           <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12">
-            <Link
-              href="/#obras"
-              className="inline-flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.18em] uppercase text-offwhite/60 hover:text-bronze transition-colors duration-300 mb-8"
-              data-cursor="Voltar"
-            >
-              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                <path d="M14 8 H 2 M 7 3 L 2 8 L 7 13" stroke="currentColor" strokeWidth="1.4" fill="none" />
-              </svg>
-              Todas as obras
-            </Link>
+            <div className="mb-8">
+              <Breadcrumbs
+                light
+                items={[
+                  { label: "Início", href: "/" },
+                  { label: "Obras", href: "/#obras" },
+                  { label: obra.title },
+                ]}
+              />
+            </div>
 
             <div className="grid lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-16 items-end">
               <div>

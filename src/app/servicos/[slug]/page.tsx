@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { RevealInit } from "@/components/reveal-init";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export async function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -42,8 +43,37 @@ export default async function ServicePage({ params }: Props) {
     ? GALLERY.filter((g) => g.cat === service.relatedCat).slice(0, 3)
     : [];
 
+  // Service schema
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: service.title,
+    name: `${service.title} · ${COMPANY.name}`,
+    description: service.intro ?? service.blurb,
+    provider: { "@type": "Organization", name: COMPANY.name, url: COMPANY.url },
+    areaServed: { "@type": "Country", name: "Portugal" },
+    ...(service.scope ? { hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `${service.title} — Âmbito`,
+      itemListElement: service.scope.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s } })),
+    } } : {}),
+  };
+
+  // FAQPage schema (when service has FAQ)
+  const faqSchema = service.faq ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: service.faq.map((q) => ({
+      "@type": "Question",
+      name: q.q,
+      acceptedAnswer: { "@type": "Answer", text: q.a },
+    })),
+  } : null;
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
       <ScrollProgress />
       <RevealInit />
       <Header />
@@ -68,16 +98,16 @@ export default async function ServicePage({ params }: Props) {
           />
 
           <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">
-            <Link
-              href="/#servicos"
-              className="inline-flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.18em] uppercase text-offwhite/60 hover:text-bronze transition-colors duration-300 mb-8"
-              data-cursor="Voltar"
-            >
-              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                <path d="M14 8 H 2 M 7 3 L 2 8 L 7 13" stroke="currentColor" strokeWidth="1.4" fill="none" />
-              </svg>
-              Todos os serviços
-            </Link>
+            <div className="mb-8">
+              <Breadcrumbs
+                light
+                items={[
+                  { label: "Início", href: "/" },
+                  { label: "Serviços", href: "/#servicos" },
+                  { label: service.title },
+                ]}
+              />
+            </div>
 
             <span data-reveal className="font-mono text-[0.72rem] tracking-[0.22em] uppercase text-bronze block mb-5">
               Serviço · N.º {service.num}

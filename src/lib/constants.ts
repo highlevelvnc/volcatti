@@ -27,12 +27,12 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURICo
 )}`;
 
 export const NAV_LINKS = [
-  { label: "Início", href: "#inicio" },
-  { label: "Sobre", href: "#sobre" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Obras", href: "#obras" },
-  { label: "Processo", href: "#processo" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Início", href: "/#inicio" },
+  { label: "Serviços", href: "/#servicos" },
+  { label: "Obras", href: "/#obras" },
+  { label: "Processo", href: "/#processo" },
+  { label: "Notícias", href: "/noticias" },
+  { label: "Contacto", href: "/#contacto" },
 ] as const;
 
 export type ServiceItem = {

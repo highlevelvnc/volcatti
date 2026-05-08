@@ -71,10 +71,17 @@ export function Footer() {
         </div>
 
         <div className="hairline-light" />
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-7 font-mono text-[0.7rem] tracking-[0.14em] uppercase text-offwhite/55">
-          <span>© {year} {COMPANY.name}. Todos os direitos reservados.</span>
-          <span className="text-bronze">Construção · Remodelação · Piscinas · Elétrica</span>
-          <span>NIPC {COMPANY.nipc}</span>
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-6 py-7">
+          <div className="font-mono text-[0.66rem] tracking-[0.14em] uppercase text-offwhite/55 flex flex-wrap items-center gap-x-5 gap-y-1.5">
+            <span>© {year} {COMPANY.name}.</span>
+            <a href="/privacidade" className="hover:text-bronze transition-colors duration-300">Privacidade</a>
+            <a href="/termos" className="hover:text-bronze transition-colors duration-300">Termos</a>
+            <a href="/cookies" className="hover:text-bronze transition-colors duration-300">Cookies</a>
+            <span>NIPC {COMPANY.nipc}</span>
+          </div>
+          <span className="font-mono text-[0.66rem] tracking-[0.14em] uppercase text-bronze">
+            Construção · Remodelação · Piscinas · Elétrica
+          </span>
         </div>
       </div>
     </footer>

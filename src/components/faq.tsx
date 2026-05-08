@@ -2,41 +2,7 @@
 
 import { useState } from "react";
 import { GhostNumber } from "./ghost-number";
-
-const FAQS = [
-  {
-    q: "Como funciona o pedido de orçamento?",
-    a: "Recebemos o seu contacto, marcamos uma visita técnica gratuita e enviamos uma proposta detalhada por escrito em até 5 dias úteis — organizada por capítulos, com prazos, materiais e valores claros.",
-  },
-  {
-    q: "Quanto demora uma obra de remodelação?",
-    a: "Depende da escala. Uma WC remodelada demora 15–25 dias úteis, uma cozinha 25–40, um apartamento T2 cerca de 8–12 semanas. No orçamento entregamos um cronograma com pontos de validação e mantemo-lo cumprido.",
-  },
-  {
-    q: "Existe garantia sobre os trabalhos?",
-    a: "Sim. Garantia de 5 anos sobre estrutura e impermeabilização, 2 anos sobre instalações elétricas e canalização, e 1 ano sobre acabamentos. Tudo por escrito no contrato.",
-  },
-  {
-    q: "Trabalham com fornecedores próprios ou aceitam materiais que eu compre?",
-    a: "Ambos. Temos fornecedores certificados com preços de profissional, mas se preferir adquirir os materiais por conta integramos no orçamento sem custos extra de gestão.",
-  },
-  {
-    q: "Tratam de licenças e legalizações?",
-    a: "Sim — quando a obra exige licenciamento ou comunicação prévia à câmara, tratamos do processo completo, incluindo desenhos técnicos e acompanhamento do pedido.",
-  },
-  {
-    q: "Quais zonas servem?",
-    a: "Trabalhamos em toda a Grande Lisboa (Lisboa, Cascais, Sintra, Oeiras, Loures, Mafra) e Setúbal. Para projetos de maior escala, deslocamo-nos a outras zonas do país.",
-  },
-  {
-    q: "Como decorre o pagamento?",
-    a: "Pagamento por etapas mediante validação. Tipicamente: 30% adjudicação, 30% meio da obra, 30% antes da entrega final, 10% após vistoria conjunta. Sempre com fatura.",
-  },
-  {
-    q: "Têm seguro de obra?",
-    a: "Sim — seguro de responsabilidade civil profissional e seguro de acidentes de trabalho para toda a equipa. Documentos disponíveis a pedido.",
-  },
-];
+import { FAQS_HOME } from "@/lib/faqs";
 
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
@@ -69,7 +35,7 @@ export function Faq() {
         </header>
 
         <ul className="border-t border-graphite/15 max-w-[920px]">
-          {FAQS.map((item, i) => {
+          {FAQS_HOME.map((item, i) => {
             const isOpen = open === i;
             return (
               <li key={item.q} className="border-b border-graphite/15">

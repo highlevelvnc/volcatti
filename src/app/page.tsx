@@ -15,6 +15,7 @@ import { Testimonials } from "@/components/testimonials";
 import { Differentials } from "@/components/differentials";
 import { Trust } from "@/components/trust";
 import { Faq } from "@/components/faq";
+import { FaqSchema } from "@/components/faq-schema";
 import { CtaFinal } from "@/components/cta-final";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
@@ -28,6 +29,7 @@ import { CookieBanner } from "@/components/cookie-banner";
 export default function Home() {
   return (
     <>
+      <FaqSchema />
       <LoadingCurtain />
       <SmoothScroll />
       <Cursor />
