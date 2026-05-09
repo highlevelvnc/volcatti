@@ -24,6 +24,8 @@ export function ContactForm() {
       action={formAction}
       className="grid gap-5 max-w-[680px] w-full"
       noValidate
+      aria-busy={pending}
+      aria-label="Pedido de orçamento"
     >
       {/* Honeypot */}
       <input

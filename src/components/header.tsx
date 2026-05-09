@@ -37,6 +37,7 @@ export function Header() {
     <>
       <header
         data-state={scrolled ? "scrolled" : "top"}
+        role="banner"
         className={`fixed top-0 left-0 right-0 z-[100] transition-[background,height,border-color] duration-500 ${
           scrolled
             ? "h-[72px] bg-offwhite/95 backdrop-blur-md border-b border-graphite/12"

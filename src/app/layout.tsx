@@ -146,6 +146,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        <a href="#main-content" className="skip-link">
+          Saltar para o conteúdo
+        </a>
         {children}
         <Analytics />
         <SpeedInsights />

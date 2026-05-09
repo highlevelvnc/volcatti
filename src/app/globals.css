@@ -50,6 +50,51 @@
     @apply font-display;
     font-weight: 300;
   }
+
+  /* ───────── Accessibility — focus-visible ───────── */
+  /* Hide default focus rings, replace with bronze ring on keyboard nav only. */
+  :focus { outline: none; }
+  :focus-visible {
+    outline: 2px solid var(--c-bronze);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+  /* Buttons + links keep slightly tighter offset */
+  a:focus-visible,
+  button:focus-visible {
+    outline-offset: 4px;
+  }
+  /* Inputs use border instead of outline (cleaner) */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    border-color: var(--c-bronze) !important;
+    box-shadow: 0 1px 0 0 var(--c-bronze);
+  }
+
+  /* Skip link — accessible by default, visible on keyboard focus only */
+  .skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10000;
+    background: var(--c-graphite);
+    color: var(--c-offwhite);
+    padding: 12px 20px;
+    font-family: var(--ff-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: 1px solid var(--c-bronze);
+    transform: translateY(-200%);
+    transition: transform 0.3s var(--ease-out);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+    outline: 2px solid var(--c-bronze);
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
@@ -193,6 +238,10 @@
     [data-revealed="false"] { opacity: 1; transform: none; }
     [data-revealed="false"][data-reveal="line"] > * { transform: none; }
     [data-reveal] { transition: none; }
+    /* Strip all infinite/decorative animations */
+    .hero-zoom, .marquee-scroll, .scroll-line-indicator, .pulse-label, .wa-pulse, .draw-blueprint, .draw-line { animation: none !important; }
+    [data-revealed="true"] .electric-line { animation: none !important; stroke-dashoffset: 0 !important; }
+    [data-revealed="true"].timeline-track::before { animation: none !important; transform: scaleX(1) !important; }
   }
 
   /* ============================================================

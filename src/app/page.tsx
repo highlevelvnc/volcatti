@@ -36,7 +36,7 @@ export default function Home() {
       <ScrollProgress />
       <RevealInit />
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
         <Marquee />
         <Authority />

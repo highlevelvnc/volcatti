@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${obra.title} · ${obra.location}`,
     description: obra.description ?? `${obra.title} — projeto Volcatti em ${obra.location}, executado em ${obra.year}.`,
+    alternates: { canonical: `${COMPANY.url}/obras/${obra.slug}` },
     openGraph: {
       title: `${obra.title} — ${cat ?? ""}`,
       description: obra.description ?? "",
@@ -62,7 +63,7 @@ export default async function ObraPage({ params }: Props) {
       <ScrollProgress />
       <RevealInit />
       <Header />
-      <main>
+      <main id="main-content">
         {/* Hero */}
         <section className="relative pt-[calc(var(--header-h)+40px)] pb-12 lg:pb-16 bg-graphite text-offwhite overflow-hidden">
           <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12">

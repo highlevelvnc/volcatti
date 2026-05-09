@@ -56,7 +56,7 @@ export default async function Post({ params }: Props) {
       <ScrollProgress />
       <RevealInit />
       <Header />
-      <main>
+      <main id="main-content">
         <PostLayout meta={meta}>
           <Body />
         </PostLayout>

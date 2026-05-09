@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: service.title,
     description: service.intro ?? service.blurb,
+    alternates: { canonical: `${COMPANY.url}/servicos/${service.slug}` },
     openGraph: {
       title: `${service.title} · ${COMPANY.name}`,
       description: service.intro ?? service.blurb,
@@ -77,7 +78,7 @@ export default async function ServicePage({ params }: Props) {
       <ScrollProgress />
       <RevealInit />
       <Header />
-      <main>
+      <main id="main-content">
         {/* Hero */}
         <section className="relative pt-[calc(var(--header-h)+40px)] pb-16 lg:pb-24 bg-graphite text-offwhite overflow-hidden">
           <div className="absolute inset-0 -z-[2]">
