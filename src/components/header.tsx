@@ -125,7 +125,7 @@ export function Header() {
             <span>Falar pelo WhatsApp</span>
           </a>
           <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase text-offwhite/50">
-            Lisboa · Portugal · Est. 2014
+            Lisboa · Portugal
           </p>
         </div>
       </div>

@@ -114,7 +114,6 @@ const jsonLd = {
     addressCountry: "PT",
   },
   areaServed: { "@type": "Country", name: "Portugal" },
-  foundingDate: COMPANY.est,
   vatID: COMPANY.nipc,
   sameAs: [
     COMPANY.social.instagram,

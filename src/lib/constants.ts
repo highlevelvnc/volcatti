@@ -12,7 +12,6 @@ export const COMPANY = {
   phone: "+351 000 000 000",
   phoneCompact: "+351000000000",
   nipc: "000 000 000",
-  est: "2014",
   url: "https://volcatti.pt",
   social: {
     instagram: "https://instagram.com/volcatti",
@@ -474,6 +473,6 @@ export const DIFFERENTIALS = [
 
 export const STATS = [
   { num: 120, suffix: "+", label: "Projetos concluídos" },
-  { num: 12, suffix: "+", label: "Anos de experiência" },
+  { num: 5, suffix: " anos", label: "Garantia de obra" },
   { num: 98, suffix: "%", label: "Clientes satisfeitos" },
 ] as const;

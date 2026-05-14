@@ -57,7 +57,7 @@ export default function NotFound() {
         <div className="mt-12 flex items-center gap-3 opacity-60">
           <LogoMark light className="w-7 h-auto" />
           <span className="font-mono text-[0.65rem] tracking-[0.22em] uppercase">
-            Volcatti · Lisboa · 2014
+            Volcatti · Lisboa
           </span>
         </div>
       </div>
