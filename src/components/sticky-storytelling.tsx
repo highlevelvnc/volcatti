@@ -90,6 +90,8 @@ export function StickyStorytelling() {
                   src={frame.img}
                   alt={frame.title}
                   fill
+                  loading="lazy"
+                  quality={70}
                   sizes="50vw"
                   className={`object-cover transition-opacity duration-700 ease-out ${
                     active === i ? "opacity-100" : "opacity-0"
@@ -119,7 +121,7 @@ export function StickyStorytelling() {
               >
                 {/* Mobile-only image */}
                 <div className="lg:hidden mb-6 aspect-[4/5] overflow-hidden border border-offwhite/12 relative">
-                  <Image src={frame.img} alt={frame.title} fill sizes="100vw" className="object-cover" />
+                  <Image src={frame.img} alt={frame.title} fill loading="lazy" quality={70} sizes="100vw" className="object-cover" />
                   <span className="absolute top-4 left-4 font-mono text-[0.6rem] tracking-[0.2em] uppercase text-offwhite/85 px-2 py-0.5 bg-graphite/55">
                     {frame.label}
                   </span>

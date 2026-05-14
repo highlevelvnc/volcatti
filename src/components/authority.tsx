@@ -24,6 +24,9 @@ export function Authority() {
               alt="Detalhe de acabamento em mármore"
               width={480}
               height={600}
+              loading="lazy"
+              quality={70}
+              sizes="240px"
               className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
               style={{ filter: "grayscale(20%)" }}
             />

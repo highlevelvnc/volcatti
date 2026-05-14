@@ -19,6 +19,13 @@ export function VideoReel() {
     const container = containerRef.current;
     if (!el || !container) return;
 
+    // Respect data-saver / reduced motion
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const slowConn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    if (reducedMotion || slowConn) {
+      return; // Leave poster image showing, no autoplay
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -115,14 +122,13 @@ export function VideoReel() {
             </span>
           </div>
 
-          {/* Side info — technical strip */}
+          {/* Side info — focused on what matters to the client */}
           <ul className="flex flex-col gap-px bg-offwhite/[0.08] border border-offwhite/12">
             {[
-              { label: "Captura", value: "Estaleiro · Lisboa" },
-              { label: "Câmara", value: "iPhone · 4K · 30 fps" },
-              { label: "Equipa", value: "5 técnicos no terreno" },
+              { label: "Em obra", value: "Estaleiro próprio · Setúbal" },
+              { label: "Equipa", value: "Técnicos próprios no terreno" },
               { label: "Fase", value: "Acabamento + casa de máquinas" },
-              { label: "Reels Instagram", value: "@volcatti_lda" },
+              { label: "Mais reels", value: "@volcatti_lda" },
             ].map((row, i) => (
               <li key={row.label} className="bg-graphite p-5 lg:p-6 grid grid-cols-[120px_1fr] gap-4 items-center">
                 <span className="font-mono text-[0.62rem] tracking-[0.2em] uppercase text-bronze">

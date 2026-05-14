@@ -70,6 +70,8 @@ export function Gallery() {
                   src={item.src}
                   alt={item.alt}
                   fill
+                  loading="lazy"
+                  quality={70}
                   sizes="(min-width:1024px) 25vw, 50vw"
                   className="object-cover transition-[transform,filter] duration-1000 ease-out group-hover:scale-[1.06]"
                   style={{ filter: "grayscale(15%) contrast(1.04)" }}

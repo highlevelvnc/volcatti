@@ -5,19 +5,25 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { COMPANY } from "@/lib/constants";
 import "./globals.css";
 
+// Subsetted weights — only what the codebase actually uses.
+// Saves ~30-50% on font bytes vs. shipping every weight.
 const fontDisplay = Fraunces({
   subsets: ["latin", "latin-ext"],
   variable: "--font-display",
-  weight: ["300", "400", "500"],
+  weight: ["300", "400"],
   style: ["normal", "italic"],
   display: "swap",
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
 const fontSans = Inter({
   subsets: ["latin", "latin-ext"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
   display: "swap",
+  preload: true,
+  fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
 });
 
 const fontMono = JetBrains_Mono({
@@ -25,6 +31,8 @@ const fontMono = JetBrains_Mono({
   variable: "--font-mono",
   weight: ["400", "500"],
   display: "swap",
+  preload: false, // mono used only in labels — defer to swap
+  fallback: ["SFMono-Regular", "Menlo", "monospace"],
 });
 
 export const viewport: Viewport = {

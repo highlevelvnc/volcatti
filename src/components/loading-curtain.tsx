@@ -13,15 +13,26 @@ export function LoadingCurtain() {
   const [phase, setPhase] = useState<"drawing" | "opening" | "gone">("drawing");
 
   useEffect(() => {
-    // Wait for window load OR a max of 1.6s — whichever comes first.
-    const minHold = 1600;
+    // Skip the curtain entirely if user prefers reduced motion or has
+    // already visited this session (snappier return navigation).
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const visited = sessionStorage.getItem("volcatti.curtain.shown");
+    if (reduced || visited) {
+      setPhase("gone");
+      return;
+    }
+
+    sessionStorage.setItem("volcatti.curtain.shown", "1");
+
+    // Wait for window load OR a max of 900ms — whichever comes first.
+    const minHold = 900;
     let loaded = false;
     let minMet = false;
 
     const maybeProceed = () => {
       if (loaded && minMet) {
         setPhase("opening");
-        window.setTimeout(() => setPhase("gone"), 1100);
+        window.setTimeout(() => setPhase("gone"), 800);
       }
     };
 
@@ -41,11 +52,11 @@ export function LoadingCurtain() {
       maybeProceed();
     }, minHold);
 
-    // Hard fallback — never block UI past 4s.
+    // Hard fallback — never block UI past 2.5s.
     const hardFallback = window.setTimeout(() => {
       setPhase("opening");
-      window.setTimeout(() => setPhase("gone"), 1100);
-    }, 4000);
+      window.setTimeout(() => setPhase("gone"), 800);
+    }, 2500);
 
     return () => {
       window.removeEventListener("load", onLoad);

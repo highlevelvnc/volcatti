@@ -78,6 +78,8 @@ export function BeforeAfter() {
             src="/portfolio/wc-marmore.png"
             alt="Casa de banho remodelada — depois"
             fill
+            loading="lazy"
+            quality={75}
             sizes="(min-width:1024px) 80vw, 100vw"
             className="object-cover"
           />
@@ -90,6 +92,8 @@ export function BeforeAfter() {
               src="/portfolio/wc-marmore.png"
               alt="Antes da remodelação"
               fill
+              loading="lazy"
+              quality={60}
               sizes="(min-width:1024px) 80vw, 100vw"
               className="object-cover"
               style={{ filter: "grayscale(100%) sepia(40%) contrast(0.85) brightness(0.7)" }}

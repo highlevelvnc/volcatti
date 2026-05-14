@@ -25,7 +25,7 @@ export function Hero() {
           fill
           priority
           fetchPriority="high"
-          quality={92}
+          quality={85}
           sizes="100vw"
           className="object-cover hero-zoom"
           style={{ objectPosition: "center 30%", filter: "contrast(1.05) saturate(1.05)" }}

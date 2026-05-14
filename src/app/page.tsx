@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { Marquee } from "@/components/marquee";
@@ -6,34 +7,32 @@ import { Services } from "@/components/services";
 import { FeaturePools } from "@/components/feature-pools";
 import { FeatureElectric } from "@/components/feature-electric";
 import { Gallery } from "@/components/gallery";
-import { VideoReel } from "@/components/video-reel";
-import { BeforeAfter } from "@/components/before-after";
-import { Materials } from "@/components/materials";
-import { StickyStorytelling } from "@/components/sticky-storytelling";
-import { Process } from "@/components/process";
-import { ZonesMap } from "@/components/zones-map";
-import { Testimonials } from "@/components/testimonials";
-import { Differentials } from "@/components/differentials";
-import { Trust } from "@/components/trust";
-import { Faq } from "@/components/faq";
-import { FaqSchema } from "@/components/faq-schema";
-import { CtaFinal } from "@/components/cta-final";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { LoadingCurtain } from "@/components/loading-curtain";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { RevealInit } from "@/components/reveal-init";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { Cursor } from "@/components/cursor";
-import { CookieBanner } from "@/components/cookie-banner";
+import { FaqSchema } from "@/components/faq-schema";
+import { BrowserOnly } from "@/components/browser-only";
+
+// Below-the-fold — dynamic import to shrink First Load JS.
+// SSR stays enabled so SEO/HTML still ships server-rendered.
+const VideoReel = dynamic(() => import("@/components/video-reel").then(m => m.VideoReel));
+const BeforeAfter = dynamic(() => import("@/components/before-after").then(m => m.BeforeAfter));
+const Materials = dynamic(() => import("@/components/materials").then(m => m.Materials));
+const StickyStorytelling = dynamic(() => import("@/components/sticky-storytelling").then(m => m.StickyStorytelling));
+const Process = dynamic(() => import("@/components/process").then(m => m.Process));
+const ZonesMap = dynamic(() => import("@/components/zones-map").then(m => m.ZonesMap));
+const Testimonials = dynamic(() => import("@/components/testimonials").then(m => m.Testimonials));
+const Differentials = dynamic(() => import("@/components/differentials").then(m => m.Differentials));
+const Trust = dynamic(() => import("@/components/trust").then(m => m.Trust));
+const Faq = dynamic(() => import("@/components/faq").then(m => m.Faq));
+const CtaFinal = dynamic(() => import("@/components/cta-final").then(m => m.CtaFinal));
 
 export default function Home() {
   return (
     <>
       <FaqSchema />
-      <LoadingCurtain />
-      <SmoothScroll />
-      <Cursor />
+      <BrowserOnly />
       <ScrollProgress />
       <RevealInit />
       <Header />
@@ -59,7 +58,6 @@ export default function Home() {
       </main>
       <Footer />
       <WhatsAppFloat />
-      <CookieBanner />
     </>
   );
 }

@@ -15,6 +15,8 @@ export function CtaFinal() {
           src="/portfolio/piscina-noturna.png"
           alt=""
           fill
+          loading="lazy"
+          quality={70}
           sizes="100vw"
           className="object-cover"
           style={{ filter: "grayscale(45%) contrast(1.05)" }}

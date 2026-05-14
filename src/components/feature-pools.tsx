@@ -14,6 +14,8 @@ export function FeaturePools() {
             src="/portfolio/piscina-diurna.png"
             alt="Piscina retangular com deck madeira e jacuzzi em pedra — projeto Volcatti em Sintra"
             fill
+            loading="lazy"
+            quality={75}
             sizes="(min-width:1024px) 50vw, 100vw"
             className="object-cover"
             style={{ filter: "grayscale(8%) contrast(1.04)" }}

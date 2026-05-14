@@ -48,6 +48,8 @@ export function Services() {
                   src={s.image}
                   alt={s.alt}
                   fill
+                  loading="lazy"
+                  quality={70}
                   sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                   className="object-cover transition-[transform,filter] duration-1000 ease-out group-hover:scale-[1.06]"
                   style={{ filter: "grayscale(35%) contrast(1.05)" }}

@@ -101,6 +101,8 @@ export function FeatureElectric() {
             src="/portfolio/marquise.png"
             alt="Marquise envidraçada com iluminação técnica — projeto Volcatti"
             fill
+            loading="lazy"
+            quality={75}
             sizes="(min-width:1024px) 50vw, 100vw"
             className="object-cover"
             style={{ filter: "grayscale(20%) contrast(1.05) brightness(0.95)" }}
