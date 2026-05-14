@@ -5,22 +5,28 @@
 
 export const COMPANY = {
   name: "Volcatti",
+  legalName: "Bruno Volcatti Ramos Unipessoal, Lda.",
   fullName: "Volcatti — Construção, Remodelação, Piscinas e Elétrica",
   tagline: "Precisão em cada etapa.",
-  region: "Lisboa · Portugal",
+  region: "Palmela · Setúbal",
   email: "geral@volcatti.pt",
-  phone: "+351 000 000 000",
-  phoneCompact: "+351000000000",
+  phone: "+351 933 787 369",
+  phoneCompact: "+351933787369",
   nipc: "000 000 000",
   url: "https://volcatti.pt",
+  geo: { lat: 38.7368964, lng: -8.9957493 },
   social: {
-    instagram: "https://instagram.com/volcatti",
-    facebook: "https://facebook.com/volcatti",
-    linkedin: "https://linkedin.com/company/volcatti",
+    instagram: "https://www.instagram.com/volcatti_lda/",
+  },
+  gmb: {
+    mapsUrl: "https://maps.app.goo.gl/ikYWazG5ZgsqmzGY8",
+    placeCid: "0x88f4967c14861dcf:0x5f23304a834b7b01",
+    kgId: "/g/11vhfzkd9t",
+    category: "GeneralContractor",
   },
 } as const;
 
-export const WHATSAPP_NUMBER = "351000000000";
+export const WHATSAPP_NUMBER = "351933787369";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   "Olá Volcatti, gostaria de pedir um orçamento para o meu projeto.",
 )}`;

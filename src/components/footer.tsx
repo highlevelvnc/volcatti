@@ -1,6 +1,6 @@
 import { COMPANY, WHATSAPP_URL, NAV_LINKS } from "@/lib/constants";
 import { LogoMark } from "./logo";
-import { InstagramIcon, FacebookIcon, LinkedInIcon, WhatsAppIcon } from "./icons";
+import { InstagramIcon, MapPinIcon, WhatsAppIcon } from "./icons";
 import { NewsletterForm } from "./newsletter-form";
 
 export function Footer() {
@@ -21,10 +21,9 @@ export function Footer() {
             </p>
             <div className="flex gap-2.5 mt-1">
               {[
-                { href: COMPANY.social.instagram, label: "Instagram", Icon: InstagramIcon },
-                { href: COMPANY.social.facebook, label: "Facebook", Icon: FacebookIcon },
-                { href: COMPANY.social.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
+                { href: COMPANY.social.instagram, label: "Instagram @volcatti_lda", Icon: InstagramIcon },
                 { href: WHATSAPP_URL, label: "WhatsApp", Icon: WhatsAppIcon },
+                { href: COMPANY.gmb.mapsUrl, label: "Google Maps", Icon: MapPinIcon },
               ].map(({ href, label, Icon }) => (
                 <a
                   key={label}
@@ -41,12 +40,14 @@ export function Footer() {
           </div>
 
           <FooterCol title="Serviços" links={[
-            { label: "Construção Civil", href: "#servicos" },
-            { label: "Remodelações", href: "#servicos" },
-            { label: "Piscinas", href: "#servicos" },
-            { label: "Elétrica", href: "#servicos" },
-            { label: "Acabamentos", href: "#servicos" },
-            { label: "Manutenção", href: "#servicos" },
+            { label: "Construção Civil", href: "/servicos/construcao-civil" },
+            { label: "Remodelações", href: "/servicos/remodelacoes" },
+            { label: "Piscinas", href: "/servicos/piscinas" },
+            { label: "Casas de Máquina", href: "/servicos/casas-de-maquinas" },
+            { label: "Assistência Piscinas", href: "/servicos/assistencia-piscinas" },
+            { label: "Elétrica", href: "/servicos/eletrica" },
+            { label: "Acabamentos", href: "/servicos/acabamentos" },
+            { label: "Manutenção", href: "/servicos/manutencao" },
           ]} />
 
           <FooterCol title="Navegar" links={NAV_LINKS as unknown as Array<{ label: string; href: string }>} />
@@ -61,7 +62,17 @@ export function Footer() {
               <ContactItem label="Email" value={COMPANY.email} href={`mailto:${COMPANY.email}`} />
               <li className="flex flex-col gap-0.5">
                 <span className="font-mono text-[0.66rem] tracking-[0.14em] uppercase text-offwhite/45">Sede</span>
-                <span className="text-[0.95rem] text-offwhite/85">{COMPANY.region}</span>
+                <a
+                  href={COMPANY.gmb.mapsUrl}
+                  target="_blank"
+                  rel="noopener"
+                  className="text-[0.95rem] text-offwhite/85 hover:text-bronze transition-colors duration-300 inline-flex items-center gap-1.5"
+                >
+                  {COMPANY.region}
+                  <svg viewBox="0 0 16 16" width="10" height="10" fill="none" aria-hidden="true">
+                    <path d="M6 3h7v7M13 3 4 12" stroke="currentColor" strokeWidth="1.4" />
+                  </svg>
+                </a>
               </li>
             </ul>
             <div className="pt-4 border-t border-offwhite/12">

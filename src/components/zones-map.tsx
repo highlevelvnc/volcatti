@@ -5,13 +5,13 @@
  */
 
 const ZONES = [
-  { x: 220, y: 270, label: "Lisboa", count: "12 obras", primary: true },
+  { x: 260, y: 340, label: "Palmela", count: "Sede", primary: true },
+  { x: 220, y: 270, label: "Lisboa", count: "12 obras" },
   { x: 130, y: 280, label: "Cascais", count: "8 obras" },
   { x: 110, y: 220, label: "Sintra", count: "6 obras" },
   { x: 175, y: 270, label: "Oeiras", count: "4 obras" },
   { x: 230, y: 200, label: "Loures", count: "3 obras" },
-  { x: 130, y: 165, label: "Mafra", count: "2 obras" },
-  { x: 270, y: 360, label: "Setúbal", count: "5 obras" },
+  { x: 270, y: 365, label: "Setúbal", count: "5 obras" },
 ];
 
 export function ZonesMap() {

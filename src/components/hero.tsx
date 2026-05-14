@@ -148,8 +148,8 @@ export function Hero() {
       >
         <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12 py-4 flex items-center justify-between gap-4 font-mono text-[0.62rem] sm:text-[0.66rem] tracking-[0.2em] uppercase text-offwhite/75">
           <span className="hidden sm:inline-flex items-center gap-2">
-            <span className="text-bronze">Loc</span>
-            <span>· Lisboa, PT</span>
+            <span className="text-bronze">Sede</span>
+            <span>· Palmela, PT</span>
           </span>
           <span className="hidden md:inline-flex items-center gap-2">
             <span className="text-bronze">Cat</span>
@@ -165,7 +165,7 @@ export function Hero() {
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="w-1.5 h-1.5 bg-bronze rounded-full animate-pulse" />
-            <span className="text-offwhite">38°43′N · 9°08′W</span>
+            <span className="text-offwhite">38°44′N · 8°59′W</span>
           </span>
         </div>
       </div>
