@@ -125,6 +125,8 @@ const jsonLd = {
     "Construção Civil",
     "Remodelação",
     "Construção de Piscinas",
+    "Casas de Máquina para Piscinas",
+    "Assistência e Manutenção de Piscinas",
     "Serviços Elétricos",
     "Acabamentos",
     "Manutenção",

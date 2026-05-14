@@ -8,7 +8,7 @@ export type ContactState = {
   errors?: Partial<Record<"name" | "email" | "phone" | "service" | "message", string>>;
 };
 
-const SERVICES = ["construcao", "remodelacao", "piscina", "eletrica", "acabamentos", "manutencao", "outro"] as const;
+const SERVICES = ["construcao", "remodelacao", "piscina", "casa-maquinas", "assistencia-piscina", "eletrica", "acabamentos", "manutencao", "outro"] as const;
 
 export async function submitContact(_prev: ContactState, formData: FormData): Promise<ContactState> {
   const name = String(formData.get("name") ?? "").trim();

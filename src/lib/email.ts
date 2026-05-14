@@ -26,7 +26,9 @@ type LeadPayload = {
 const SERVICE_LABELS: Record<string, string> = {
   construcao: "Construção Civil",
   remodelacao: "Remodelação",
-  piscina: "Piscina",
+  piscina: "Construção de Piscina",
+  "casa-maquinas": "Casa de Máquinas",
+  "assistencia-piscina": "Assistência a Piscina",
   eletrica: "Elétrica",
   acabamentos: "Acabamentos",
   manutencao: "Manutenção",

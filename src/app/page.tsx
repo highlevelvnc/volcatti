@@ -6,6 +6,7 @@ import { Services } from "@/components/services";
 import { FeaturePools } from "@/components/feature-pools";
 import { FeatureElectric } from "@/components/feature-electric";
 import { Gallery } from "@/components/gallery";
+import { VideoReel } from "@/components/video-reel";
 import { BeforeAfter } from "@/components/before-after";
 import { Materials } from "@/components/materials";
 import { StickyStorytelling } from "@/components/sticky-storytelling";
@@ -44,6 +45,7 @@ export default function Home() {
         <FeaturePools />
         <FeatureElectric />
         <Gallery />
+        <VideoReel />
         <BeforeAfter />
         <Materials />
         <StickyStorytelling />

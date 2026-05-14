@@ -7,7 +7,9 @@ import { ArrowRight } from "./icons";
 const SERVICE_OPTIONS = [
   { value: "construcao", label: "Construção Civil" },
   { value: "remodelacao", label: "Remodelação" },
-  { value: "piscina", label: "Piscina" },
+  { value: "piscina", label: "Construção de Piscina" },
+  { value: "casa-maquinas", label: "Casa de Máquinas" },
+  { value: "assistencia-piscina", label: "Assistência a Piscina" },
   { value: "eletrica", label: "Elétrica" },
   { value: "acabamentos", label: "Acabamentos" },
   { value: "manutencao", label: "Manutenção" },

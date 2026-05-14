@@ -105,8 +105,8 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     title: "Construção de Piscinas",
     blurb:
       "Da escavação à iluminação. Piscinas modernas, duráveis e com acabamento que valoriza o espaço.",
-    image: "/portfolio/piscina-diurna.png",
-    alt: "Piscina retangular com deck madeira e spa em pedra",
+    image: "/portfolio/piscina-construcao.jpg",
+    alt: "Piscina recém construída em Lisboa pela Volcatti",
     relatedCat: "piscinas",
     intro:
       "Piscinas que duram. Estrutura armada com fundação dimensionada ao terreno, impermeabilização técnica em três camadas e revestimentos de qualidade. Sistemas de filtragem silenciosos e iluminação LED com automação opcional.",
@@ -126,8 +126,60 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     ],
   },
   {
-    slug: "eletrica",
+    slug: "casas-de-maquinas",
     num: "04",
+    title: "Casas de Máquina",
+    blurb:
+      "Sistemas técnicos de piscinas — filtragem, tratamento, automação. Equipamento certificado e instalação profissional.",
+    image: "/portfolio/casa-maquinas.jpg",
+    alt: "Casa de máquinas Volcatti com filtro de areia, bomba e painel de tratamento ENERGY SEL",
+    relatedCat: "piscinas",
+    intro:
+      "A casa de máquinas é o coração de uma piscina. Dimensionamos cada sistema (filtragem, tratamento, doseamento, aquecimento) à medida do volume de água, escolhemos equipamento certificado e instalamos com canalização à régua. Resultado: água sempre limpa, manutenção simples, consumo eficiente.",
+    scope: [
+      "Estudo hidráulico e dimensionamento",
+      "Filtros de areia, vidro ou cartucho",
+      "Bombas silenciosas de velocidade variável",
+      "Doseadores automáticos de cloro/pH",
+      "Sistemas de eletrólise salina",
+      "Aquecimento (bomba de calor, solar, gás)",
+      "Quadros elétricos dedicados + automação",
+    ],
+    faq: [
+      { q: "Constroem casa de máquinas de raiz?", a: "Sim — escavação, betonagem, ventilação, instalação completa. Ou aproveitamos compartimento existente." },
+      { q: "Trocam equipamento antigo?", a: "Sim. Substituímos filtros, bombas e quadros, com upgrade para velocidade variável e automação." },
+      { q: "Eletrólise salina compensa?", a: "Para piscinas de uso regular, sim — menos químicos, água mais agradável e custo operacional menor a 3-4 anos." },
+    ],
+  },
+  {
+    slug: "assistencia-piscinas",
+    num: "05",
+    title: "Assistência & Manutenção de Piscinas",
+    blurb:
+      "Tratamento de água, limpeza, abertura e fecho de época, reparações. Contratos anuais ou intervenções pontuais.",
+    image: "/portfolio/piscina-noturna.png",
+    alt: "Manutenção e assistência técnica de piscina Volcatti",
+    relatedCat: "piscinas",
+    intro:
+      "Manter uma piscina em estado premium exige rotina. Oferecemos contratos anuais com visitas programadas (semanais, quinzenais ou mensais), ou intervenções pontuais para o que precisar — abertura de época, fecho, reparações, recuperação de água verde, troca de equipamento.",
+    scope: [
+      "Análise + tratamento de água",
+      "Limpeza de fundo, paredes e linha de água",
+      "Aspiração e backwash do filtro",
+      "Verificação de equipamento e quadros",
+      "Abertura e fecho de época",
+      "Recuperação de águas verdes",
+      "Reparação de fugas e revestimentos",
+    ],
+    faq: [
+      { q: "Como funciona o contrato anual?", a: "Visita programada (semanal/quinzenal/mensal), análise de água, tratamento e relatório por visita. Inclui prioridade em emergências." },
+      { q: "Atendem em piscina que não construíram?", a: "Sim — qualquer marca e tipo. Fazemos avaliação inicial gratuita." },
+      { q: "Trabalham em condomínios?", a: "Sim. Temos clientes em condomínios na Grande Lisboa, com responsabilidade técnica + reportes mensais." },
+    ],
+  },
+  {
+    slug: "eletrica",
+    num: "06",
     title: "Serviços Elétricos",
     blurb:
       "Instalações novas, certificações e melhorias com foco em segurança, eficiência e organização técnica.",
@@ -152,7 +204,7 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
   },
   {
     slug: "acabamentos",
-    num: "05",
+    num: "07",
     title: "Acabamentos Finos",
     blurb:
       "Mármores, carvalho, pintura e remates. O que distingue uma obra entregue de uma obra acabada.",
@@ -177,7 +229,7 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
   },
   {
     slug: "manutencao",
-    num: "06",
+    num: "08",
     title: "Manutenção & Reparações",
     blurb:
       "Pequenas e médias intervenções para manter o espaço sempre em condições — antes que vire problema.",
@@ -232,6 +284,34 @@ export const GALLERY: ReadonlyArray<GalleryItem> = [
     scope: "Piscina · Iluminação LED · Calçada portuguesa",
     description:
       "Construção de raiz de piscina retangular num condomínio em Lisboa, com iluminação LED perimetral e remate em calçada portuguesa. Impermeabilização técnica em 3 camadas e sistema de filtragem com bomba silenciosa.",
+  },
+  {
+    slug: "piscina-mosaico-lisboa",
+    src: "/portfolio/piscina-construcao.jpg",
+    alt: "Piscina recém-acabada com revestimento mosaico azul",
+    title: "Piscina Mosaico Azul",
+    cat: "piscinas",
+    area: "32 m²",
+    year: "2026",
+    location: "Lisboa",
+    duration: "55 dias úteis",
+    scope: "Estrutura · Mosaico · Casa de máquinas",
+    description:
+      "Construção integrada de piscina + casa de máquinas em moradia urbana. Revestimento em mosaico cerâmico azul, decking cerâmico antiderrapante e sistema técnico com bomba silenciosa, filtragem de areia e doseamento automático.",
+  },
+  {
+    slug: "casa-maquinas-piscina",
+    src: "/portfolio/casa-maquinas.jpg",
+    alt: "Casa de máquinas de piscina com filtro de areia, bomba e painel ENERGY SEL",
+    title: "Casa de Máquinas",
+    cat: "piscinas",
+    area: "4 m²",
+    year: "2024",
+    location: "Lisboa",
+    duration: "8 dias úteis",
+    scope: "Filtragem · Doseamento · Quadro elétrico · Eletrólise",
+    description:
+      "Casa de máquinas completa para piscina particular: filtro de areia, bomba silenciosa de velocidade variável, painel de tratamento automatizado, sistema de eletrólise salina e canalização técnica em PVC. Quadro elétrico dedicado e ventilação dimensionada.",
   },
   {
     slug: "barbearia-comercial-lisboa",

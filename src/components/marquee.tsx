@@ -2,6 +2,8 @@ const ITEMS = [
   "Construção Civil",
   "Remodelações de Alto Padrão",
   "Piscinas Modernas",
+  "Casas de Máquina",
+  "Assistência a Piscinas",
   "Instalações Elétricas",
   "Acabamentos Finos",
   "Manutenção Técnica",
