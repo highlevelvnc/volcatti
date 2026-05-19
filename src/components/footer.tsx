@@ -94,6 +94,25 @@ export function Footer() {
             Construção · Remodelação · Piscinas · Elétrica
           </span>
         </div>
+
+        {/* Built by — credit */}
+        <div className="border-t border-offwhite/8 py-5 flex items-center justify-center">
+          <a
+            href="https://highlevelmkt.com"
+            target="_blank"
+            rel="noopener"
+            className="group inline-flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.2em] uppercase text-offwhite/35 hover:text-bronze transition-colors duration-300"
+            data-cursor="Visitar"
+          >
+            <span>Site by</span>
+            <span className="text-offwhite/55 group-hover:text-bronze transition-colors duration-300">
+              highlevelmkt.com
+            </span>
+            <svg viewBox="0 0 16 16" width="10" height="10" fill="none" aria-hidden="true">
+              <path d="M6 3h7v7M13 3 4 12" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+          </a>
+        </div>
       </div>
     </footer>
   );
