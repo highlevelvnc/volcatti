@@ -3,36 +3,31 @@
 import { useEffect, useState } from "react";
 
 /**
- * Loading curtain — architectural blueprint draws itself, then the panels
- * split open vertically to reveal the site.
- *
- * Connects with the construction niche: a floor plan is drawn with
- * fine bronze lines while we wait for hero assets to load.
+ * Tape measure loader — a single horizontal line extends from 0 → 100%
+ * with tick marks every 10. Connects with the niche ("medir antes de
+ * construir") without the heavy floor-plan animation. Hides itself once
+ * window.load fires (with min hold + hard fallback).
  */
 export function LoadingCurtain() {
-  const [phase, setPhase] = useState<"drawing" | "opening" | "gone">("drawing");
+  const [phase, setPhase] = useState<"measuring" | "lifting" | "gone">("measuring");
 
   useEffect(() => {
-    // Skip the curtain entirely if user prefers reduced motion or has
-    // already visited this session (snappier return navigation).
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const visited = sessionStorage.getItem("volcatti.curtain.shown");
     if (reduced || visited) {
       setPhase("gone");
       return;
     }
-
     sessionStorage.setItem("volcatti.curtain.shown", "1");
 
-    // Wait for window load OR a max of 900ms — whichever comes first.
-    const minHold = 900;
+    const minHold = 1100;
     let loaded = false;
     let minMet = false;
 
     const maybeProceed = () => {
       if (loaded && minMet) {
-        setPhase("opening");
-        window.setTimeout(() => setPhase("gone"), 800);
+        setPhase("lifting");
+        window.setTimeout(() => setPhase("gone"), 700);
       }
     };
 
@@ -40,22 +35,17 @@ export function LoadingCurtain() {
       loaded = true;
       maybeProceed();
     };
-
-    if (document.readyState === "complete") {
-      loaded = true;
-    } else {
-      window.addEventListener("load", onLoad, { once: true });
-    }
+    if (document.readyState === "complete") loaded = true;
+    else window.addEventListener("load", onLoad, { once: true });
 
     const t = window.setTimeout(() => {
       minMet = true;
       maybeProceed();
     }, minHold);
 
-    // Hard fallback — never block UI past 2.5s.
     const hardFallback = window.setTimeout(() => {
-      setPhase("opening");
-      window.setTimeout(() => setPhase("gone"), 800);
+      setPhase("lifting");
+      window.setTimeout(() => setPhase("gone"), 700);
     }, 2500);
 
     return () => {
@@ -70,105 +60,67 @@ export function LoadingCurtain() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 z-[200] pointer-events-none"
+      className={`fixed inset-0 z-[200] pointer-events-none bg-graphite text-offwhite flex flex-col items-center justify-center gap-10 transition-[clip-path,opacity] duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] ${
+        phase === "lifting" ? "[clip-path:inset(100%_0_0_0)] opacity-0" : "[clip-path:inset(0_0_0_0)] opacity-100"
+      }`}
     >
-      {/* Two split panels */}
-      <div
-        className={`absolute left-0 right-0 top-0 h-1/2 bg-graphite transition-transform duration-1000 ease-[cubic-bezier(0.85,0,0.15,1)] ${
-          phase === "opening" ? "-translate-y-full" : "translate-y-0"
-        }`}
-      />
-      <div
-        className={`absolute left-0 right-0 bottom-0 h-1/2 bg-graphite transition-transform duration-1000 ease-[cubic-bezier(0.85,0,0.15,1)] ${
-          phase === "opening" ? "translate-y-full" : "translate-y-0"
-        }`}
-      />
+      {/* Top label */}
+      <div className="flex flex-col items-center gap-2">
+        <span className="font-mono text-[0.6rem] tracking-[0.32em] uppercase text-offwhite/45">
+          Volcatti
+        </span>
+        <span className="font-display font-light italic text-bronze text-base sm:text-lg">
+          medir · construir · entregar
+        </span>
+      </div>
 
-      {/* Center content: blueprint floor plan + label */}
-      <div
-        className={`absolute inset-0 flex flex-col items-center justify-center gap-8 transition-opacity duration-500 ${
-          phase === "opening" ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        {/* Floor plan SVG — drawn with stroke-dashoffset animation */}
-        <svg
-          viewBox="0 0 200 140"
-          className="w-[200px] sm:w-[260px] h-auto text-offwhite/85"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="0.6"
-          aria-hidden="true"
-        >
-          {/* Outer wall */}
-          <rect
-            x="10"
-            y="20"
-            width="180"
-            height="100"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeDasharray="4000"
-            className="draw-blueprint"
-            style={{ animationDelay: "0ms" }}
-          />
-          {/* Inner walls */}
-          <line x1="80" y1="20" x2="80" y2="80" strokeDasharray="4000" className="draw-blueprint" style={{ animationDelay: "300ms" }} />
-          <line x1="80" y1="80" x2="190" y2="80" strokeDasharray="4000" className="draw-blueprint" style={{ animationDelay: "500ms" }} />
-          <line x1="130" y1="80" x2="130" y2="120" strokeDasharray="4000" className="draw-blueprint" style={{ animationDelay: "700ms" }} />
-
-          {/* Pool indication */}
-          <rect x="95" y="90" width="25" height="22" strokeDasharray="4000" className="draw-blueprint" style={{ animationDelay: "900ms" }} />
-          <line x1="95" y1="100" x2="120" y2="100" strokeDasharray="4000" className="draw-blueprint" style={{ animationDelay: "1100ms" }} />
-
-          {/* Door swings */}
-          <path
-            d="M 30 20 A 14 14 0 0 1 30 34"
-            strokeDasharray="4000"
-            className="draw-blueprint"
-            style={{ animationDelay: "1200ms" }}
-          />
-          <path
-            d="M 80 50 A 12 12 0 0 1 92 50"
-            strokeDasharray="4000"
-            className="draw-blueprint"
-            style={{ animationDelay: "1300ms" }}
-          />
-
-          {/* Bronze accents — markers + dimensions */}
-          <circle cx="10" cy="20" r="1.5" fill="#B88A2A" stroke="none" />
-          <circle cx="190" cy="20" r="1.5" fill="#B88A2A" stroke="none" />
-          <circle cx="10" cy="120" r="1.5" fill="#B88A2A" stroke="none" />
-          <circle cx="190" cy="120" r="1.5" fill="#B88A2A" stroke="none" />
-
-          {/* Dimension text (mono) */}
-          <text x="100" y="14" fill="#B88A2A" stroke="none" fontSize="3.2" fontFamily="JetBrains Mono, monospace" textAnchor="middle" letterSpacing="0.3">
-            12.40 m
-          </text>
-          <text x="6" y="72" fill="#B88A2A" stroke="none" fontSize="3.2" fontFamily="JetBrains Mono, monospace" textAnchor="middle" letterSpacing="0.3" transform="rotate(-90 6 72)">
-            7.20 m
-          </text>
+      {/* Tape measure */}
+      <div className="relative w-[80vw] max-w-[640px]" aria-hidden="true">
+        {/* Static tick rail */}
+        <svg viewBox="0 0 640 22" className="w-full h-5" preserveAspectRatio="none">
+          <line x1="0" y1="14" x2="640" y2="14" stroke="rgba(244,241,234,0.15)" strokeWidth="1" />
+          {Array.from({ length: 65 }, (_, i) => i).map((i) => {
+            const x = i * 10;
+            const isMajor = i % 10 === 0;
+            const isMid = i % 5 === 0;
+            return (
+              <line
+                key={i}
+                x1={x}
+                y1="14"
+                x2={x}
+                y2={isMajor ? 4 : isMid ? 8 : 11}
+                stroke={isMajor ? "rgba(184,138,42,0.5)" : "rgba(244,241,234,0.25)"}
+                strokeWidth="1"
+              />
+            );
+          })}
+          {[0, 100, 200, 300, 400, 500, 600].map((x) => (
+            <text key={x} x={x} y={22} fill="rgba(244,241,234,0.4)" fontSize="6" fontFamily="monospace" textAnchor="middle" letterSpacing="0.5">
+              {x}
+            </text>
+          ))}
         </svg>
 
-        {/* Volcatti mark + label */}
-        <div className="flex flex-col items-center gap-3">
-          <svg viewBox="0 0 64 56" className="w-10 h-auto" fill="none" aria-hidden="true">
-            <path d="M4 6 L26 50 L48 6" stroke="#F4F1EA" strokeWidth="6" strokeLinecap="square" />
-            <path d="M14 6 L26 30 L38 6" stroke="#F4F1EA" strokeWidth="3.5" strokeLinecap="square" opacity="0.55" />
-            <path d="M40 6 L52 6 L40 28 Z" fill="#B88A2A" />
-          </svg>
-          <span className="font-mono text-[0.7rem] tracking-[0.4em] uppercase text-offwhite/60 pulse-label">
-            Volcatti
-          </span>
-        </div>
+        {/* Bronze fill line (animated) */}
+        <div
+          className="absolute top-[14px] left-0 h-px bg-bronze tape-fill"
+          style={{ width: 0 }}
+        />
 
-        {/* Page indicator (architectural drawing convention) */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.2em] uppercase text-offwhite/40">
-          <span>Folha</span>
-          <span className="text-bronze">01</span>
-          <span>·</span>
-          <span>Planta tipo</span>
+        {/* Travelling cursor mark */}
+        <div className="absolute top-[2px] tape-cursor" style={{ left: 0 }}>
+          <span className="block w-px h-4 bg-bronze" />
+          <span className="block w-2 h-2 -ml-1 -mt-1 bg-bronze rotate-45" />
         </div>
       </div>
+
+      <style>{`
+        @keyframes tape-fill { from { width: 0 } to { width: 100% } }
+        @keyframes tape-cursor { from { left: 0 } to { left: 100% } }
+        .tape-fill { animation: tape-fill 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+        .tape-cursor { animation: tape-cursor 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+      `}</style>
     </div>
   );
 }

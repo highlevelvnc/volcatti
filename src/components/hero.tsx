@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ArrowRight } from "./icons";
+import { TechnicalStamp } from "./technical-stamp";
 
 /**
  * Hero with architectural blueprint references:
@@ -73,19 +74,9 @@ export function Hero() {
         <span className="text-bronze">N.º 01</span>
       </div>
 
-      {/* PROJETO badge — top-right */}
-      <div
-        aria-hidden="true"
-        className="hidden md:flex absolute right-12 top-[calc(var(--header-h)+24px)] z-[1] flex-col items-end gap-1.5"
-      >
-        <span className="font-mono text-[0.6rem] tracking-[0.28em] uppercase text-offwhite/45">Projeto N.º</span>
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[0.65rem] tracking-[0.26em] uppercase text-offwhite/85 px-2.5 py-1 border border-offwhite/30">
-            LIS·24·001
-          </span>
-          <span className="w-2 h-2 bg-bronze rounded-full" />
-        </div>
-        <span className="font-mono text-[0.55rem] tracking-[0.22em] uppercase text-offwhite/35">Estado · Entregue</span>
+      {/* Rotating technical stamp — top-right */}
+      <div className="hidden md:block absolute right-10 top-[calc(var(--header-h)+24px)] z-[1]">
+        <TechnicalStamp />
       </div>
 
       <div className="relative z-[1] max-w-container w-full mx-auto px-5 md:px-8 lg:px-12">

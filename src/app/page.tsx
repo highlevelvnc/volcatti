@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
-import { Marquee } from "@/components/marquee";
+import { JobsiteTicker } from "@/components/jobsite-ticker";
+import { ScaffoldingDivider } from "@/components/scaffolding-divider";
 import { Authority } from "@/components/authority";
 import { Services } from "@/components/services";
 import { FeaturePools } from "@/components/feature-pools";
@@ -38,8 +39,9 @@ export default function Home() {
       <Header />
       <main id="main-content">
         <Hero />
-        <Marquee />
+        <JobsiteTicker />
         <Authority />
+        <ScaffoldingDivider caption="Próxima fase · Serviços" dimension="L = 1320 mm" />
         <Services />
         <FeaturePools />
         <FeatureElectric />
@@ -53,6 +55,7 @@ export default function Home() {
         <Testimonials />
         <Differentials />
         <Trust />
+        <ScaffoldingDivider caption="Próxima fase · Perguntas" dimension="N. º 09 / 12" />
         <Faq />
         <CtaFinal />
       </main>
