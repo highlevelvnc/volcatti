@@ -41,7 +41,7 @@ export function Authority() {
           </h2>
 
           <div className="flex flex-col gap-7 max-w-[60ch]">
-            <p data-reveal data-d="200" className="lead">
+            <p data-reveal data-d="200" className="lead drop-cap">
               A Volcatti atua do planeamento à entrega final, com foco em
               organização, execução técnica e qualidade. Cada projeto é tratado
               com a atenção que um espaço bem construído merece.

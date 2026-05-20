@@ -2,6 +2,7 @@ import Image from "next/image";
 import { COMPANY, WHATSAPP_URL } from "@/lib/constants";
 import { WhatsAppIcon } from "./icons";
 import { ContactForm } from "./contact-form";
+import { Magnetic } from "./magnetic";
 
 export function CtaFinal() {
   return (
@@ -56,13 +57,17 @@ export function CtaFinal() {
           </p>
 
           <div data-reveal data-d="400" className="flex flex-wrap gap-3 mb-10">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="btn btn--bronze">
-              <WhatsAppIcon className="w-[18px] h-[18px]" />
-              <span>Pedir pelo WhatsApp</span>
-            </a>
-            <a href={`tel:${COMPANY.phoneCompact}`} className="btn btn--ghost btn--ghost-light" data-cursor="Ligar">
-              <span>Ligar agora</span>
-            </a>
+            <Magnetic strength={12} radius={80}>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="btn btn--bronze" data-cursor="WhatsApp">
+                <WhatsAppIcon className="w-[18px] h-[18px]" />
+                <span>Pedir pelo WhatsApp</span>
+              </a>
+            </Magnetic>
+            <Magnetic strength={8} radius={70}>
+              <a href={`tel:${COMPANY.phoneCompact}`} className="btn btn--ghost btn--ghost-light" data-cursor="Ligar">
+                <span>Ligar agora</span>
+              </a>
+            </Magnetic>
           </div>
 
           <div data-reveal data-d="500" className="grid grid-cols-2 gap-x-6 gap-y-5 pt-8 border-t border-offwhite/15 max-w-[420px]">

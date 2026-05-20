@@ -9,6 +9,7 @@ const LoadingCurtain = dynamic(() => import("./loading-curtain").then(m => m.Loa
 const SmoothScroll = dynamic(() => import("./smooth-scroll").then(m => m.SmoothScroll), { ssr: false });
 const Cursor = dynamic(() => import("./cursor").then(m => m.Cursor), { ssr: false });
 const CookieBanner = dynamic(() => import("./cookie-banner").then(m => m.CookieBanner), { ssr: false });
+const SectionIndicator = dynamic(() => import("./section-indicator").then(m => m.SectionIndicator), { ssr: false });
 
 export function BrowserOnly() {
   return (
@@ -16,6 +17,7 @@ export function BrowserOnly() {
       <LoadingCurtain />
       <SmoothScroll />
       <Cursor />
+      <SectionIndicator />
       <CookieBanner />
     </>
   );

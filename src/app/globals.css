@@ -46,6 +46,31 @@
     color: var(--c-graphite);
   }
 
+  /* Custom scrollbar — bronze hairline (desktop only) */
+  @media (pointer: fine) {
+    html {
+      scrollbar-color: var(--c-bronze) transparent;
+      scrollbar-width: thin;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(184, 138, 42, 0.4);
+      border: 2px solid transparent;
+      background-clip: content-box;
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(184, 138, 42, 0.7);
+      background-clip: content-box;
+    }
+  }
+
   h1, h2, h3, h4 {
     @apply font-display;
     font-weight: 300;
@@ -342,6 +367,44 @@
   /* ───────── Misc utilities ───────── */
   .hairline { background: rgba(17, 17, 17, 0.12); height: 1px; }
   .hairline-light { background: rgba(244, 241, 234, 0.16); height: 1px; }
+
+  /* ───────── Photography "Volcatti look" ─────────
+     Consistent color grading: subtle warm split-toning,
+     slight contrast lift, mild desaturation. */
+  .volcatti-look {
+    filter: contrast(1.05) saturate(0.92) brightness(0.98);
+  }
+  .volcatti-look-warm {
+    filter: contrast(1.06) saturate(0.88) brightness(0.97) sepia(0.08);
+  }
+  .volcatti-look-dark {
+    filter: contrast(1.1) saturate(0.85) brightness(0.88) sepia(0.05);
+  }
+
+  /* ───────── Drop cap ───────── */
+  .drop-cap::first-letter {
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 4em;
+    line-height: 0.85;
+    color: var(--c-bronze);
+    float: left;
+    padding: 0.05em 0.12em 0 0;
+    margin: 0;
+  }
+
+  /* ───────── Hero title breathing ───────── */
+  @keyframes hero-breathing {
+    0%, 100% { letter-spacing: -0.03em; }
+    50%      { letter-spacing: -0.025em; }
+  }
+  .hero-breathing {
+    animation: hero-breathing 8s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-breathing { animation: none; }
+  }
 
   /* ───────── Legal prose (privacidade/termos/cookies) ───────── */
   .legal-prose h2 {

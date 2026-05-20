@@ -1,8 +1,49 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { ArrowRight } from "./icons";
 import { TechnicalStamp } from "./technical-stamp";
+import { Magnetic } from "./magnetic";
+
+/** Mouse-tilt parallax — subtle 3D-feel pan on the hero bg. */
+function useMouseTilt(maxOffset = 18) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+
+    let raf = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let curX = 0;
+    let curY = 0;
+
+    const onMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      targetX = x * maxOffset;
+      targetY = y * maxOffset * 0.6;
+    };
+
+    const tick = () => {
+      curX += (targetX - curX) * 0.08;
+      curY += (targetY - curY) * 0.08;
+      if (ref.current) {
+        ref.current.style.transform = `translate3d(${-curX.toFixed(2)}px, ${-curY.toFixed(2)}px, 0)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onMove);
+    };
+  }, [maxOffset]);
+  return ref;
+}
 
 /**
  * Hero with architectural blueprint references:
@@ -12,6 +53,8 @@ import { TechnicalStamp } from "./technical-stamp";
  * - Drawn blueprint corners
  */
 export function Hero() {
+  const tiltRef = useMouseTilt(16);
+
   return (
     <section
       id="inicio"
@@ -19,7 +62,7 @@ export function Hero() {
       style={{ paddingTop: "calc(var(--header-h) + 60px)", paddingBottom: "clamp(110px, 12vw, 170px)" }}
     >
       {/* Background image */}
-      <div className="absolute inset-0 -z-[2]">
+      <div ref={tiltRef} className="absolute -inset-[3%] -z-[2] will-change-transform">
         <Image
           src="/portfolio/piscina-noturna.png"
           alt="Piscina iluminada de noite num projeto Volcatti em Lisboa"
@@ -88,7 +131,7 @@ export function Hero() {
         </div>
 
         {/* Title — line-by-line reveal */}
-        <h1 className="font-display font-light leading-none tracking-[-0.03em] text-offwhite mb-9 sm:mb-11 max-w-[18ch]" style={{ fontSize: "clamp(2.6rem, 7vw, 6.4rem)" }}>
+        <h1 className="hero-breathing font-display font-light leading-none tracking-[-0.03em] text-offwhite mb-9 sm:mb-11 max-w-[18ch]" style={{ fontSize: "clamp(2.6rem, 7vw, 6.4rem)" }}>
           <span data-reveal="line"><span>Construção, Remodelação,</span></span>
           <span data-reveal="line" data-d="100"><span>Piscinas e Elétrica</span></span>
           <span data-reveal="line" data-d="200" className="inline-block">
@@ -111,13 +154,17 @@ export function Hero() {
 
         {/* Actions */}
         <div data-reveal data-d="400" className="flex flex-wrap gap-3.5 mb-14 sm:mb-16">
-          <a href="#orcamento" className="btn btn--primary btn--lg" data-cursor="Pedir →">
-            <span>Pedir orçamento</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </a>
-          <a href="#servicos" className="btn btn--ghost btn--ghost-light btn--lg" data-cursor="Ver">
-            <span>Ver serviços</span>
-          </a>
+          <Magnetic strength={12} radius={80}>
+            <a href="#orcamento" className="btn btn--primary btn--lg" data-cursor="Pedir →">
+              <span>Pedir orçamento</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </Magnetic>
+          <Magnetic strength={8} radius={70}>
+            <a href="#servicos" className="btn btn--ghost btn--ghost-light btn--lg" data-cursor="Ver">
+              <span>Ver serviços</span>
+            </a>
+          </Magnetic>
         </div>
 
         {/* Tags */}

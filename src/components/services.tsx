@@ -40,9 +40,34 @@ export function Services() {
               data-cursor="Saber mais →"
               className="group relative bg-offwhite p-7 sm:p-8 lg:p-10 flex flex-col gap-6 cursor-pointer transition-colors duration-500 hover:bg-offwhite-2 overflow-hidden"
             >
-              {/* Bronze underline on hover */}
-              <span className="absolute bottom-0 left-0 h-0.5 w-full bg-bronze origin-left scale-x-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+              {/* Ghost number — rises from below on hover */}
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-8 -right-2 font-display font-light text-graphite/[0.06] leading-none pointer-events-none select-none transition-[transform,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-3 group-hover:text-bronze/15"
+                style={{ fontSize: "12rem", letterSpacing: "-0.06em" }}
+              >
+                {s.num}
+              </span>
 
+              {/* Bronze L-bracket on hover (top-left + bottom-right) */}
+              <span
+                aria-hidden="true"
+                className="absolute top-0 left-0 w-0 h-px bg-bronze transition-[width] duration-500 ease-out group-hover:w-8"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute top-0 left-0 h-0 w-px bg-bronze transition-[height] duration-500 ease-out delay-100 group-hover:h-8"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute bottom-0 right-0 w-0 h-px bg-bronze transition-[width] duration-500 ease-out group-hover:w-8"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute bottom-0 right-0 h-0 w-px bg-bronze transition-[height] duration-500 ease-out delay-100 group-hover:h-8"
+              />
+
+              {/* Image with vertical clip-path mask reveal */}
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
                   src={s.image}
@@ -51,13 +76,21 @@ export function Services() {
                   loading="lazy"
                   quality={70}
                   sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                  className="object-cover transition-[transform,filter] duration-1000 ease-out group-hover:scale-[1.06]"
-                  style={{ filter: "grayscale(35%) contrast(1.05)" }}
+                  className="object-cover transition-[transform,filter,clip-path] duration-[1.2s] ease-out group-hover:scale-[1.06]"
+                  style={{
+                    filter: "grayscale(35%) contrast(1.05)",
+                    clipPath: "inset(0 0 0 0)",
+                  }}
+                />
+                {/* Sweep curtain (right→left wipe) */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-bronze/15 origin-right scale-x-0 transition-transform duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] group-hover:scale-x-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-graphite/20 to-transparent pointer-events-none" />
               </div>
 
-              <div className="flex flex-col gap-3 flex-1">
+              <div className="relative flex flex-col gap-3 flex-1 z-[1]">
                 <span className="font-mono text-[0.72rem] tracking-[0.16em] text-bronze">{s.num}</span>
                 <h3 className="font-display font-normal tracking-[-0.02em] leading-tight text-graphite" style={{ fontSize: "clamp(1.45rem, 2vw, 1.75rem)" }}>
                   {s.title}

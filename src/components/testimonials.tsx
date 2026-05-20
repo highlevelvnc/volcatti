@@ -28,10 +28,11 @@ export function Testimonials() {
               data-d={i * 120}
               className="group relative p-8 sm:p-10 lg:p-12 bg-offwhite border border-graphite/12 flex flex-col gap-6 transition-[transform,border-color] duration-500 hover:-translate-y-1.5 hover:border-bronze"
             >
-              <span className="font-display font-light text-5xl lg:text-6xl text-bronze block leading-none">"</span>
+              <span className="font-display font-light text-5xl lg:text-6xl text-bronze block leading-none">«</span>
               <blockquote>
                 <p className="font-display font-light text-graphite leading-relaxed" style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.2rem)" }}>
                   {q.quote}
+                  <span className="text-bronze ml-1">»</span>
                 </p>
               </blockquote>
               <figcaption className="flex flex-col gap-1 mt-auto pt-4 border-t border-graphite/12">
