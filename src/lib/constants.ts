@@ -478,7 +478,22 @@ export const DIFFERENTIALS = [
 ] as const;
 
 export const STATS = [
-  { num: 120, suffix: "+", label: "Projetos concluídos" },
-  { num: 5, suffix: " anos", label: "Garantia de obra" },
-  { num: 98, suffix: "%", label: "Clientes satisfeitos" },
+  {
+    num: 120,
+    suffix: "+",
+    label: "Projetos concluídos",
+    back: { value: "1+", label: "Obra entregue / mês" },
+  },
+  {
+    num: 5,
+    suffix: " anos",
+    label: "Garantia de obra",
+    back: { value: "Por escrito", label: "Em contrato" },
+  },
+  {
+    num: 98,
+    suffix: "%",
+    label: "Clientes satisfeitos",
+    back: { value: "9 / 10", label: "Voltam a contactar-nos" },
+  },
 ] as const;

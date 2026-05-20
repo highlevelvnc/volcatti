@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SERVICES } from "@/lib/constants";
 import { ArrowRight } from "./icons";
 import { GhostNumber } from "./ghost-number";
+import { SectionTitleCard } from "./section-title-card";
 
 export function Services() {
   return (
@@ -12,6 +13,7 @@ export function Services() {
       style={{ paddingBlock: "clamp(80px, 11vw, 160px)" }}
     >
       <GhostNumber num="03" position="right" />
+      <SectionTitleCard num="03" label="Serviços" />
       <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-12 lg:pb-20">
           <div className="flex flex-col gap-7">
@@ -30,15 +32,15 @@ export function Services() {
           </p>
         </header>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-graphite/12 border border-graphite/12">
+        <div className="services-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-graphite/12 border border-graphite/12">
           {SERVICES.map((s, i) => (
             <Link
               key={s.num}
               href={`/servicos/${s.slug}`}
               data-reveal
-              data-d={i * 80}
+              data-d={i * 100}
               data-cursor="Saber mais →"
-              className="group relative bg-offwhite p-7 sm:p-8 lg:p-10 flex flex-col gap-6 cursor-pointer transition-colors duration-500 hover:bg-offwhite-2 overflow-hidden"
+              className="service-card group relative bg-offwhite p-7 sm:p-8 lg:p-10 flex flex-col gap-6 cursor-pointer transition-[colors,opacity,transform] duration-500 hover:bg-offwhite-2 overflow-hidden"
             >
               {/* Ghost number — rises from below on hover */}
               <span

@@ -394,6 +394,38 @@
     margin: 0;
   }
 
+  /* ───────── Stat flip — hover/focus reveal back face ───────── */
+  .stat-flip:hover .stat-flip-inner,
+  .stat-flip:focus-within .stat-flip-inner {
+    transform: rotateY(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stat-flip:hover .stat-flip-inner,
+    .stat-flip:focus-within .stat-flip-inner {
+      transform: none;
+    }
+  }
+
+  /* ───────── Service cards — focus mode + brick reveal ───────── */
+  /* When hovering any card in a services grid, dim its siblings. */
+  .services-grid:has(.service-card:hover) .service-card:not(:hover) {
+    opacity: 0.42;
+    transform: scale(0.985);
+  }
+  /* Initial brick-style reveal — each card hinges in from bottom */
+  .service-card[data-revealed="false"] {
+    opacity: 0;
+    transform: translateY(40px) rotateX(-8deg);
+    transform-origin: top center;
+  }
+  .service-card[data-revealed="true"] {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+    transition:
+      opacity 0.8s var(--ease-elegant),
+      transform 0.9s var(--ease-elegant);
+  }
+
   /* ───────── Hero title breathing ───────── */
   @keyframes hero-breathing {
     0%, 100% { letter-spacing: -0.03em; }

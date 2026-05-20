@@ -1,7 +1,12 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 /**
  * Materials & finishes — decorative section showcasing the material
  * vocabulary Volcatti works with. Pure CSS texture cards (no extra
- * image weight). Reinforces the premium, tactile feel.
+ * image weight). Each card responds to mouse position with a subtle
+ * 3D tilt (perspective transform).
  */
 
 const MATERIALS = [
@@ -43,6 +48,110 @@ const MATERIALS = [
   },
 ];
 
+function TiltCard({
+  m,
+  i,
+}: {
+  m: (typeof MATERIALS)[number];
+  i: number;
+}) {
+  const ref = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+
+    const el = ref.current;
+    if (!el) return;
+
+    let raf = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let curX = 0;
+    let curY = 0;
+    let isHover = false;
+
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      targetX = -y * 10; // rotateX
+      targetY = x * 10; // rotateY
+      isHover = true;
+    };
+
+    const onLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      isHover = false;
+    };
+
+    const tick = () => {
+      curX += (targetX - curX) * 0.12;
+      curY += (targetY - curY) * 0.12;
+      const scale = isHover ? 1.02 : 1;
+      el.style.transform = `perspective(900px) rotateX(${curX.toFixed(2)}deg) rotateY(${curY.toFixed(2)}deg) scale(${scale})`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+      el.style.transform = "";
+    };
+  }, []);
+
+  return (
+    <li
+      ref={ref}
+      data-reveal
+      data-d={i * 80}
+      className="group relative aspect-[3/4] overflow-hidden border border-graphite/12 transition-[box-shadow] duration-500 hover:shadow-[0_20px_50px_rgba(17,17,17,0.18)]"
+      style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+      data-cursor={m.tag}
+    >
+      <div
+        className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105"
+        style={{ background: m.bg, backgroundBlendMode: "multiply", transform: "translateZ(0)" }}
+      />
+      {/* Glossy sheen — moves with tilt */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%)",
+          transform: "translateZ(20px)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(17,17,17,0.7) 100%)" }}
+      />
+      <div
+        className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-1 text-offwhite"
+        style={{ transform: "translateZ(30px)" }}
+      >
+        <span className="font-mono text-[0.6rem] tracking-[0.18em] uppercase text-bronze">— {m.tag}</span>
+        <span className="font-display text-lg font-normal tracking-[-0.01em]">{m.name}</span>
+        <span className="font-mono text-[0.6rem] tracking-[0.1em] uppercase text-offwhite/60 hidden sm:block">
+          {m.note}
+        </span>
+      </div>
+      <span
+        className="absolute top-3 right-3 font-mono text-[0.55rem] tracking-[0.16em] uppercase text-offwhite/55 px-1.5 py-0.5 border border-offwhite/40"
+        style={{ transform: "translateZ(40px)" }}
+      >
+        {String(i + 1).padStart(2, "0")}
+      </span>
+    </li>
+  );
+}
+
 export function Materials() {
   return (
     <section
@@ -69,27 +178,7 @@ export function Materials() {
 
         <ul className="grid grid-cols-2 lg:grid-cols-6 gap-3">
           {MATERIALS.map((m, i) => (
-            <li
-              key={m.name}
-              data-reveal
-              data-d={i * 80}
-              className="group relative aspect-[3/4] overflow-hidden border border-graphite/12 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5"
-              data-cursor={m.tag}
-            >
-              <div
-                className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105"
-                style={{ background: m.bg, backgroundBlendMode: "multiply" }}
-              />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(17,17,17,0.7) 100%)" }} />
-              <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-1 text-offwhite">
-                <span className="font-mono text-[0.6rem] tracking-[0.18em] uppercase text-bronze">— {m.tag}</span>
-                <span className="font-display text-lg font-normal tracking-[-0.01em]">{m.name}</span>
-                <span className="font-mono text-[0.6rem] tracking-[0.1em] uppercase text-offwhite/60 hidden sm:block">{m.note}</span>
-              </div>
-              <span className="absolute top-3 right-3 font-mono text-[0.55rem] tracking-[0.16em] uppercase text-offwhite/55 px-1.5 py-0.5 border border-offwhite/40">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-            </li>
+            <TiltCard key={m.name} m={m} i={i} />
           ))}
         </ul>
       </div>
