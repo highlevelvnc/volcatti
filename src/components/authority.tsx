@@ -20,18 +20,20 @@ export function Authority() {
             <span className="section-index__num">02</span>
             <span className="section-index__label">Posicionamento</span>
           </div>
-          <div data-reveal data-d="100" className="hidden lg:block aspect-[4/5] w-[240px] overflow-hidden border border-graphite/12">
+          <div data-reveal data-d="100" className="hidden lg:block aspect-[4/5] w-[240px] overflow-hidden border border-graphite/12 relative">
             <Image
-              src="/portfolio/wc-marmore.png"
-              alt="Detalhe de acabamento em mármore"
-              width={480}
-              height={600}
+              src="/portfolio/casa-maquinas.jpg"
+              alt="Sistema técnico de piscina — casa de máquinas Volcatti"
+              fill
               loading="lazy"
-              quality={70}
+              quality={75}
               sizes="240px"
-              className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
-              style={{ filter: "grayscale(20%)" }}
+              className="object-cover transition-transform duration-1000 hover:scale-105 volcatti-look"
             />
+            {/* Technical caption */}
+            <span className="absolute bottom-2 left-2 right-2 font-mono text-[0.55rem] tracking-[0.18em] uppercase text-offwhite/95 px-1.5 py-0.5 bg-graphite/65 backdrop-blur-sm border-l border-bronze">
+              Estaleiro técnico próprio
+            </span>
           </div>
         </aside>
 
