@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8" />
+<title>Volcatti — Carta de Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --graphite: #111111;
+    --offwhite: #F4F1EA;
+    --offwhite-2: #ECE7DC;
+    --concrete: #C9C3B8;
+    --bronze: #B88A2A;
+    --petroleum: #173238;
+    --ink-2: #3a3a35;
+    --line: rgba(17,17,17,0.12);
+  }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 210mm;
+    background: #fff;
+    color: var(--graphite);
+    font-family: "Inter", -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 14mm 14mm 12mm;
+    position: relative;
+    background: var(--offwhite);
+  }
+  .ff-display { font-family: "Fraunces", Georgia, serif; font-weight: 300; letter-spacing: -0.02em; }
+  .ff-mono { font-family: "JetBrains Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* ───────── HEADER ───────── */
+  .header {
+    text-align: center;
+    padding-bottom: 8mm;
+    border-bottom: 0.3mm solid var(--line);
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 4mm;
+  }
+  .logo-mark { width: 14mm; height: auto; }
+  .logo-name {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 11mm;
+    letter-spacing: 0.22em;
+    color: var(--graphite);
+  }
+  .logo-tag {
+    margin-top: 2mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.4mm;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .logo-tag .dot { color: var(--bronze); margin: 0 1mm; }
+
+  /* ───────── HERO ───────── */
+  .hero {
+    position: relative;
+    margin-top: 7mm;
+    height: 75mm;
+    overflow: hidden;
+    background: var(--graphite);
+  }
+  .hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(0.95);
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(17,17,17,0.65) 0%, rgba(17,17,17,0.3) 50%, rgba(17,17,17,0.15) 100%);
+  }
+  .hero-title {
+    position: absolute;
+    top: 14mm; left: 10mm;
+    color: var(--offwhite);
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 14mm;
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--bronze);
+    font-weight: 300;
+  }
+  .hero-corner {
+    position: absolute;
+    bottom: 4mm; right: 6mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.3mm;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(244,241,234,0.85);
+  }
+  .hero-corner .bronze { color: var(--bronze); }
+
+  /* ───────── INTRO + STATS ───────── */
+  .intro-row {
+    display: flex;
+    gap: 10mm;
+    margin-top: 8mm;
+    align-items: flex-start;
+  }
+  .intro-text {
+    flex: 1;
+    font-size: 3.2mm;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 100mm;
+  }
+  .intro-text strong { color: var(--graphite); font-weight: 500; }
+  .stats {
+    display: flex;
+    gap: 5mm;
+  }
+  .stat {
+    text-align: center;
+    min-width: 22mm;
+  }
+  .stat-icon {
+    width: 9mm; height: 9mm;
+    margin: 0 auto 2mm;
+    display: flex; align-items: center; justify-content: center;
+    border: 0.3mm solid var(--line);
+  }
+  .stat-icon svg { width: 5mm; height: 5mm; }
+  .stat-num {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 9mm;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--graphite);
+  }
+  .stat-num .suf { color: var(--bronze); font-size: 0.65em; vertical-align: top; }
+  .stat-num .lbl-suf { color: var(--bronze); font-size: 0.5em; margin-left: 1mm; }
+  .stat-label {
+    margin-top: 1.5mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.2mm;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+
+  /* ───────── SERVICES + MINI-GALLERY ───────── */
+  .services-row {
+    display: grid;
+    grid-template-columns: 75mm 1fr;
+    gap: 8mm;
+    margin-top: 8mm;
+  }
+  .panel {
+    border: 0.3mm solid var(--line);
+    padding: 5mm;
+    background: #fff;
+  }
+  .panel-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.6mm;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--graphite);
+    margin-bottom: 4mm;
+    padding-bottom: 2mm;
+    border-bottom: 0.2mm solid var(--line);
+  }
+  .panel-title .bronze { color: var(--bronze); }
+  .services-list { display: flex; flex-direction: column; gap: 2.5mm; }
+  .service-item {
+    display: flex; align-items: center;
+    gap: 3mm;
+    font-size: 3mm;
+    color: var(--ink-2);
+  }
+  .service-item svg {
+    width: 4mm; height: 4mm; flex-shrink: 0;
+    stroke: var(--graphite); stroke-width: 1.4; fill: none;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2mm;
+  }
+  .gallery-item {
+    aspect-ratio: 1 / 1.15;
+    overflow: hidden;
+    background: var(--graphite);
+    position: relative;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.05) saturate(0.92);
+  }
+  .gallery-caption {
+    margin-top: 1.5mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.9mm;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    line-height: 1.4;
+    min-height: 5mm;
+  }
+
+  /* ───────── BOTTOM ROW ───────── */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5mm;
+    margin-top: 6mm;
+  }
+  .why-list { display: flex; flex-direction: column; gap: 2.5mm; }
+  .why-item {
+    display: flex; align-items: flex-start;
+    gap: 2.5mm;
+    font-size: 2.7mm;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+  .check {
+    width: 4mm; height: 4mm;
+    border: 0.3mm solid var(--bronze);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 0.3mm;
+  }
+  .check svg { width: 2.3mm; height: 2.3mm; }
+
+  .steps-list { display: flex; flex-direction: column; gap: 2.5mm; }
+  .step-item {
+    display: flex; align-items: center;
+    gap: 3mm;
+    font-size: 2.7mm;
+    color: var(--ink-2);
+  }
+  .step-num {
+    width: 5mm; height: 5mm;
+    background: var(--graphite);
+    color: var(--offwhite);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.2mm;
+    font-weight: 500;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .quote-box {
+    background: var(--graphite);
+    color: var(--offwhite);
+    padding: 6mm 5mm;
+    position: relative;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    min-height: 50mm;
+  }
+  .quote-box::before {
+    content: "«";
+    position: absolute;
+    top: 3mm; left: 4mm;
+    font-family: "Fraunces", serif;
+    font-size: 14mm;
+    line-height: 1;
+    color: var(--bronze);
+    opacity: 0.55;
+  }
+  .quote-text {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 3.3mm;
+    line-height: 1.45;
+    margin-left: 8mm;
+    color: var(--offwhite);
+  }
+  .quote-text em {
+    color: var(--bronze);
+    font-style: italic;
+  }
+  .quote-sig {
+    margin-top: 4mm;
+    margin-left: 8mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.2mm;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(244,241,234,0.55);
+  }
+  .quote-sig .bronze { color: var(--bronze); }
+
+  /* ───────── FOOTER ───────── */
+  .footer {
+    margin-top: 7mm;
+    padding-top: 4mm;
+    border-top: 0.3mm solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.4mm;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .footer .bronze { color: var(--bronze); margin-right: 1.5mm; }
+  .footer-cell { display: inline-flex; align-items: center; gap: 1mm; }
+
+  /* ───────── Bronze corner markers (blueprint) ───────── */
+  .corner {
+    position: absolute;
+    width: 2mm; height: 2mm;
+    background: var(--bronze);
+  }
+  .corner-tl { top: 8mm; left: 8mm; }
+  .corner-tr { top: 8mm; right: 8mm; }
+  .corner-bl { bottom: 8mm; left: 8mm; }
+  .corner-br { bottom: 8mm; right: 8mm; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Blueprint corner markers -->
+  <span class="corner corner-tl"></span>
+  <span class="corner corner-tr"></span>
+  <span class="corner corner-bl"></span>
+  <span class="corner corner-br"></span>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 64 56" fill="none" aria-hidden="true">
+        <path d="M4 6 L26 50 L48 6" stroke="#111111" stroke-width="6" stroke-linecap="square"/>
+        <path d="M14 6 L26 30 L38 6" stroke="#111111" stroke-width="3.5" stroke-linecap="square" opacity="0.55"/>
+        <path d="M40 6 L52 6 L40 28 Z" fill="#B88A2A"/>
+      </svg>
+      <span class="logo-name">VOLCATTI</span>
+    </div>
+    <div class="logo-tag">
+      Construção <span class="dot">·</span> Remodelação <span class="dot">·</span> Piscinas <span class="dot">·</span> Elétrica
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img src="../portfolio/piscina-noturna.png" alt="Vivenda Volcatti com piscina iluminada" />
+    <div class="hero-overlay"></div>
+    <h1 class="hero-title">
+      Carta de<br/><em>Apresentação</em>
+    </h1>
+    <span class="hero-corner">
+      <span class="bronze">▸</span> Volcatti · Palmela · PT
+    </span>
+  </section>
+
+  <!-- INTRO + STATS -->
+  <div class="intro-row">
+    <p class="intro-text">
+      A <strong>Volcatti</strong> é uma empresa especializada em construção,
+      remodelação, piscinas e serviços elétricos, focada em entregar
+      soluções completas com precisão, organização e acabamento
+      profissional. Atuamos do planeamento à entrega final, com atenção
+      ao detalhe, segurança e compromisso com o resultado.
+    </p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.4">
+            <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-7h6v7" />
+          </svg>
+        </div>
+        <div class="stat-num">120<span class="suf">+</span></div>
+        <div class="stat-label">Projetos<br/>concluídos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#B88A2A" stroke-width="1.4">
+            <path d="M12 2 L15 9 L22 10 L17 15 L18 22 L12 18 L6 22 L7 15 L2 10 L9 9 Z" />
+          </svg>
+        </div>
+        <div class="stat-num">5<span class="lbl-suf">anos</span></div>
+        <div class="stat-label">Garantia<br/>de obra</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.4">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 22 q0 -8 8 -8 t8 8" />
+          </svg>
+        </div>
+        <div class="stat-num">98<span class="suf">%</span></div>
+        <div class="stat-label">Clientes<br/>satisfeitos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES + GALLERY -->
+  <section class="services-row">
+    <div class="panel">
+      <div class="panel-title"><span class="bronze">▸</span> Serviços</div>
+      <ul class="services-list">
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-7h6v7"/></svg>
+          Construção Civil
+        </li>
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><path d="M4 21V10l8-6 8 6v11H4z M10 21v-6h4v6"/></svg>
+          Remodelações
+        </li>
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><path d="M3 12c2 -2 4 -2 6 0s4 2 6 0s4 -2 6 0 M3 17c2 -2 4 -2 6 0s4 2 6 0s4 -2 6 0"/></svg>
+          Construção de Piscinas
+        </li>
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4z M13 4h7v7h-7z M4 13h7v7H4z M13 13h7v7h-7z"/></svg>
+          Casas de Máquina
+        </li>
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          Assistência a Piscinas
+        </li>
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><path d="M13 2 L4 14h7l-2 8 9-12h-7z"/></svg>
+          Serviços Elétricos
+        </li>
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><path d="M3 8h18 M3 16h18 M8 3v18 M16 3v18"/></svg>
+          Acabamentos
+        </li>
+        <li class="service-item">
+          <svg viewBox="0 0 24 24"><path d="M14 6 L18 2 L22 6 L18 10 M2 22 L13 11 L13 14 L17 18 L14 18 L3 21z"/></svg>
+          Manutenção & Reparações
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="panel-title"><span style="color:#B88A2A">▸</span> Obras em destaque</div>
+      <div class="gallery">
+        <div>
+          <div class="gallery-item">
+            <img src="../portfolio/posicionamento.jpg" alt="Acabamento premium em mármore" />
+          </div>
+          <div class="gallery-caption">Acabamento<br/>Premium</div>
+        </div>
+        <div>
+          <div class="gallery-item">
+            <img src="../portfolio/piscina-construcao.jpg" alt="Piscina construída" />
+          </div>
+          <div class="gallery-caption">Piscinas<br/>de excelência</div>
+        </div>
+        <div>
+          <div class="gallery-item">
+            <img src="../portfolio/casa-maquinas-v2.jpg" alt="Casa de máquinas" />
+          </div>
+          <div class="gallery-caption">Instalações<br/>técnicas</div>
+        </div>
+        <div>
+          <div class="gallery-item">
+            <img src="../portfolio/espaco-comercial.png" alt="Construção comercial" />
+          </div>
+          <div class="gallery-caption">Construção<br/>e remodelação</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM: Why + Method + Quote -->
+  <section class="bottom-row">
+    <div>
+      <div class="panel-title" style="margin-bottom: 4mm;"><span style="color:#B88A2A">▸</span> Porquê escolher a Volcatti</div>
+      <ul class="why-list">
+        <li class="why-item">
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+          Atendimento profissional em todas as fases
+        </li>
+        <li class="why-item">
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+          Soluções completas numa só equipa
+        </li>
+        <li class="why-item">
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+          Organização técnica em todas as etapas
+        </li>
+        <li class="why-item">
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+          Qualidade no acabamento e compromisso com prazos
+        </li>
+        <li class="why-item">
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+          Garantia de obra por escrito (5 anos)
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="panel-title" style="margin-bottom: 4mm;"><span style="color:#B88A2A">▸</span> Método de trabalho</div>
+      <ol class="steps-list">
+        <li class="step-item"><span class="step-num">1</span> Contacto inicial</li>
+        <li class="step-item"><span class="step-num">2</span> Avaliação do projeto</li>
+        <li class="step-item"><span class="step-num">3</span> Orçamento personalizado</li>
+        <li class="step-item"><span class="step-num">4</span> Planeamento</li>
+        <li class="step-item"><span class="step-num">5</span> Execução</li>
+        <li class="step-item"><span class="step-num">6</span> Entrega final</li>
+      </ol>
+    </div>
+
+    <div class="quote-box">
+      <p class="quote-text">
+        Estamos disponíveis para analisar o seu projeto e apresentar
+        uma <em>solução à medida</em>, com clareza, rigor e atenção
+        a cada detalhe.»
+      </p>
+      <span class="quote-sig"><span class="bronze">▸</span> Equipa Volcatti</span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-cell">
+      <span class="bronze">◉</span> Palmela · Setúbal
+    </span>
+    <span class="footer-cell">
+      <span class="bronze">✉</span> geral@volcatti.pt
+    </span>
+    <span class="footer-cell">
+      <span class="bronze">☏</span> +351 933 787 369
+    </span>
+    <span class="footer-cell">
+      <span class="bronze">◐</span> @volcatti_lda
+    </span>
+    <span class="footer-cell">
+      <span class="bronze">↗</span> volcatti.pt
+    </span>
+  </footer>
+</div>
+</body>
+</html>
