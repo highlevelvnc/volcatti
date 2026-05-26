@@ -18,13 +18,13 @@ export function Authority() {
             <span className="section-index__num">02</span>
             <span className="section-index__label">Posicionamento</span>
           </div>
-          <div data-reveal data-d="100" className="hidden lg:block aspect-[4/5] w-full overflow-hidden border border-graphite/12 relative group">
+          <div data-reveal data-d="100" className="hidden lg:block aspect-[3/4] w-full overflow-hidden border border-graphite/12 relative group">
             <Image
-              src="/portfolio/piscina-construcao.jpg"
-              alt="Piscina recém construída pela Volcatti em Lisboa"
+              src="/portfolio/posicionamento.jpg"
+              alt="WC remodelada pela Volcatti — mármore, carvalho e iluminação halo"
               fill
               loading="lazy"
-              quality={78}
+              quality={82}
               sizes="320px"
               className="object-cover transition-transform duration-1000 group-hover:scale-[1.04] volcatti-look"
             />
@@ -34,7 +34,7 @@ export function Authority() {
                 ▸ Obra Volcatti
               </span>
               <span className="block font-mono text-[0.6rem] tracking-[0.14em] uppercase text-offwhite/90">
-                Piscina · Lisboa · 2026
+                WC Mármore · Carvalho · Halo
               </span>
             </div>
           </div>
