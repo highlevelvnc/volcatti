@@ -76,7 +76,7 @@ export function BeforeAfter() {
         >
           {/* AFTER (full width, behind) — piscina recuperada */}
           <Image
-            src="/portfolio/piscina-depois-recuperacao.jpg"
+            src="/portfolio/piscina-depois-v2.jpg"
             alt="Piscina recuperada — azul cristalina com deck e jardim"
             fill
             loading="lazy"
@@ -90,7 +90,7 @@ export function BeforeAfter() {
             style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
           >
             <Image
-              src="/portfolio/piscina-antes-recuperacao.jpg"
+              src="/portfolio/piscina-antes-v2.jpg"
               alt="Piscina antes — algas verdes, em manutenção pela equipa Volcatti"
               fill
               loading="lazy"
