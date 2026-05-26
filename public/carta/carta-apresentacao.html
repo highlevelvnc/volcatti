@@ -9,554 +9,1023 @@
 <style>
   :root {
     --graphite: #111111;
+    --graphite-2: #1c1c1a;
     --offwhite: #F4F1EA;
     --offwhite-2: #ECE7DC;
     --concrete: #C9C3B8;
     --bronze: #B88A2A;
+    --bronze-soft: rgba(184, 138, 42, 0.08);
     --petroleum: #173238;
+    --ink: #111111;
     --ink-2: #3a3a35;
-    --line: rgba(17,17,17,0.12);
+    --ink-3: #6e6c64;
+    --line: rgba(17,17,17,0.10);
+    --line-2: rgba(17,17,17,0.18);
   }
-  @page {
-    size: A4 portrait;
-    margin: 0;
-  }
+  @page { size: A4 portrait; margin: 0; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 210mm;
     background: #fff;
     color: var(--graphite);
-    font-family: "Inter", -apple-system, "Segoe UI", sans-serif;
+    font-family: "Inter", -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
   .page {
     width: 210mm;
-    min-height: 297mm;
-    padding: 14mm 14mm 12mm;
+    height: 297mm;
+    padding: 14mm;
     position: relative;
     background: var(--offwhite);
+    overflow: hidden;
+    page-break-after: always;
   }
-  .ff-display { font-family: "Fraunces", Georgia, serif; font-weight: 300; letter-spacing: -0.02em; }
-  .ff-mono { font-family: "JetBrains Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+  .page:last-child { page-break-after: auto; }
+  .page.dark { background: var(--graphite); color: var(--offwhite); }
 
-  /* ───────── HEADER ───────── */
-  .header {
-    text-align: center;
-    padding-bottom: 8mm;
-    border-bottom: 0.3mm solid var(--line);
+  /* Utility — typography */
+  .ff-display { font-family: "Fraunces", Georgia, serif; font-weight: 300; letter-spacing: -0.025em; }
+  .ff-mono {
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
+  em.bronze { font-style: italic; color: var(--bronze); font-weight: 300; }
+  .text-bronze { color: var(--bronze); }
+  .text-ink2 { color: var(--ink-2); }
+  .text-ink3 { color: var(--ink-3); }
+  .text-light { color: rgba(244,241,234,0.85); }
+  .text-light-dim { color: rgba(244,241,234,0.55); }
+
+  /* ───────── Blueprint frame ───────── */
+  .blueprint-frame {
+    position: absolute;
+    inset: 8mm;
+    border: 0.2mm solid rgba(17,17,17,0.12);
+    pointer-events: none;
+  }
+  .blueprint-frame.light { border-color: rgba(244,241,234,0.15); }
+  .corner {
+    position: absolute;
+    width: 2.4mm; height: 2.4mm;
+    background: var(--bronze);
+    z-index: 2;
+  }
+  .corner-tl { top: 6.8mm; left: 6.8mm; }
+  .corner-tr { top: 6.8mm; right: 6.8mm; }
+  .corner-bl { bottom: 6.8mm; left: 6.8mm; }
+  .corner-br { bottom: 6.8mm; right: 6.8mm; }
+
+  /* ───────── Page header ───────── */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 5mm;
+    border-bottom: 0.2mm solid var(--line);
+  }
+  .page.dark .page-header { border-bottom-color: rgba(244,241,234,0.15); }
+
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 4mm;
+    gap: 3.5mm;
   }
-  .logo-mark { width: 14mm; height: auto; }
+  .logo-mark { width: 11mm; height: auto; }
   .logo-name {
     font-family: "Inter", sans-serif;
     font-weight: 500;
-    font-size: 11mm;
-    letter-spacing: 0.22em;
+    font-size: 6mm;
+    letter-spacing: 0.24em;
     color: var(--graphite);
   }
-  .logo-tag {
-    margin-top: 2mm;
+  .page.dark .logo-name { color: var(--offwhite); }
+  .logo-sub {
+    margin-top: 0.8mm;
     font-family: "JetBrains Mono", monospace;
-    font-size: 2.4mm;
-    letter-spacing: 0.32em;
+    font-size: 1.7mm;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--ink-2);
+    color: var(--ink-3);
   }
-  .logo-tag .dot { color: var(--bronze); margin: 0 1mm; }
+  .page.dark .logo-sub { color: rgba(244,241,234,0.55); }
+  .logo-sub .dot { color: var(--bronze); margin: 0 0.5mm; }
 
-  /* ───────── HERO ───────── */
+  .sheet-info {
+    text-align: right;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.9mm;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .sheet-info .label { color: var(--ink-3); }
+  .sheet-info .value { color: var(--graphite); }
+  .page.dark .sheet-info .label { color: rgba(244,241,234,0.5); }
+  .page.dark .sheet-info .value { color: var(--offwhite); }
+  .sheet-info .bronze { color: var(--bronze); }
+  .sheet-info .big {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 7mm;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-top: 1mm;
+    color: var(--graphite);
+  }
+  .page.dark .sheet-info .big { color: var(--offwhite); }
+  .sheet-info .big .total { color: var(--ink-3); font-size: 3.5mm; }
+  .page.dark .sheet-info .big .total { color: rgba(244,241,234,0.4); }
+
+  /* ──────────────────────────────────────────────
+     PAGE 1 — APRESENTAÇÃO
+     ────────────────────────────────────────────── */
+
+  /* Hero */
   .hero {
     position: relative;
-    margin-top: 7mm;
-    height: 75mm;
+    margin-top: 6mm;
+    height: 95mm;
     overflow: hidden;
     background: var(--graphite);
   }
   .hero img {
     width: 100%; height: 100%;
     object-fit: cover;
-    filter: contrast(1.04) saturate(0.95);
+    object-position: center 30%;
+    filter: contrast(1.05) saturate(0.94);
   }
   .hero-overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(17,17,17,0.6) 0%, rgba(17,17,17,0.2) 40%, rgba(17,17,17,0.85) 100%),
+      linear-gradient(90deg, rgba(23,50,56,0.45) 0%, transparent 60%);
+  }
+  .hero-corner-top {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(17,17,17,0.65) 0%, rgba(17,17,17,0.3) 50%, rgba(17,17,17,0.15) 100%);
+    top: 5mm; left: 6mm;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2mm;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(244,241,234,0.75);
+  }
+  .hero-corner-top .bronze { color: var(--bronze); }
+  .hero-corner-top .divider {
+    width: 8mm; height: 0.2mm; background: rgba(244,241,234,0.4);
   }
   .hero-title {
     position: absolute;
-    top: 14mm; left: 10mm;
+    bottom: 8mm; left: 6mm;
     color: var(--offwhite);
     font-family: "Fraunces", serif;
     font-weight: 300;
-    font-size: 14mm;
-    line-height: 1;
-    letter-spacing: -0.025em;
+    font-size: 22mm;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
   }
   .hero-title em {
     font-style: italic;
     color: var(--bronze);
     font-weight: 300;
   }
-  .hero-corner {
+  .hero-meta {
     position: absolute;
-    bottom: 4mm; right: 6mm;
+    bottom: 5mm; right: 6mm;
+    display: flex;
+    gap: 6mm;
     font-family: "JetBrains Mono", monospace;
-    font-size: 2.3mm;
-    letter-spacing: 0.22em;
+    font-size: 1.8mm;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(244,241,234,0.85);
+    color: rgba(244,241,234,0.6);
   }
-  .hero-corner .bronze { color: var(--bronze); }
+  .hero-meta .row {
+    display: flex; flex-direction: column; gap: 0.6mm;
+    text-align: right;
+  }
+  .hero-meta .label { color: var(--bronze); }
+  .hero-meta .value { color: var(--offwhite); }
 
-  /* ───────── INTRO + STATS ───────── */
-  .intro-row {
-    display: flex;
-    gap: 10mm;
-    margin-top: 8mm;
-    align-items: flex-start;
+  /* Letter body */
+  .letter {
+    margin-top: 7mm;
+    display: grid;
+    grid-template-columns: 28mm 1fr;
+    gap: 6mm;
   }
-  .intro-text {
-    flex: 1;
-    font-size: 3.2mm;
+  .letter-aside {
+    border-top: 0.4mm solid var(--bronze);
+    padding-top: 3mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.9mm;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
     line-height: 1.6;
-    color: var(--ink-2);
-    max-width: 100mm;
   }
-  .intro-text strong { color: var(--graphite); font-weight: 500; }
-  .stats {
-    display: flex;
-    gap: 5mm;
+  .letter-aside .bronze { color: var(--bronze); }
+  .letter-aside .lead {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 5mm;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-transform: none;
+    color: var(--graphite);
+    margin-top: 2mm;
+  }
+  .letter-body p {
+    font-size: 3mm;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin-bottom: 3mm;
+  }
+  .letter-body p:first-child::first-letter {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 14mm;
+    line-height: 0.9;
+    color: var(--bronze);
+    float: left;
+    padding: 0.5mm 1.8mm 0 0;
+    margin-top: -0.5mm;
+  }
+  .letter-body p strong { color: var(--graphite); font-weight: 500; }
+  .letter-body p em { font-style: italic; color: var(--bronze); }
+  .letter-sig {
+    margin-top: 4mm;
+    padding-top: 3mm;
+    border-top: 0.2mm solid var(--line);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.9mm;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .letter-sig .name {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 4mm;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--graphite);
+  }
+  .letter-sig .bronze { color: var(--bronze); }
+
+  /* Stats strip */
+  .stats-strip {
+    margin-top: 7mm;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 0.2mm solid var(--line);
+    background: #fff;
   }
   .stat {
-    text-align: center;
-    min-width: 22mm;
+    padding: 5mm 6mm;
+    border-right: 0.2mm solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5mm;
+    position: relative;
   }
-  .stat-icon {
-    width: 9mm; height: 9mm;
-    margin: 0 auto 2mm;
-    display: flex; align-items: center; justify-content: center;
-    border: 0.3mm solid var(--line);
-  }
-  .stat-icon svg { width: 5mm; height: 5mm; }
+  .stat:last-child { border-right: none; }
   .stat-num {
     font-family: "Fraunces", serif;
     font-weight: 300;
-    font-size: 9mm;
+    font-size: 11mm;
     line-height: 1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.035em;
     color: var(--graphite);
   }
-  .stat-num .suf { color: var(--bronze); font-size: 0.65em; vertical-align: top; }
-  .stat-num .lbl-suf { color: var(--bronze); font-size: 0.5em; margin-left: 1mm; }
+  .stat-num .suf { color: var(--bronze); font-size: 0.6em; }
+  .stat-num .small {
+    color: var(--bronze);
+    font-size: 0.4em;
+    font-style: italic;
+    margin-left: 1.5mm;
+    vertical-align: 0.6em;
+  }
   .stat-label {
-    margin-top: 1.5mm;
     font-family: "JetBrains Mono", monospace;
-    font-size: 2.2mm;
-    letter-spacing: 0.18em;
+    font-size: 2.1mm;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .stat-detail {
+    margin-top: 2mm;
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2.6mm;
     color: var(--ink-2);
     line-height: 1.3;
   }
-
-  /* ───────── SERVICES + MINI-GALLERY ───────── */
-  .services-row {
-    display: grid;
-    grid-template-columns: 75mm 1fr;
-    gap: 8mm;
-    margin-top: 8mm;
-  }
-  .panel {
-    border: 0.3mm solid var(--line);
-    padding: 5mm;
-    background: #fff;
-  }
-  .panel-title {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 2.6mm;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--graphite);
-    margin-bottom: 4mm;
-    padding-bottom: 2mm;
-    border-bottom: 0.2mm solid var(--line);
-  }
-  .panel-title .bronze { color: var(--bronze); }
-  .services-list { display: flex; flex-direction: column; gap: 2.5mm; }
-  .service-item {
-    display: flex; align-items: center;
-    gap: 3mm;
-    font-size: 3mm;
-    color: var(--ink-2);
-  }
-  .service-item svg {
-    width: 4mm; height: 4mm; flex-shrink: 0;
-    stroke: var(--graphite); stroke-width: 1.4; fill: none;
-  }
-
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2mm;
-  }
-  .gallery-item {
-    aspect-ratio: 1 / 1.15;
-    overflow: hidden;
-    background: var(--graphite);
-    position: relative;
-  }
-  .gallery-item img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: contrast(1.05) saturate(0.92);
-  }
-  .gallery-caption {
-    margin-top: 1.5mm;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 1.9mm;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-    line-height: 1.4;
-    min-height: 5mm;
-  }
-
-  /* ───────── BOTTOM ROW ───────── */
-  .bottom-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 5mm;
-    margin-top: 6mm;
-  }
-  .why-list { display: flex; flex-direction: column; gap: 2.5mm; }
-  .why-item {
-    display: flex; align-items: flex-start;
-    gap: 2.5mm;
-    font-size: 2.7mm;
-    color: var(--ink-2);
-    line-height: 1.4;
-  }
-  .check {
-    width: 4mm; height: 4mm;
-    border: 0.3mm solid var(--bronze);
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 0.3mm;
-  }
-  .check svg { width: 2.3mm; height: 2.3mm; }
-
-  .steps-list { display: flex; flex-direction: column; gap: 2.5mm; }
-  .step-item {
-    display: flex; align-items: center;
-    gap: 3mm;
-    font-size: 2.7mm;
-    color: var(--ink-2);
-  }
-  .step-num {
-    width: 5mm; height: 5mm;
-    background: var(--graphite);
-    color: var(--offwhite);
-    font-family: "JetBrains Mono", monospace;
-    font-size: 2.2mm;
-    font-weight: 500;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .quote-box {
-    background: var(--graphite);
-    color: var(--offwhite);
-    padding: 6mm 5mm;
-    position: relative;
-    display: flex; flex-direction: column;
-    justify-content: center;
-    min-height: 50mm;
-  }
-  .quote-box::before {
-    content: "«";
+  .stat-corner {
     position: absolute;
-    top: 3mm; left: 4mm;
-    font-family: "Fraunces", serif;
-    font-size: 14mm;
-    line-height: 1;
-    color: var(--bronze);
-    opacity: 0.55;
-  }
-  .quote-text {
-    font-family: "Fraunces", serif;
-    font-weight: 300;
-    font-size: 3.3mm;
-    line-height: 1.45;
-    margin-left: 8mm;
-    color: var(--offwhite);
-  }
-  .quote-text em {
-    color: var(--bronze);
-    font-style: italic;
-  }
-  .quote-sig {
-    margin-top: 4mm;
-    margin-left: 8mm;
+    top: 2.5mm; right: 3mm;
     font-family: "JetBrains Mono", monospace;
-    font-size: 2.2mm;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(244,241,234,0.55);
+    font-size: 1.5mm;
+    letter-spacing: 0.16em;
+    color: var(--bronze);
   }
-  .quote-sig .bronze { color: var(--bronze); }
 
-  /* ───────── FOOTER ───────── */
-  .footer {
-    margin-top: 7mm;
-    padding-top: 4mm;
-    border-top: 0.3mm solid var(--line);
+  /* Page footer */
+  .page-footer {
+    position: absolute;
+    bottom: 8mm; left: 14mm; right: 14mm;
+    padding-top: 3mm;
+    border-top: 0.2mm solid var(--line);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: "JetBrains Mono", monospace;
-    font-size: 2.4mm;
+    font-size: 1.9mm;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .page.dark .page-footer { border-top-color: rgba(244,241,234,0.15); color: rgba(244,241,234,0.55); }
+  .page-footer .bronze { color: var(--bronze); }
+
+  /* ──────────────────────────────────────────────
+     PAGE 2 — CAPACIDADES & CONTACTO
+     ────────────────────────────────────────────── */
+
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 4mm;
+    padding-bottom: 2mm;
+    border-bottom: 0.2mm solid rgba(244,241,234,0.18);
+  }
+  .section-head .title {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 6mm;
+    letter-spacing: -0.025em;
+    color: var(--offwhite);
+  }
+  .section-head .title em { font-style: italic; color: var(--bronze); font-weight: 300; }
+  .section-head .meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.8mm;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(244,241,234,0.55);
+  }
+  .section-head .meta .bronze { color: var(--bronze); }
+
+  /* Services grid (page 2) */
+  .services-block {
+    margin-top: 8mm;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 0.2mm solid rgba(244,241,234,0.12);
+  }
+  .service {
+    padding: 5mm 4mm;
+    border-right: 0.2mm solid rgba(244,241,234,0.10);
+    border-bottom: 0.2mm solid rgba(244,241,234,0.10);
+    display: flex; flex-direction: column; gap: 2mm;
+    background: rgba(244,241,234,0.02);
+  }
+  .service:nth-child(4n) { border-right: none; }
+  .service:nth-child(n+5) { border-bottom: none; }
+  .service-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.8mm;
+    letter-spacing: 0.18em;
+    color: var(--bronze);
+  }
+  .service-name {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: 3.8mm;
+    letter-spacing: -0.015em;
+    color: var(--offwhite);
+    line-height: 1.15;
+  }
+  .service-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 2.2mm;
+    line-height: 1.4;
+    color: rgba(244,241,234,0.6);
+    margin-top: 1mm;
+  }
+
+  /* Gallery (page 2) */
+  .gallery-block {
+    margin-top: 8mm;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2mm;
+  }
+  .g-item { background: var(--graphite); overflow: hidden; aspect-ratio: 1/1.25; position: relative; }
+  .g-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: contrast(1.05) saturate(0.93);
+  }
+  .g-item-label {
+    position: absolute;
+    bottom: 2.5mm; left: 2.5mm; right: 2.5mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.7mm;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink-2);
+    color: rgba(244,241,234,0.9);
+    background: linear-gradient(0deg, rgba(17,17,17,0.7) 0%, transparent 100%);
+    padding: 5mm 1mm 1mm;
+    line-height: 1.3;
   }
-  .footer .bronze { color: var(--bronze); margin-right: 1.5mm; }
-  .footer-cell { display: inline-flex; align-items: center; gap: 1mm; }
+  .g-item-label .cat { color: var(--bronze); display: block; margin-bottom: 0.5mm; font-size: 1.6mm; }
 
-  /* ───────── Bronze corner markers (blueprint) ───────── */
-  .corner {
-    position: absolute;
-    width: 2mm; height: 2mm;
-    background: var(--bronze);
+  /* Method + Commitments — two-column row */
+  .bottom-block {
+    margin-top: 8mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6mm;
   }
-  .corner-tl { top: 8mm; left: 8mm; }
-  .corner-tr { top: 8mm; right: 8mm; }
-  .corner-bl { bottom: 8mm; left: 8mm; }
-  .corner-br { bottom: 8mm; right: 8mm; }
+  .block-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.2mm;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 3mm;
+    display: flex; justify-content: space-between;
+    border-bottom: 0.2mm solid rgba(244,241,234,0.15);
+    padding-bottom: 2mm;
+  }
+  .block-title .sub {
+    color: rgba(244,241,234,0.5);
+    letter-spacing: 0.16em;
+    font-size: 1.8mm;
+  }
+
+  /* Method horizontal timeline */
+  .method-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3mm 2mm;
+  }
+  .method-step {
+    padding-top: 3mm;
+    border-top: 0.2mm solid rgba(244,241,234,0.18);
+    position: relative;
+  }
+  .method-step::before {
+    content: "";
+    position: absolute;
+    top: -0.7mm; left: 0;
+    width: 1.4mm; height: 1.4mm;
+    background: var(--bronze);
+    border-radius: 50%;
+  }
+  .method-step .num {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 5mm;
+    color: var(--bronze);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .method-step .name {
+    margin-top: 1.5mm;
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: 3.2mm;
+    color: var(--offwhite);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .method-step .desc {
+    margin-top: 1mm;
+    font-family: "Inter", sans-serif;
+    font-size: 1.9mm;
+    line-height: 1.4;
+    color: rgba(244,241,234,0.55);
+  }
+
+  /* Commitments list */
+  .commit-list { display: flex; flex-direction: column; gap: 2.5mm; }
+  .commit-item {
+    display: grid;
+    grid-template-columns: 5mm 1fr;
+    gap: 2mm;
+    align-items: baseline;
+  }
+  .commit-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.9mm;
+    color: var(--bronze);
+    padding-top: 0.5mm;
+  }
+  .commit-title-text {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: 3mm;
+    line-height: 1.25;
+    color: var(--offwhite);
+    letter-spacing: -0.01em;
+  }
+  .commit-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 2.1mm;
+    color: rgba(244,241,234,0.6);
+    line-height: 1.4;
+    margin-top: 0.5mm;
+  }
+
+  /* Quote + contacts row */
+  .closing {
+    margin-top: 8mm;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 6mm;
+  }
+  .quote-card {
+    background: var(--bronze);
+    color: var(--graphite);
+    padding: 7mm 6mm;
+    position: relative;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .quote-card::before {
+    content: "«";
+    position: absolute;
+    top: 1mm; left: 3.5mm;
+    font-family: "Fraunces", serif;
+    font-size: 22mm;
+    line-height: 1;
+    color: rgba(17,17,17,0.2);
+  }
+  .quote-text {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 4.2mm;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    margin-left: 4mm;
+    color: var(--graphite);
+  }
+  .quote-text strong { font-style: normal; font-weight: 500; }
+  .quote-sig {
+    margin-top: 4mm;
+    margin-left: 4mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.9mm;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--graphite);
+  }
+  .quote-sig .bronze-mark { color: rgba(17,17,17,0.5); margin-right: 1mm; }
+
+  .contacts-card {
+    background: rgba(244,241,234,0.04);
+    border: 0.2mm solid rgba(244,241,234,0.12);
+    padding: 6mm;
+    display: flex; flex-direction: column;
+    gap: 3mm;
+  }
+  .contacts-title {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2mm;
+    letter-spacing: 0.22em;
+    color: var(--bronze);
+    padding-bottom: 2mm;
+    border-bottom: 0.2mm solid rgba(244,241,234,0.15);
+  }
+  .contact-row {
+    display: grid;
+    grid-template-columns: 16mm 1fr;
+    gap: 2mm;
+    align-items: baseline;
+  }
+  .contact-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.7mm;
+    letter-spacing: 0.16em;
+    color: rgba(244,241,234,0.5);
+    text-transform: uppercase;
+  }
+  .contact-value {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: 3mm;
+    color: var(--offwhite);
+    letter-spacing: -0.005em;
+  }
+  .contact-value.mono {
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.08em;
+    font-size: 2.5mm;
+  }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- Blueprint corner markers -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<!--                  PAGE 01 · APRESENTAÇÃO                      -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="blueprint-frame"></div>
   <span class="corner corner-tl"></span>
   <span class="corner corner-tr"></span>
   <span class="corner corner-bl"></span>
   <span class="corner corner-br"></span>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="logo">
-      <svg class="logo-mark" viewBox="0 0 64 56" fill="none" aria-hidden="true">
-        <path d="M4 6 L26 50 L48 6" stroke="#111111" stroke-width="6" stroke-linecap="square"/>
-        <path d="M14 6 L26 30 L38 6" stroke="#111111" stroke-width="3.5" stroke-linecap="square" opacity="0.55"/>
-        <path d="M40 6 L52 6 L40 28 Z" fill="#B88A2A"/>
-      </svg>
-      <span class="logo-name">VOLCATTI</span>
+  <!-- Header -->
+  <header class="page-header">
+    <div>
+      <div class="logo">
+        <svg class="logo-mark" viewBox="0 0 64 56" fill="none">
+          <path d="M4 6 L26 50 L48 6" stroke="#111111" stroke-width="6" stroke-linecap="square"/>
+          <path d="M14 6 L26 30 L38 6" stroke="#111111" stroke-width="3.5" stroke-linecap="square" opacity="0.55"/>
+          <path d="M40 6 L52 6 L40 28 Z" fill="#B88A2A"/>
+        </svg>
+        <span class="logo-name">VOLCATTI</span>
+      </div>
+      <div class="logo-sub">
+        Construção <span class="dot">·</span> Remodelação <span class="dot">·</span> Piscinas <span class="dot">·</span> Elétrica
+      </div>
     </div>
-    <div class="logo-tag">
-      Construção <span class="dot">·</span> Remodelação <span class="dot">·</span> Piscinas <span class="dot">·</span> Elétrica
+    <div class="sheet-info">
+      <div><span class="label">Folha</span> <span class="bronze">▸</span></div>
+      <div class="big">01<span class="total"> / 02</span></div>
+      <div style="margin-top: 1mm"><span class="value">Apresentação</span></div>
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- Hero -->
   <section class="hero">
-    <img src="../portfolio/piscina-noturna.png" alt="Vivenda Volcatti com piscina iluminada" />
+    <img src="../portfolio/piscina-noturna.png" alt="Obra Volcatti — piscina iluminada de noite" />
     <div class="hero-overlay"></div>
+
+    <div class="hero-corner-top">
+      <span class="bronze">▸</span>
+      <span>N.º 24·LIS·001</span>
+      <span class="divider"></span>
+      <span>Estaleiro Volcatti</span>
+    </div>
+
     <h1 class="hero-title">
-      Carta de<br/><em>Apresentação</em>
+      Carta de<br/>
+      <em>Apresentação</em>
     </h1>
-    <span class="hero-corner">
-      <span class="bronze">▸</span> Volcatti · Palmela · PT
-    </span>
-  </section>
 
-  <!-- INTRO + STATS -->
-  <div class="intro-row">
-    <p class="intro-text">
-      A <strong>Volcatti</strong> é uma empresa especializada em construção,
-      remodelação, piscinas e serviços elétricos, focada em entregar
-      soluções completas com precisão, organização e acabamento
-      profissional. Atuamos do planeamento à entrega final, com atenção
-      ao detalhe, segurança e compromisso com o resultado.
-    </p>
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.4">
-            <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-7h6v7" />
-          </svg>
-        </div>
-        <div class="stat-num">120<span class="suf">+</span></div>
-        <div class="stat-label">Projetos<br/>concluídos</div>
+    <div class="hero-meta">
+      <div class="row">
+        <span class="label">Sede</span>
+        <span class="value">Palmela · Setúbal</span>
       </div>
-      <div class="stat">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#B88A2A" stroke-width="1.4">
-            <path d="M12 2 L15 9 L22 10 L17 15 L18 22 L12 18 L6 22 L7 15 L2 10 L9 9 Z" />
-          </svg>
-        </div>
-        <div class="stat-num">5<span class="lbl-suf">anos</span></div>
-        <div class="stat-label">Garantia<br/>de obra</div>
-      </div>
-      <div class="stat">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.4">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 22 q0 -8 8 -8 t8 8" />
-          </svg>
-        </div>
-        <div class="stat-num">98<span class="suf">%</span></div>
-        <div class="stat-label">Clientes<br/>satisfeitos</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SERVICES + GALLERY -->
-  <section class="services-row">
-    <div class="panel">
-      <div class="panel-title"><span class="bronze">▸</span> Serviços</div>
-      <ul class="services-list">
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-7h6v7"/></svg>
-          Construção Civil
-        </li>
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><path d="M4 21V10l8-6 8 6v11H4z M10 21v-6h4v6"/></svg>
-          Remodelações
-        </li>
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><path d="M3 12c2 -2 4 -2 6 0s4 2 6 0s4 -2 6 0 M3 17c2 -2 4 -2 6 0s4 2 6 0s4 -2 6 0"/></svg>
-          Construção de Piscinas
-        </li>
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4z M13 4h7v7h-7z M4 13h7v7H4z M13 13h7v7h-7z"/></svg>
-          Casas de Máquina
-        </li>
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          Assistência a Piscinas
-        </li>
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><path d="M13 2 L4 14h7l-2 8 9-12h-7z"/></svg>
-          Serviços Elétricos
-        </li>
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><path d="M3 8h18 M3 16h18 M8 3v18 M16 3v18"/></svg>
-          Acabamentos
-        </li>
-        <li class="service-item">
-          <svg viewBox="0 0 24 24"><path d="M14 6 L18 2 L22 6 L18 10 M2 22 L13 11 L13 14 L17 18 L14 18 L3 21z"/></svg>
-          Manutenção & Reparações
-        </li>
-      </ul>
-    </div>
-
-    <div>
-      <div class="panel-title"><span style="color:#B88A2A">▸</span> Obras em destaque</div>
-      <div class="gallery">
-        <div>
-          <div class="gallery-item">
-            <img src="../portfolio/posicionamento.jpg" alt="Acabamento premium em mármore" />
-          </div>
-          <div class="gallery-caption">Acabamento<br/>Premium</div>
-        </div>
-        <div>
-          <div class="gallery-item">
-            <img src="../portfolio/piscina-construcao.jpg" alt="Piscina construída" />
-          </div>
-          <div class="gallery-caption">Piscinas<br/>de excelência</div>
-        </div>
-        <div>
-          <div class="gallery-item">
-            <img src="../portfolio/casa-maquinas-v2.jpg" alt="Casa de máquinas" />
-          </div>
-          <div class="gallery-caption">Instalações<br/>técnicas</div>
-        </div>
-        <div>
-          <div class="gallery-item">
-            <img src="../portfolio/espaco-comercial.png" alt="Construção comercial" />
-          </div>
-          <div class="gallery-caption">Construção<br/>e remodelação</div>
-        </div>
+      <div class="row">
+        <span class="label">Coord.</span>
+        <span class="value">38°44′N · 8°59′W</span>
       </div>
     </div>
   </section>
 
-  <!-- BOTTOM: Why + Method + Quote -->
-  <section class="bottom-row">
-    <div>
-      <div class="panel-title" style="margin-bottom: 4mm;"><span style="color:#B88A2A">▸</span> Porquê escolher a Volcatti</div>
-      <ul class="why-list">
-        <li class="why-item">
-          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
-          Atendimento profissional em todas as fases
-        </li>
-        <li class="why-item">
-          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
-          Soluções completas numa só equipa
-        </li>
-        <li class="why-item">
-          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
-          Organização técnica em todas as etapas
-        </li>
-        <li class="why-item">
-          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
-          Qualidade no acabamento e compromisso com prazos
-        </li>
-        <li class="why-item">
-          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5 L5 9 L10 3.5" stroke="#B88A2A" stroke-width="1.6" stroke-linecap="square"/></svg></span>
-          Garantia de obra por escrito (5 anos)
-        </li>
-      </ul>
-    </div>
+  <!-- Letter -->
+  <section class="letter">
+    <aside class="letter-aside">
+      <span class="bronze">▸</span> À sua atenção
+      <div class="lead">Quem somos &amp; como trabalhamos.</div>
+    </aside>
 
-    <div>
-      <div class="panel-title" style="margin-bottom: 4mm;"><span style="color:#B88A2A">▸</span> Método de trabalho</div>
-      <ol class="steps-list">
-        <li class="step-item"><span class="step-num">1</span> Contacto inicial</li>
-        <li class="step-item"><span class="step-num">2</span> Avaliação do projeto</li>
-        <li class="step-item"><span class="step-num">3</span> Orçamento personalizado</li>
-        <li class="step-item"><span class="step-num">4</span> Planeamento</li>
-        <li class="step-item"><span class="step-num">5</span> Execução</li>
-        <li class="step-item"><span class="step-num">6</span> Entrega final</li>
-      </ol>
-    </div>
-
-    <div class="quote-box">
-      <p class="quote-text">
-        Estamos disponíveis para analisar o seu projeto e apresentar
-        uma <em>solução à medida</em>, com clareza, rigor e atenção
-        a cada detalhe.»
+    <div class="letter-body">
+      <p>
+        A <strong>Volcatti</strong> é uma empresa portuguesa especializada
+        em <strong>construção, remodelação, piscinas e serviços
+        elétricos</strong>. Atuamos do estudo prévio à entrega chave-na-mão,
+        com equipa própria e fornecedores certificados, em obras
+        residenciais, comerciais e técnicas em toda a Grande Lisboa
+        e na península de Setúbal.
       </p>
-      <span class="quote-sig"><span class="bronze">▸</span> Equipa Volcatti</span>
+      <p>
+        O que nos distingue não é apenas o que <em>construímos</em> — é a
+        forma como o fazemos. Cronograma honesto, comunicação clara,
+        respeito pelo orçamento e atenção a cada remate, cada junta,
+        cada detalhe que faz uma obra durar e valorizar o espaço.
+      </p>
+      <p>
+        Pegamos em projetos exigentes — moradias unifamiliares, piscinas
+        com casa de máquinas técnica, remodelações totais de apartamentos,
+        certificações elétricas — e entregamos com a precisão que prometemos.
+        <strong>Garantia de obra por escrito</strong>, vistoria conjunta
+        no fim, contrato detalhado por capítulos antes de começar.
+      </p>
+
+      <div class="letter-sig">
+        <span><span class="bronze">▸</span> Atentamente,</span>
+        <span class="name">Equipa Volcatti</span>
+        <span>Palmela · PT</span>
+      </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <span class="footer-cell">
-      <span class="bronze">◉</span> Palmela · Setúbal
-    </span>
-    <span class="footer-cell">
-      <span class="bronze">✉</span> geral@volcatti.pt
-    </span>
-    <span class="footer-cell">
-      <span class="bronze">☏</span> +351 933 787 369
-    </span>
-    <span class="footer-cell">
-      <span class="bronze">◐</span> @volcatti_lda
-    </span>
-    <span class="footer-cell">
-      <span class="bronze">↗</span> volcatti.pt
-    </span>
+  <!-- Stats strip -->
+  <section class="stats-strip">
+    <div class="stat">
+      <span class="stat-corner">01</span>
+      <div class="stat-num">120<span class="suf">+</span></div>
+      <div class="stat-label">Projetos concluídos</div>
+      <div class="stat-detail">Residencial, comercial e técnico</div>
+    </div>
+    <div class="stat">
+      <span class="stat-corner">02</span>
+      <div class="stat-num">5<span class="small">anos</span></div>
+      <div class="stat-label">Garantia de obra</div>
+      <div class="stat-detail">Estrutura · Impermeabilização · Por escrito</div>
+    </div>
+    <div class="stat">
+      <span class="stat-corner">03</span>
+      <div class="stat-num">98<span class="suf">%</span></div>
+      <div class="stat-label">Clientes satisfeitos</div>
+      <div class="stat-detail">9 em cada 10 voltam a contactar-nos</div>
+    </div>
+  </section>
+
+  <!-- Page 01 footer -->
+  <footer class="page-footer">
+    <span><span class="bronze">▸</span> Bruno Volcatti Ramos Unipessoal, Lda.</span>
+    <span>volcatti.pt</span>
+    <span>Continua na folha 02 →</span>
   </footer>
 </div>
+
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!--           PAGE 02 · CAPACIDADES & CONTACTO                   -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div class="page dark">
+  <div class="blueprint-frame light"></div>
+  <span class="corner corner-tl"></span>
+  <span class="corner corner-tr"></span>
+  <span class="corner corner-bl"></span>
+  <span class="corner corner-br"></span>
+
+  <!-- Header -->
+  <header class="page-header">
+    <div>
+      <div class="logo">
+        <svg class="logo-mark" viewBox="0 0 64 56" fill="none">
+          <path d="M4 6 L26 50 L48 6" stroke="#F4F1EA" stroke-width="6" stroke-linecap="square"/>
+          <path d="M14 6 L26 30 L38 6" stroke="#F4F1EA" stroke-width="3.5" stroke-linecap="square" opacity="0.55"/>
+          <path d="M40 6 L52 6 L40 28 Z" fill="#B88A2A"/>
+        </svg>
+        <span class="logo-name">VOLCATTI</span>
+      </div>
+      <div class="logo-sub">
+        Construção <span class="dot">·</span> Remodelação <span class="dot">·</span> Piscinas <span class="dot">·</span> Elétrica
+      </div>
+    </div>
+    <div class="sheet-info">
+      <div><span class="label">Folha</span> <span class="bronze">▸</span></div>
+      <div class="big">02<span class="total"> / 02</span></div>
+      <div style="margin-top: 1mm"><span class="value">Capacidades</span></div>
+    </div>
+  </header>
+
+  <!-- Services -->
+  <section class="services-block">
+    <div class="section-head">
+      <span class="title">Serviços <em>completos.</em></span>
+      <span class="meta"><span class="bronze">▸</span> Capítulo · 01 / 04</span>
+    </div>
+
+    <div class="services-grid">
+      <div class="service">
+        <span class="service-num">01</span>
+        <div class="service-name">Construção<br/>Civil</div>
+        <div class="service-desc">Obras novas chave-na-mão</div>
+      </div>
+      <div class="service">
+        <span class="service-num">02</span>
+        <div class="service-name">Remodelações</div>
+        <div class="service-desc">Casas, apartamentos, comerciais</div>
+      </div>
+      <div class="service">
+        <span class="service-num">03</span>
+        <div class="service-name">Construção<br/>de Piscinas</div>
+        <div class="service-desc">Estrutura · revestimento · luz</div>
+      </div>
+      <div class="service">
+        <span class="service-num">04</span>
+        <div class="service-name">Casas de<br/>Máquina</div>
+        <div class="service-desc">Filtragem, dose, automação</div>
+      </div>
+      <div class="service">
+        <span class="service-num">05</span>
+        <div class="service-name">Assistência<br/>a Piscinas</div>
+        <div class="service-desc">Contratos anuais + emergência</div>
+      </div>
+      <div class="service">
+        <span class="service-num">06</span>
+        <div class="service-name">Serviços<br/>Elétricos</div>
+        <div class="service-desc">Certificação CERTIEL · domótica</div>
+      </div>
+      <div class="service">
+        <span class="service-num">07</span>
+        <div class="service-name">Acabamentos<br/>Finos</div>
+        <div class="service-desc">Mármore · carvalho · latão</div>
+      </div>
+      <div class="service">
+        <span class="service-num">08</span>
+        <div class="service-name">Manutenção &amp;<br/>Reparações</div>
+        <div class="service-desc">Anual · semestral · pontual</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery-block">
+    <div class="section-head">
+      <span class="title">Obras <em>recentes.</em></span>
+      <span class="meta"><span class="bronze">▸</span> Capítulo · 02 / 04</span>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="g-item">
+        <img src="../portfolio/posicionamento.jpg" alt="WC mármore e carvalho" />
+        <div class="g-item-label">
+          <span class="cat">Acabamentos</span>
+          WC Mármore · Cascais
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="../portfolio/piscina-construcao.jpg" alt="Piscina mosaico azul" />
+        <div class="g-item-label">
+          <span class="cat">Piscinas</span>
+          Mosaico · Lisboa
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="../portfolio/casa-maquinas-v2.jpg" alt="Casa de máquinas técnica" />
+        <div class="g-item-label">
+          <span class="cat">Técnico</span>
+          Casa de Máquinas
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="../portfolio/corredor-terracota.png" alt="Hall remodelado terracota" />
+        <div class="g-item-label">
+          <span class="cat">Remodelação</span>
+          Hall Terracota · Lisboa
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Method + Commitments -->
+  <section class="bottom-block">
+    <!-- Method -->
+    <div>
+      <div class="block-title">
+        <span>Método de trabalho</span>
+        <span class="sub">Capítulo · 03 / 04</span>
+      </div>
+      <div class="method-list">
+        <div class="method-step">
+          <div class="num">01</div>
+          <div class="name">Contacto inicial</div>
+          <div class="desc">Recolha do âmbito + referências</div>
+        </div>
+        <div class="method-step">
+          <div class="num">02</div>
+          <div class="name">Avaliação técnica</div>
+          <div class="desc">Visita ao local + medições</div>
+        </div>
+        <div class="method-step">
+          <div class="num">03</div>
+          <div class="name">Orçamento</div>
+          <div class="desc">Por capítulos · 5 dias úteis</div>
+        </div>
+        <div class="method-step">
+          <div class="num">04</div>
+          <div class="name">Planeamento</div>
+          <div class="desc">Cronograma + equipas</div>
+        </div>
+        <div class="method-step">
+          <div class="num">05</div>
+          <div class="name">Execução</div>
+          <div class="desc">Acompanhada · reportes regulares</div>
+        </div>
+        <div class="method-step">
+          <div class="num">06</div>
+          <div class="name">Entrega final</div>
+          <div class="desc">Vistoria + garantia escrita</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Commitments -->
+    <div>
+      <div class="block-title">
+        <span>Compromissos</span>
+        <span class="sub">Capítulo · 04 / 04</span>
+      </div>
+      <ul class="commit-list">
+        <li class="commit-item">
+          <span class="commit-num">01</span>
+          <div>
+            <div class="commit-title-text">Orçamento claro, por escrito.</div>
+            <div class="commit-desc">Detalhado por capítulos, sem surpresas no final.</div>
+          </div>
+        </li>
+        <li class="commit-item">
+          <span class="commit-num">02</span>
+          <div>
+            <div class="commit-title-text">Equipa própria, fornecedores certificados.</div>
+            <div class="commit-desc">Sem subcontratação anónima — quem responde, executa.</div>
+          </div>
+        </li>
+        <li class="commit-item">
+          <span class="commit-num">03</span>
+          <div>
+            <div class="commit-title-text">Cronograma honesto, cumprido.</div>
+            <div class="commit-desc">Prazos com folga realista, não com prometedoria.</div>
+          </div>
+        </li>
+        <li class="commit-item">
+          <span class="commit-num">04</span>
+          <div>
+            <div class="commit-title-text">Garantia de obra de 5 anos.</div>
+            <div class="commit-desc">Estrutura + impermeabilização, em contrato.</div>
+          </div>
+        </li>
+        <li class="commit-item">
+          <span class="commit-num">05</span>
+          <div>
+            <div class="commit-title-text">Comunicação clara, do início ao fim.</div>
+            <div class="commit-desc">Reportes regulares, sem ruído entre nós e si.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Closing: Quote + Contacts -->
+  <section class="closing">
+    <div class="quote-card">
+      <p class="quote-text">
+        Estamos disponíveis para analisar o seu projeto e apresentar
+        uma <strong>solução à medida</strong> — com clareza, rigor e
+        atenção a cada detalhe.»
+      </p>
+      <span class="quote-sig">
+        <span class="bronze-mark">▸</span> Equipa Volcatti · Palmela
+      </span>
+    </div>
+
+    <div class="contacts-card">
+      <div class="contacts-title">▸ Contactos</div>
+      <div class="contact-row">
+        <span class="contact-label">Tel</span>
+        <span class="contact-value mono">+351 933 787 369</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Email</span>
+        <span class="contact-value">geral@volcatti.pt</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Sede</span>
+        <span class="contact-value">Palmela · Setúbal</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Web</span>
+        <span class="contact-value">volcatti.pt</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">IG</span>
+        <span class="contact-value">@volcatti_lda</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page 02 footer -->
+  <footer class="page-footer">
+    <span><span class="bronze">▸</span> Bruno Volcatti Ramos Unipessoal, Lda.</span>
+    <span>Resposta média · 24 horas úteis</span>
+    <span>Fim do documento · 02 / 02</span>
+  </footer>
+</div>
+
 </body>
 </html>
