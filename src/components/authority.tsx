@@ -8,7 +8,7 @@ export function Authority() {
     <section
       id="sobre"
       className="relative texture-concrete bg-offwhite border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
+      style={{ paddingBlock: "clamp(48px, 5.5vw, 80px)" }}
     >
       <GhostNumber num="02" position="right" />
       <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[320px_1fr] gap-10 lg:gap-14 xl:gap-20">

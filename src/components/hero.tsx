@@ -59,7 +59,7 @@ export function Hero() {
     <section
       id="inicio"
       className="relative min-h-[100svh] flex items-end overflow-hidden text-offwhite isolate texture-grain"
-      style={{ paddingTop: "calc(var(--header-h) + 60px)", paddingBottom: "clamp(110px, 12vw, 170px)" }}
+      style={{ paddingTop: "calc(var(--header-h) + 40px)", paddingBottom: "clamp(80px, 8vw, 110px)" }}
     >
       {/* Background image */}
       <div ref={tiltRef} className="absolute -inset-[3%] -z-[2] will-change-transform">

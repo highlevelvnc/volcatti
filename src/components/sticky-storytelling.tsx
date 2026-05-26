@@ -60,7 +60,7 @@ export function StickyStorytelling() {
     <section
       ref={containerRef}
       className="relative bg-graphite text-offwhite overflow-hidden"
-      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
+      style={{ paddingBlock: "clamp(48px, 5.5vw, 80px)" }}
     >
       <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-8 lg:pb-12">

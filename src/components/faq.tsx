@@ -10,7 +10,7 @@ export function Faq() {
   return (
     <section
       className="relative bg-offwhite-2 border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
+      style={{ paddingBlock: "clamp(48px, 5.5vw, 80px)" }}
     >
       <GhostNumber num="?" position="left" />
 

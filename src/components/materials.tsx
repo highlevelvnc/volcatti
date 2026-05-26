@@ -156,7 +156,7 @@ export function Materials() {
   return (
     <section
       className="relative bg-offwhite border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
+      style={{ paddingBlock: "clamp(48px, 5.5vw, 80px)" }}
     >
       <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12 relative">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-8 lg:pb-12">

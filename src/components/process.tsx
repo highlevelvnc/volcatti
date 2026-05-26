@@ -6,7 +6,7 @@ export function Process() {
     <section
       id="processo"
       className="relative bg-offwhite-2 border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
+      style={{ paddingBlock: "clamp(48px, 5.5vw, 80px)" }}
     >
       <GhostNumber num="07" position="left" />
       <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">

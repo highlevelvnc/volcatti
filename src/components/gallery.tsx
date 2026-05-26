@@ -15,7 +15,7 @@ export function Gallery() {
     <section
       id="obras"
       className="relative bg-offwhite border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
+      style={{ paddingBlock: "clamp(48px, 5.5vw, 80px)" }}
     >
       <GhostNumber num="06" position="left" />
 
