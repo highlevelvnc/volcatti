@@ -136,7 +136,7 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     title: "Casas de Máquina",
     blurb:
       "Sistemas técnicos de piscinas — filtragem, tratamento, automação. Equipamento certificado e instalação profissional.",
-    image: "/portfolio/casa-maquinas.jpg",
+    image: "/portfolio/casa-maquinas-v2.jpg",
     alt: "Casa de máquinas Volcatti com filtro de areia, bomba e painel de tratamento ENERGY SEL",
     relatedCat: "piscinas",
     intro:
@@ -306,7 +306,7 @@ export const GALLERY: ReadonlyArray<GalleryItem> = [
   },
   {
     slug: "casa-maquinas-piscina",
-    src: "/portfolio/casa-maquinas.jpg",
+    src: "/portfolio/casa-maquinas-v2.jpg",
     alt: "Casa de máquinas de piscina com filtro de areia, bomba e painel ENERGY SEL",
     title: "Casa de Máquinas",
     cat: "piscinas",
