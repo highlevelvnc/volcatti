@@ -5,8 +5,9 @@ import { useEffect, useRef, useState } from "react";
 
 /**
  * Interactive before/after slider — drag the divider to compare.
- * "Before" = filtered version of the same image (desaturated + sepia-leaning),
- * "After" = original. Acts as a visual storytelling device for transformation.
+ * Real Volcatti recuperação de piscina: água verde com algas (antes,
+ * Setembro 2022) → piscina azul cristalina com deck (depois,
+ * Outubro 2022). Mesma piscina, ~5 semanas de intervalo.
  */
 export function BeforeAfter() {
   const [pos, setPos] = useState(50);
@@ -48,19 +49,19 @@ export function BeforeAfter() {
               <span className="section-index__label">Antes & Depois</span>
             </div>
             <h2 className="display display--light">
-              <span data-reveal="line"><span>O mesmo espaço,</span></span>
-              <span data-reveal="line" data-d="100"><span>uma <em>nova</em> história.</span></span>
+              <span data-reveal="line"><span>De água verde</span></span>
+              <span data-reveal="line" data-d="100"><span>a <em>azul cristalino.</em></span></span>
             </h2>
           </div>
           <p data-reveal data-d="200" className="font-display font-light text-offwhite/75 max-w-[44ch]" style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.25rem)", lineHeight: 1.5 }}>
-            Arrasta a linha para comparar. Mesmo planta, mesma luz —
-            o que muda é o cuidado com cada detalhe.
+            Arrasta a linha para comparar. Mesma piscina, cinco semanas
+            de trabalho — recuperação, tratamento e nova zona envolvente.
           </p>
         </header>
 
         <div
           ref={ref}
-          className="relative aspect-[16/10] overflow-hidden border border-offwhite/12 select-none"
+          className="relative aspect-[3/4] sm:aspect-[4/5] lg:aspect-[3/4] max-w-[760px] mx-auto overflow-hidden border border-offwhite/12 select-none"
           onMouseDown={(e) => {
             draggingRef.current = true;
             const rect = ref.current!.getBoundingClientRect();
@@ -73,32 +74,30 @@ export function BeforeAfter() {
           }}
           data-cursor="Arrastar"
         >
-          {/* AFTER (full width, behind) */}
+          {/* AFTER (full width, behind) — piscina recuperada */}
           <Image
-            src="/portfolio/wc-marmore.png"
-            alt="Casa de banho remodelada — depois"
+            src="/portfolio/piscina-depois-recuperacao.jpg"
+            alt="Piscina recuperada — azul cristalina com deck e jardim"
             fill
             loading="lazy"
-            quality={75}
-            sizes="(min-width:1024px) 80vw, 100vw"
-            className="object-cover"
+            quality={78}
+            sizes="(min-width:1024px) 760px, 100vw"
+            className="object-cover volcatti-look"
           />
-          {/* BEFORE (clipped on left) */}
+          {/* BEFORE (clipped on left) — piscina com água verde */}
           <div
             className="absolute inset-0 overflow-hidden"
             style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
           >
             <Image
-              src="/portfolio/wc-marmore.png"
-              alt="Antes da remodelação"
+              src="/portfolio/piscina-antes-recuperacao.jpg"
+              alt="Piscina antes — algas verdes, em manutenção pela equipa Volcatti"
               fill
               loading="lazy"
-              quality={60}
-              sizes="(min-width:1024px) 80vw, 100vw"
+              quality={72}
+              sizes="(min-width:1024px) 760px, 100vw"
               className="object-cover"
-              style={{ filter: "grayscale(100%) sepia(40%) contrast(0.85) brightness(0.7)" }}
             />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: "rgba(28,20,10,0.25)" }} />
           </div>
 
           {/* Labels */}
@@ -123,10 +122,10 @@ export function BeforeAfter() {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 font-mono text-[0.65rem] tracking-[0.18em] uppercase text-offwhite/55">
-          <span>Cliente · Apartamento Lisboa</span>
-          <span>Tipo · WC + carpintaria + iluminação</span>
-          <span>Duração · 21 dias úteis</span>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 font-mono text-[0.65rem] tracking-[0.18em] uppercase text-offwhite/55 max-w-[760px] mx-auto">
+          <span>Cliente · Piscina particular · Setúbal</span>
+          <span>Tipo · Recuperação + tratamento + envolvente</span>
+          <span>Duração · 5 semanas</span>
         </div>
       </div>
     </section>
