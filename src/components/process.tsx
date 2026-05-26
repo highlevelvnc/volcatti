@@ -1,6 +1,5 @@
 import { PROCESS_STEPS } from "@/lib/constants";
 import { GhostNumber } from "./ghost-number";
-import { SectionTitleCard } from "./section-title-card";
 
 export function Process() {
   return (
@@ -10,7 +9,6 @@ export function Process() {
       style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
     >
       <GhostNumber num="07" position="left" />
-      <SectionTitleCard num="07" label="Processo" kicker="Método" />
       <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-8 lg:pb-12">
           <div className="flex flex-col gap-7">

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { SERVICES } from "@/lib/constants";
 import { ArrowRight } from "./icons";
 import { GhostNumber } from "./ghost-number";
-import { SectionTitleCard } from "./section-title-card";
 
 export function Services() {
   return (
@@ -13,7 +12,6 @@ export function Services() {
       style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
     >
       <GhostNumber num="03" position="right" />
-      <SectionTitleCard num="03" label="Serviços" />
       <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-8 lg:pb-12">
           <div className="flex flex-col gap-7">

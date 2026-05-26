@@ -2,7 +2,6 @@ import Image from "next/image";
 import { STATS } from "@/lib/constants";
 import { StatCounter } from "./stat-counter";
 import { GhostNumber } from "./ghost-number";
-import { SectionTitleCard } from "./section-title-card";
 
 export function Authority() {
   return (
@@ -12,39 +11,43 @@ export function Authority() {
       style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
     >
       <GhostNumber num="02" position="right" />
-      <SectionTitleCard num="02" label="Posicionamento" />
-      <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[280px_1fr] gap-10 lg:gap-16 xl:gap-24">
-        {/* Sidebar */}
-        <aside className="flex flex-row lg:flex-col lg:sticky lg:top-32 self-start gap-6 lg:gap-10 items-center lg:items-start">
+      <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[320px_1fr] gap-10 lg:gap-14 xl:gap-20">
+        {/* Sidebar — index + showcase image */}
+        <aside className="flex flex-row lg:flex-col self-start gap-6 lg:gap-8 items-center lg:items-start">
           <div data-reveal className="section-index">
             <span className="section-index__num">02</span>
             <span className="section-index__label">Posicionamento</span>
           </div>
-          <div data-reveal data-d="100" className="hidden lg:block aspect-[4/5] w-[240px] overflow-hidden border border-graphite/12 relative">
+          <div data-reveal data-d="100" className="hidden lg:block aspect-[4/5] w-full overflow-hidden border border-graphite/12 relative group">
             <Image
-              src="/portfolio/casa-maquinas.jpg"
-              alt="Sistema técnico de piscina — casa de máquinas Volcatti"
+              src="/portfolio/piscina-construcao.jpg"
+              alt="Piscina recém construída pela Volcatti em Lisboa"
               fill
               loading="lazy"
-              quality={75}
-              sizes="240px"
-              className="object-cover transition-transform duration-1000 hover:scale-105 volcatti-look"
+              quality={78}
+              sizes="320px"
+              className="object-cover transition-transform duration-1000 group-hover:scale-[1.04] volcatti-look"
             />
-            {/* Technical caption */}
-            <span className="absolute bottom-2 left-2 right-2 font-mono text-[0.55rem] tracking-[0.18em] uppercase text-offwhite/95 px-1.5 py-0.5 bg-graphite/65 backdrop-blur-sm border-l border-bronze">
-              Estaleiro técnico próprio
-            </span>
+            {/* Project caption — bottom strip */}
+            <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-graphite/85 to-transparent">
+              <span className="block font-mono text-[0.58rem] tracking-[0.22em] uppercase text-bronze mb-0.5">
+                ▸ Obra Volcatti
+              </span>
+              <span className="block font-mono text-[0.6rem] tracking-[0.14em] uppercase text-offwhite/90">
+                Piscina · Lisboa · 2026
+              </span>
+            </div>
           </div>
         </aside>
 
         {/* Content */}
         <div className="max-w-[920px]">
-          <h2 className="display mb-10 lg:mb-14">
+          <h2 className="display mb-8 lg:mb-10">
             <span data-reveal="line"><span>Precisão em cada etapa.</span></span>
             <span data-reveal="line" data-d="100"><span><em>Excelência em cada detalhe.</em></span></span>
           </h2>
 
-          <div className="flex flex-col gap-7 max-w-[60ch]">
+          <div className="flex flex-col gap-6 max-w-[60ch]">
             <p data-reveal data-d="200" className="lead drop-cap">
               A Volcatti atua do planeamento à entrega final, com foco em
               organização, execução técnica e qualidade. Cada projeto é tratado
@@ -60,7 +63,7 @@ export function Authority() {
             <ul
               data-reveal
               data-d="400"
-              className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12 mt-12 lg:mt-18 pt-9 lg:pt-14 border-t border-graphite/12"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12 mt-8 lg:mt-10 pt-7 lg:pt-10 border-t border-graphite/12"
             >
               {STATS.map((s) => (
                 <li
