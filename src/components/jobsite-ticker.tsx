@@ -47,7 +47,7 @@ export function JobsiteTicker() {
   return (
     <div
       aria-hidden="true"
-      className="relative bg-graphite text-offwhite py-5 overflow-hidden border-y border-offwhite/[0.06]"
+      className="relative bg-graphite text-offwhite py-4 overflow-hidden border-y border-offwhite/[0.06]"
     >
       {/* Side gradients */}
       <div className="absolute left-0 top-0 bottom-0 w-24 z-[2] pointer-events-none bg-gradient-to-r from-graphite to-transparent" />

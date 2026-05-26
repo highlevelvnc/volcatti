@@ -156,10 +156,10 @@ export function Materials() {
   return (
     <section
       className="relative bg-offwhite border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(80px, 11vw, 160px)" }}
+      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
     >
       <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12 relative">
-        <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-12 lg:pb-20">
+        <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-8 lg:pb-12">
           <div className="flex flex-col gap-7">
             <div data-reveal className="section-index">
               <span className="section-index__num">∗</span>

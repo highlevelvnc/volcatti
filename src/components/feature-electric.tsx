@@ -24,7 +24,7 @@ export function FeatureElectric() {
     <section
       data-reveal
       className="relative bg-petroleum text-offwhite overflow-hidden isolate"
-      style={{ paddingBlock: "clamp(80px, 11vw, 160px)" }}
+      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
     >
       {/* Atmospheric gradient */}
       <div

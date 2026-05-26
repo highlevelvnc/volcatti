@@ -52,7 +52,7 @@ export function VideoReel() {
   return (
     <section
       className="relative bg-graphite text-offwhite border-y border-offwhite/[0.06] overflow-hidden"
-      style={{ paddingBlock: "clamp(80px, 11vw, 160px)" }}
+      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
     >
       <GhostNumber num="▸" position="right" className="text-offwhite/[0.04]" />
 

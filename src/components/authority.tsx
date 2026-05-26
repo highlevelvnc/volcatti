@@ -9,7 +9,7 @@ export function Authority() {
     <section
       id="sobre"
       className="relative texture-concrete bg-offwhite border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(80px, 11vw, 160px)" }}
+      style={{ paddingBlock: "clamp(56px, 7vw, 110px)" }}
     >
       <GhostNumber num="02" position="right" />
       <SectionTitleCard num="02" label="Posicionamento" />

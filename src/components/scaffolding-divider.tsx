@@ -51,7 +51,7 @@ export function ScaffoldingDivider({
   return (
     <div
       ref={ref}
-      className={`relative py-12 lg:py-16 ${light ? "bg-graphite" : "bg-offwhite"}`}
+      className={`relative py-5 lg:py-8 ${light ? "bg-graphite" : "bg-offwhite"}`}
     >
       <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12">
         {/* Caption above */}
