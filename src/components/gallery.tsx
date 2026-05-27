@@ -73,25 +73,34 @@ export function Gallery() {
                   loading="lazy"
                   quality={70}
                   sizes="(min-width:1024px) 25vw, 50vw"
-                  className="object-cover transition-[transform,filter] duration-1000 ease-out group-hover:scale-[1.06]"
-                  style={{ filter: "grayscale(15%) contrast(1.04)" }}
+                  className="object-cover transition-[transform,filter] duration-1000 ease-out group-hover:scale-[1.06] volcatti-look"
                 />
 
-                <span className="absolute top-3 left-3 font-mono text-[0.55rem] tracking-[0.18em] uppercase text-offwhite/90 px-1.5 py-0.5 bg-graphite/55 backdrop-blur-sm">
+                {/* Always-on gradient — gives every tile readable text without hover */}
+                <span
+                  className="absolute inset-0 pointer-events-none transition-opacity duration-500 group-hover:opacity-0"
+                  style={{ background: "linear-gradient(180deg, rgba(17,17,17,0) 55%, rgba(17,17,17,0.78) 100%)" }}
+                />
+
+                {/* Number stamp top-left */}
+                <span className="absolute top-3 left-3 font-mono text-[0.55rem] tracking-[0.18em] uppercase text-offwhite/90 px-1.5 py-0.5 bg-graphite/55 backdrop-blur-sm z-[2]">
                   N.º {String(i + 1).padStart(2, "0")}
                 </span>
 
+                {/* Category badge top-right — always visible */}
+                <span className="absolute top-3 right-3 font-mono text-[0.55rem] tracking-[0.18em] uppercase text-bronze px-1.5 py-0.5 border border-bronze/55 backdrop-blur-sm z-[2]">
+                  {GALLERY_FILTERS.find((f) => f.value === item.cat)?.label}
+                </span>
+
+                {/* Title — always visible (subtle), full info on hover */}
                 <span
-                  className="absolute inset-0 flex flex-col justify-end p-5 text-offwhite opacity-0 translate-y-3 transition-[opacity,transform] duration-500 group-hover:opacity-100 group-hover:translate-y-0"
-                  style={{ background: "linear-gradient(180deg, rgba(17,17,17,0) 35%, rgba(17,17,17,0.92) 100%)" }}
+                  className="absolute bottom-0 left-0 right-0 flex flex-col justify-end p-4 lg:p-5 text-offwhite z-[1]"
+                  style={{ background: "linear-gradient(180deg, rgba(17,17,17,0) 0%, rgba(17,17,17,0.88) 80%)" }}
                 >
-                  <span className="font-mono text-[0.62rem] tracking-[0.2em] uppercase text-bronze mb-1.5">
-                    {GALLERY_FILTERS.find((f) => f.value === item.cat)?.label}
-                  </span>
-                  <span className="font-display font-normal text-lg lg:text-xl tracking-[-0.01em] mb-2">
+                  <span className="font-display font-normal text-base lg:text-lg tracking-[-0.01em] leading-tight">
                     {item.title}
                   </span>
-                  <span className="flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-[0.6rem] tracking-[0.14em] uppercase text-offwhite/70">
+                  <span className="overflow-hidden max-h-0 opacity-0 transition-[max-height,opacity,margin-top] duration-500 ease-out group-hover:max-h-12 group-hover:opacity-100 group-hover:mt-2 flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-[0.58rem] tracking-[0.14em] uppercase text-offwhite/75">
                     {item.area && <span><span className="text-bronze">▸</span> {item.area}</span>}
                     {item.location && <span><span className="text-bronze">▸</span> {item.location}</span>}
                     {item.year && <span><span className="text-bronze">▸</span> {item.year}</span>}

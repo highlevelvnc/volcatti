@@ -19,7 +19,7 @@ const FRAMES = [
   {
     title: "Acabamento · Detalhe",
     sub: "Mármores, carvalho, latão, cabos. Tudo pensado ao milímetro.",
-    img: "/portfolio/wc-marmore.png",
+    img: "/portfolio/acabamentos-finos.jpg",
     label: "03 / 04",
   },
   {

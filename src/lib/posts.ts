@@ -41,7 +41,7 @@ export const POSTS: ReadonlyArray<PostMeta> = [
       "Da medição inicial à entrega — o cronograma real, os materiais escolhidos, e os 3 momentos críticos onde o detalhe fez a diferença.",
     date: "2026-02-08",
     category: "obra",
-    cover: "/portfolio/wc-marmore.png",
+    cover: "/portfolio/acabamentos-finos.jpg",
     read: "6 min",
   },
 ];

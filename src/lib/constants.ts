@@ -213,8 +213,8 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     title: "Acabamentos Finos",
     blurb:
       "Mármores, carvalho, pintura e remates. O que distingue uma obra entregue de uma obra acabada.",
-    image: "/portfolio/wc-marmore.png",
-    alt: "Casa de banho com revestimento mármore e box duche",
+    image: "/portfolio/acabamentos-finos.jpg",
+    alt: "WC premium com mármore ónix, box duche perfil preto minimal e lavatório de bancada",
     relatedCat: "acabamentos",
     intro:
       "O acabamento é onde se vê o cuidado. Trabalhamos com mármore, carvalho, latão, vidro temperado e técnicas especializadas. Pintura à régua, juntas perfeitas, ferragens à medida. É o último 10% que faz toda a diferença.",
@@ -334,9 +334,9 @@ export const GALLERY: ReadonlyArray<GalleryItem> = [
   },
   {
     slug: "wc-marmore-cascais",
-    src: "/portfolio/wc-marmore.png",
-    alt: "Casa de banho mármore",
-    title: "WC em Mármore",
+    src: "/portfolio/acabamentos-finos.jpg",
+    alt: "WC premium com mármore ónix, box duche perfil preto e lavatório de bancada",
+    title: "WC Ónix Premium",
     cat: "acabamentos",
     area: "8 m²",
     year: "2024",

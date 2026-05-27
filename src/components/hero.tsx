@@ -184,26 +184,30 @@ export function Hero() {
         className="absolute bottom-0 left-0 right-0 z-[1] border-t border-offwhite/10 backdrop-blur-[2px]"
         style={{ background: "linear-gradient(180deg, rgba(17,17,17,0) 0%, rgba(17,17,17,0.85) 100%)" }}
       >
-        <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12 py-4 flex items-center justify-between gap-4 font-mono text-[0.62rem] sm:text-[0.66rem] tracking-[0.2em] uppercase text-offwhite/75">
-          <span className="hidden sm:inline-flex items-center gap-2">
-            <span className="text-bronze">Sede</span>
-            <span>· Palmela, PT</span>
+        <div className="max-w-container mx-auto px-5 md:px-8 lg:px-12 py-3.5 flex items-center justify-between gap-4 font-mono text-[0.64rem] sm:text-[0.68rem] tracking-[0.18em] uppercase text-offwhite/85">
+          <span className="hidden sm:inline-flex items-baseline gap-1.5">
+            <span className="text-bronze text-[0.58rem]">▸ SEDE</span>
+            <span className="text-offwhite/65">/</span>
+            <span>Palmela · PT</span>
           </span>
-          <span className="hidden md:inline-flex items-center gap-2">
-            <span className="text-bronze">Cat</span>
-            <span>· Vivenda</span>
+          <span className="hidden md:inline-flex items-baseline gap-1.5">
+            <span className="text-bronze text-[0.58rem]">CAT</span>
+            <span className="text-offwhite/65">/</span>
+            <span>Vivenda</span>
           </span>
-          <span className="hidden md:inline-flex items-center gap-2">
-            <span className="text-bronze">Área</span>
-            <span>· 240 m²</span>
+          <span className="hidden md:inline-flex items-baseline gap-1.5">
+            <span className="text-bronze text-[0.58rem]">ÁREA</span>
+            <span className="text-offwhite/65">/</span>
+            <span>240 m²</span>
           </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="text-bronze">Ano</span>
-            <span>· 2024</span>
+          <span className="hidden sm:inline-flex items-baseline gap-1.5">
+            <span className="text-bronze text-[0.58rem]">ANO</span>
+            <span className="text-offwhite/65">/</span>
+            <span>2024</span>
           </span>
           <span className="inline-flex items-center gap-2">
             <span className="w-1.5 h-1.5 bg-bronze rounded-full animate-pulse" />
-            <span className="text-offwhite">38°44′N · 8°59′W</span>
+            <span className="text-offwhite tracking-[0.16em]">38°44′N · 8°59′W</span>
           </span>
         </div>
       </div>
