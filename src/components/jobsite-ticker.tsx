@@ -17,7 +17,7 @@ const JOBS: Array<{
   { status: "live",      id: "N.º 42", location: "Cascais",   meta: "Dia 18/65 · 72%" },
   { status: "scheduled", id: "N.º 43", location: "Lisboa",    meta: "Início · 03 Jun" },
   { status: "delivered", id: "N.º 41", location: "Sintra",    meta: "Entregue · 14 Abr" },
-  { status: "live",      id: "N.º 40", location: "Palmela",   meta: "Dia 22/30 · 85%" },
+  { status: "live",      id: "N.º 40", location: "Sintra",    meta: "Dia 22/30 · 85%" },
   { status: "scheduled", id: "N.º 44", location: "Oeiras",    meta: "Início · 18 Jun" },
   { status: "delivered", id: "N.º 39", location: "Lisboa",    meta: "Entregue · 02 Abr" },
   { status: "live",      id: "N.º 38", location: "Setúbal",   meta: "Dia 41/50 · 92%" },

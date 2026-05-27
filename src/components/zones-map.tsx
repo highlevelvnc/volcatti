@@ -2,7 +2,8 @@
  * Stylized SVG map of Portugal continental — silhueta reconhecível
  * (não geograficamente exacta, mas com proporções e features claras:
  * costa atlântica W, fronteira E, Cabo da Roca, Algarve, Tejo, Douro).
- * Markers nas zonas onde a Volcatti atua, com Palmela como sede.
+ * Markers nas zonas onde a Volcatti atua, com Agualva-Cacém / Sintra
+ * como sede.
  *
  * SVG viewBox 0 0 360 540 (4:6 portrait — Portugal continental
  * tem ~2:3 ratio na realidade).
@@ -12,11 +13,10 @@ const ZONES = [
   // Coordenadas em viewBox 360×540
   { x: 130, y: 145, label: "Mafra",   count: "2 obras",   anchor: "left" as const },
   { x: 152, y: 130, label: "Loures",  count: "3 obras",   anchor: "right" as const },
-  { x: 112, y: 165, label: "Sintra",  count: "6 obras",   anchor: "left" as const },
+  { x: 112, y: 165, label: "Sintra",  count: "Sede",      anchor: "left" as const, primary: true },
   { x: 122, y: 178, label: "Cascais", count: "8 obras",   anchor: "left" as const },
   { x: 150, y: 170, label: "Oeiras",  count: "4 obras",   anchor: "right" as const },
   { x: 168, y: 180, label: "Lisboa",  count: "12 obras",  anchor: "right" as const },
-  { x: 178, y: 215, label: "Palmela", count: "Sede",      anchor: "right" as const, primary: true },
   { x: 165, y: 240, label: "Setúbal", count: "5 obras",   anchor: "right" as const },
 ];
 

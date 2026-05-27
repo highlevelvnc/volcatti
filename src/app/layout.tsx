@@ -121,8 +121,8 @@ const jsonLd = {
   logo: `${COMPANY.url}/favicon.svg`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Palmela",
-    addressRegion: "Setúbal",
+    addressLocality: "Agualva-Cacém",
+    addressRegion: "Sintra",
     addressCountry: "PT",
   },
   geo: {
@@ -134,11 +134,12 @@ const jsonLd = {
   areaServed: [
     { "@type": "Country", name: "Portugal" },
     { "@type": "City", name: "Lisboa" },
-    { "@type": "City", name: "Setúbal" },
-    { "@type": "City", name: "Palmela" },
-    { "@type": "City", name: "Cascais" },
     { "@type": "City", name: "Sintra" },
+    { "@type": "City", name: "Cascais" },
     { "@type": "City", name: "Oeiras" },
+    { "@type": "City", name: "Mafra" },
+    { "@type": "City", name: "Loures" },
+    { "@type": "City", name: "Setúbal" },
   ],
   vatID: COMPANY.nipc,
   sameAs: [COMPANY.social.instagram, COMPANY.gmb.mapsUrl],
