@@ -63,25 +63,25 @@ export function Authority() {
             <ul
               data-reveal
               data-d="400"
-              className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12 mt-8 lg:mt-10 pt-7 lg:pt-10 border-t border-graphite/12"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-7 sm:gap-12 mt-8 lg:mt-10 pt-7 lg:pt-10 border-t border-graphite/12"
             >
               {STATS.map((s) => (
                 <li
                   key={s.label}
-                  className="stat-flip flex flex-col gap-2 [perspective:800px] cursor-help"
+                  className="stat-flip flex flex-col gap-2 items-center text-center sm:items-start sm:text-left [perspective:800px] cursor-help"
                   tabIndex={0}
                   data-cursor="Virar"
                 >
                   <div className="stat-flip-inner relative w-full transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] [transform-style:preserve-3d]">
                     {/* Front */}
-                    <div className="flex flex-col gap-2 [backface-visibility:hidden]">
+                    <div className="flex flex-col gap-2 items-center text-center sm:items-start sm:text-left [backface-visibility:hidden]">
                       <StatCounter target={s.num} suffix={s.suffix} />
                       <span className="font-mono text-[0.72rem] tracking-[0.14em] uppercase text-graphite/60">
                         {s.label}
                       </span>
                     </div>
                     {/* Back */}
-                    <div className="absolute inset-0 flex flex-col gap-2 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <div className="absolute inset-0 flex flex-col gap-2 items-center text-center sm:items-start sm:text-left [backface-visibility:hidden] [transform:rotateY(180deg)]">
                       <span
                         className="font-display font-light leading-none tracking-[-0.025em] text-bronze"
                         style={{ fontSize: "clamp(2rem, 3.6vw, 3rem)" }}

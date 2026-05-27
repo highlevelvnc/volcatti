@@ -11,7 +11,7 @@ export function Process() {
       <GhostNumber num="07" position="left" />
       <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-8 lg:pb-12">
-          <div className="flex flex-col gap-7">
+          <div className="flex flex-col gap-7 items-center text-center lg:items-start lg:text-left">
             <div data-reveal className="section-index">
               <span className="section-index__num">07</span>
               <span className="section-index__label">Processo</span>
@@ -35,10 +35,10 @@ export function Process() {
           {PROCESS_STEPS.map((step, i) => (
             <li
               key={step.num}
-              className="relative flex flex-col gap-3 pt-9 px-5 lg:pl-0 lg:pr-6"
+              className="relative flex flex-col gap-3 pt-9 px-5 items-center text-center sm:items-start sm:text-left lg:pl-0 lg:pr-6"
               style={{ animationDelay: `${i * 100}ms` }}
             >
-              <span className="absolute top-0 left-5 lg:left-0 -translate-y-1/2 w-3 h-3 bg-bronze rounded-full" style={{ outline: "4px solid #ECE7DC" }} />
+              <span className="absolute top-0 left-1/2 sm:left-5 lg:left-0 -translate-x-1/2 sm:translate-x-0 -translate-y-1/2 w-3 h-3 bg-bronze rounded-full" style={{ outline: "4px solid #ECE7DC" }} />
               <span
                 className="font-display font-light leading-none tracking-[-0.04em] text-graphite"
                 style={{ fontSize: "clamp(2rem, 3.4vw, 2.8rem)" }}

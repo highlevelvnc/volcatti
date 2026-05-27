@@ -10,7 +10,7 @@ export function Differentials() {
       <GhostNumber num="08" position="right" />
       <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12">
         <header className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-20 items-end pb-8 lg:pb-12">
-          <div className="flex flex-col gap-7">
+          <div className="flex flex-col gap-7 items-center text-center lg:items-start lg:text-left">
             <div data-reveal className="section-index">
               <span className="section-index__num">08</span>
               <span className="section-index__label">Diferenciais</span>
