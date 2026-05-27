@@ -673,6 +673,52 @@
     letter-spacing: 0.08em;
     font-size: 2.3mm;
   }
+
+  /* QR block inside contacts card */
+  .qr-block {
+    margin-top: 2.5mm;
+    padding-top: 3mm;
+    border-top: 0.2mm solid rgba(244,241,234,0.15);
+    display: grid;
+    grid-template-columns: 22mm 1fr;
+    gap: 3mm;
+    align-items: center;
+  }
+  .qr-img {
+    width: 22mm; height: 22mm;
+    background: var(--offwhite);
+    padding: 1.5mm;
+    display: block;
+  }
+  .qr-img svg, .qr-img img {
+    width: 100%; height: 100%; display: block;
+  }
+  .qr-meta {
+    display: flex; flex-direction: column;
+    gap: 1.2mm;
+  }
+  .qr-meta .label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.7mm;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .qr-meta .name {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 3.2mm;
+    color: var(--offwhite);
+    letter-spacing: -0.005em;
+    line-height: 1.2;
+  }
+  .qr-meta .url {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2mm;
+    letter-spacing: 0.06em;
+    color: rgba(244,241,234,0.7);
+  }
 </style>
 </head>
 <body>
@@ -1054,6 +1100,18 @@
       <div class="contact-row">
         <span class="contact-label">IG</span>
         <span class="contact-value">@volcatti_lda</span>
+      </div>
+
+      <!-- QR code → volcatti.pt -->
+      <div class="qr-block">
+        <div class="qr-img">
+          <img src="qr-volcatti.png" alt="QR code volcatti.pt" />
+        </div>
+        <div class="qr-meta">
+          <span class="label">▸ Scan</span>
+          <span class="name">Veja as obras<br/>online.</span>
+          <span class="url">volcatti.pt</span>
+        </div>
       </div>
     </div>
   </section>
