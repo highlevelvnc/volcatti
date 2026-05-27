@@ -36,7 +36,7 @@
   .page {
     width: 210mm;
     height: 297mm;
-    padding: 12mm 14mm;
+    padding: 12mm 14mm 14mm;
     position: relative;
     background: var(--offwhite);
     overflow: hidden;
@@ -340,23 +340,278 @@
     color: var(--bronze);
   }
 
-  /* Page footer */
-  .page-footer {
-    position: absolute;
-    bottom: 6mm; left: 14mm; right: 14mm;
-    padding-top: 2mm;
-    border-top: 0.2mm solid var(--line);
-    display: flex;
-    justify-content: space-between;
+  /* ───────── Page 1 live strip — obras em execução ───────── */
+  .live-strip {
+    margin-top: 5mm;
+    border: 0.2mm solid var(--line);
+    background: var(--graphite);
+    color: var(--offwhite);
+    padding: 3mm 4mm;
+    display: grid;
+    grid-template-columns: 28mm 1fr;
+    gap: 4mm;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .live-strip::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 1mm;
+    background: var(--bronze);
+  }
+  .live-strip .lbl {
+    display: flex; flex-direction: column;
+    gap: 0.6mm;
+  }
+  .live-strip .lbl .tag {
+    display: inline-flex; align-items: center; gap: 1.5mm;
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.7mm;
+    font-size: 1.6mm;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .live-strip .lbl .tag .dot {
+    width: 1.4mm; height: 1.4mm;
+    background: var(--bronze);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .live-strip .lbl .sub {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 2.6mm;
+    color: rgba(244,241,234,0.65);
+    letter-spacing: -0.005em;
+  }
+  .live-strip .jobs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .live-strip .job {
+    display: flex; flex-direction: column;
+    gap: 0.4mm;
+    padding: 0 3mm;
+    border-left: 0.2mm solid rgba(244,241,234,0.18);
+  }
+  .live-strip .job:first-child { border-left: none; padding-left: 1mm; }
+  .live-strip .job .id {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.5mm;
     letter-spacing: 0.18em;
+    color: rgba(244,241,234,0.55);
+    text-transform: uppercase;
+  }
+  .live-strip .job .where {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: 2.8mm;
+    color: var(--offwhite);
+    letter-spacing: -0.01em;
+  }
+  .live-strip .job .meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.5mm;
+    letter-spacing: 0.14em;
+    color: var(--bronze);
+    text-transform: uppercase;
+  }
+
+  /* ───────── Page 2 materials + accreditations strip ───────── */
+  .materials-certs {
+    margin-top: 5mm;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 4mm;
+  }
+  .materials-block, .certs-block {
+    border: 0.2mm solid rgba(244,241,234,0.12);
+    background: rgba(244,241,234,0.02);
+    padding: 3.5mm 4mm 4mm;
+    position: relative;
+  }
+  .materials-block::before, .certs-block::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 4mm; height: 0.2mm;
+    background: var(--bronze);
+    opacity: 0.55;
+  }
+  .mc-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 0.2mm solid rgba(244,241,234,0.12);
+    padding-bottom: 2mm;
+    margin-bottom: 2.5mm;
+  }
+  .mc-head .ttl {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.85mm;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bronze);
+  }
+  .mc-head .nb {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.5mm;
+    letter-spacing: 0.16em;
+    color: rgba(244,241,234,0.45);
+    text-transform: uppercase;
+  }
+  /* Materials swatches */
+  .mat-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.8mm;
+  }
+  .mat {
+    display: flex; flex-direction: column; gap: 1.2mm;
+  }
+  .mat-sw {
+    width: 100%; height: 7mm;
+    position: relative;
+    border: 0.2mm solid rgba(244,241,234,0.12);
+  }
+  .mat-sw::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 1.5mm; height: 1.5mm;
+    background: var(--bronze);
+  }
+  .mat-sw.marmore   { background: linear-gradient(135deg, #e8e2d7 0%, #c5beb0 50%, #d8d2c5 100%); }
+  .mat-sw.carvalho  { background: linear-gradient(135deg, #7a5a36 0%, #4f3a22 100%); }
+  .mat-sw.latao     { background: linear-gradient(135deg, #c4a657 0%, #8a6f2d 100%); }
+  .mat-sw.betao     { background: linear-gradient(135deg, #9a958b 0%, #686460 100%); }
+  .mat-sw.ardosia   { background: linear-gradient(135deg, #3d4347 0%, #1d2124 100%); }
+  .mat-sw.terracota { background: linear-gradient(135deg, #c47547 0%, #8b4e2b 100%); }
+  .mat-name {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.4mm;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(244,241,234,0.75);
+    line-height: 1.2;
+  }
+  .mat-name .ord { color: var(--bronze); margin-right: 1mm; }
+
+  /* Cert badges */
+  .cert-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2mm;
+  }
+  .cert {
+    border: 0.2mm solid rgba(244,241,234,0.15);
+    background: rgba(244,241,234,0.03);
+    padding: 2.2mm 2.5mm;
+    display: flex; flex-direction: column; gap: 0.5mm;
+    position: relative;
+  }
+  .cert::before {
+    content: "▸";
+    position: absolute;
+    top: 1.6mm; right: 2mm;
+    color: var(--bronze);
+    font-size: 1.6mm;
+  }
+  .cert .code {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.4mm;
+    letter-spacing: 0.18em;
+    color: var(--bronze);
+    text-transform: uppercase;
+  }
+  .cert .name {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: 2.3mm;
+    color: var(--offwhite);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .cert .desc {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6mm;
+    color: rgba(244,241,234,0.55);
+    line-height: 1.3;
+    margin-top: 0.4mm;
+  }
+
+  /* ───────── Header: Est. plate ───────── */
+  .est-plate {
+    position: absolute;
+    top: 12mm; left: 50%;
+    transform: translateX(-50%);
+    padding: 1.3mm 3mm;
+    border: 0.2mm solid var(--line-2);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.6mm;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--ink-3);
+    background: var(--offwhite);
+    display: inline-flex; align-items: center; gap: 2.5mm;
   }
-  .page.dark .page-footer { border-top-color: rgba(244,241,234,0.15); color: rgba(244,241,234,0.55); }
-  .page-footer .bronze { color: var(--bronze); }
+  .est-plate .bronze { color: var(--bronze); }
+  .page.dark .est-plate { background: var(--graphite); border-color: rgba(244,241,234,0.2); color: rgba(244,241,234,0.65); }
+
+  /* ───────── Closing seal ───────── */
+  .seal {
+    position: absolute;
+    bottom: 4mm; right: 4mm;
+    width: 22mm; height: 22mm;
+    border: 0.3mm solid rgba(17,17,17,0.55);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bronze);
+  }
+  .seal::before {
+    content: "";
+    position: absolute;
+    inset: 1.2mm;
+    border: 0.2mm dashed rgba(17,17,17,0.4);
+    border-radius: 50%;
+  }
+  .seal-inner {
+    width: 14mm; height: 14mm;
+    border: 0.3mm solid rgba(17,17,17,0.55);
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.4mm;
+    position: relative;
+  }
+  .seal-mark {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 5.2mm;
+    color: var(--graphite);
+    line-height: 1;
+  }
+  .seal-year {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.4mm;
+    letter-spacing: 0.18em;
+    color: var(--graphite);
+  }
+  .seal-text {
+    position: absolute;
+    inset: 2.4mm;
+  }
+  .seal-text svg { width: 100%; height: 100%; }
+  .seal-text text {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 2.4px;
+    letter-spacing: 0.35em;
+    fill: rgba(17,17,17,0.7);
+    text-transform: uppercase;
+  }
 
   /* ──────────────────────────────────────────────
      PAGE 2 — CAPACIDADES & CONTACTO
@@ -387,7 +642,7 @@
 
   /* Services grid (page 2) */
   .services-block {
-    margin-top: 5mm;
+    margin-top: 4mm;
   }
   .services-grid {
     display: grid;
@@ -396,7 +651,7 @@
     border: 0.2mm solid rgba(244,241,234,0.12);
   }
   .service {
-    padding: 3.5mm 3.5mm;
+    padding: 3mm 3.2mm;
     border-right: 0.2mm solid rgba(244,241,234,0.10);
     border-bottom: 0.2mm solid rgba(244,241,234,0.10);
     display: flex; flex-direction: column; gap: 1.2mm;
@@ -437,14 +692,14 @@
 
   /* Gallery (page 2) */
   .gallery-block {
-    margin-top: 6mm;
+    margin-top: 4mm;
   }
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2mm;
   }
-  .g-item { background: var(--graphite); overflow: hidden; aspect-ratio: 1/1; position: relative; }
+  .g-item { background: var(--graphite); overflow: hidden; aspect-ratio: 4/3; position: relative; }
   .g-item img {
     width: 100%; height: 100%; object-fit: cover;
     filter: contrast(1.05) saturate(0.93);
@@ -465,7 +720,7 @@
 
   /* Method + Commitments — two-column row */
   .bottom-block {
-    margin-top: 6mm;
+    margin-top: 4mm;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6mm;
@@ -491,10 +746,10 @@
   .method-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2.5mm 2mm;
+    gap: 2mm 2mm;
   }
   .method-step {
-    padding-top: 2.5mm;
+    padding-top: 2mm;
     border-top: 0.2mm solid rgba(244,241,234,0.18);
     position: relative;
   }
@@ -532,7 +787,7 @@
   }
 
   /* Commitments list */
-  .commit-list { display: flex; flex-direction: column; gap: 2mm; }
+  .commit-list { display: flex; flex-direction: column; gap: 1.6mm; }
   .commit-item {
     display: grid;
     grid-template-columns: 5mm 1fr;
@@ -563,7 +818,7 @@
 
   /* Quote + contacts row */
   .closing {
-    margin-top: 6mm;
+    margin-top: 4mm;
     display: grid;
     grid-template-columns: 1.4fr 1fr;
     gap: 5mm;
@@ -585,18 +840,47 @@
     line-height: 1;
     color: rgba(17,17,17,0.18);
   }
-  /* Volcatti stamp seal — top-right of quote card */
-  .quote-card::after {
-    content: "VOLCATTI · 2026";
+  /* Volcatti circular seal — top-right of quote card */
+  .quote-seal {
     position: absolute;
     top: 3mm; right: 3mm;
+    width: 19mm; height: 19mm;
+    border-radius: 50%;
+    border: 0.35mm solid rgba(17,17,17,0.65);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .quote-seal .ring {
+    position: absolute;
+    inset: 1mm;
+    border-radius: 50%;
+    border: 0.2mm dashed rgba(17,17,17,0.4);
+  }
+  .quote-seal .core {
+    text-align: center;
+    line-height: 1.1;
+  }
+  .quote-seal .core .mark {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 4.4mm;
+    color: var(--graphite);
+    display: block;
+  }
+  .quote-seal .core .yr {
+    display: block;
+    margin-top: 0.4mm;
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.5mm;
+    font-size: 1.3mm;
     letter-spacing: 0.22em;
-    color: rgba(17,17,17,0.45);
+    color: rgba(17,17,17,0.7);
     text-transform: uppercase;
-    border: 0.3mm solid rgba(17,17,17,0.3);
-    padding: 1mm 2mm;
+  }
+  .quote-seal .core .div {
+    display: block;
+    width: 5mm; height: 0.2mm;
+    background: rgba(17,17,17,0.45);
+    margin: 0.5mm auto;
   }
   .quote-text {
     font-family: "Fraunces", serif;
@@ -844,6 +1128,31 @@
     </div>
   </section>
 
+  <!-- Live obras strip -->
+  <section class="live-strip">
+    <div class="lbl">
+      <span class="tag"><span class="dot"></span> Estaleiro · live</span>
+      <span class="sub">Em obra agora.</span>
+    </div>
+    <div class="jobs">
+      <div class="job">
+        <span class="id">N.º 42 · Cascais</span>
+        <span class="where">Piscina + Casa de Máquinas</span>
+        <span class="meta">▸ Dia 18 / 65 · 72%</span>
+      </div>
+      <div class="job">
+        <span class="id">N.º 40 · Sintra</span>
+        <span class="where">Remodelação Total</span>
+        <span class="meta">▸ Dia 22 / 30 · 85%</span>
+      </div>
+      <div class="job">
+        <span class="id">N.º 38 · Setúbal</span>
+        <span class="where">Construção Civil</span>
+        <span class="meta">▸ Dia 41 / 50 · 92%</span>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 
@@ -926,6 +1235,71 @@
         <span class="service-num">08</span>
         <div class="service-name">Manutenção &amp;<br/>Reparações</div>
         <div class="service-desc">Anual · semestral · pontual</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Materials signature + Accreditations -->
+  <section class="materials-certs">
+    <div class="materials-block">
+      <div class="mc-head">
+        <span class="ttl">▸ Materiais signature</span>
+        <span class="nb">Paleta · 06</span>
+      </div>
+      <div class="mat-row">
+        <div class="mat">
+          <span class="mat-sw marmore"></span>
+          <span class="mat-name"><span class="ord">01</span>Mármore</span>
+        </div>
+        <div class="mat">
+          <span class="mat-sw carvalho"></span>
+          <span class="mat-name"><span class="ord">02</span>Carvalho</span>
+        </div>
+        <div class="mat">
+          <span class="mat-sw latao"></span>
+          <span class="mat-name"><span class="ord">03</span>Latão</span>
+        </div>
+        <div class="mat">
+          <span class="mat-sw betao"></span>
+          <span class="mat-name"><span class="ord">04</span>Betão</span>
+        </div>
+        <div class="mat">
+          <span class="mat-sw ardosia"></span>
+          <span class="mat-name"><span class="ord">05</span>Ardósia</span>
+        </div>
+        <div class="mat">
+          <span class="mat-sw terracota"></span>
+          <span class="mat-name"><span class="ord">06</span>Terracota</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="certs-block">
+      <div class="mc-head">
+        <span class="ttl">▸ Acreditações</span>
+        <span class="nb">Em vigor · 2026</span>
+      </div>
+      <div class="cert-list">
+        <div class="cert">
+          <span class="code">Alvará IMPIC</span>
+          <span class="name">Construção</span>
+          <span class="desc">Empreiteiro habilitado</span>
+        </div>
+        <div class="cert">
+          <span class="code">CERTIEL</span>
+          <span class="name">Elétrica</span>
+          <span class="desc">Certificação obrigatória</span>
+        </div>
+        <div class="cert">
+          <span class="code">Seguro RC</span>
+          <span class="name">Obra coberta</span>
+          <span class="desc">Responsabilidade civil ativa</span>
+        </div>
+        <div class="cert">
+          <span class="code">Garantia 5 anos</span>
+          <span class="name">Por escrito</span>
+          <span class="desc">Estrutura + impermeabilização</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1060,6 +1434,14 @@
   <!-- Closing: Quote + Contacts -->
   <section class="closing">
     <div class="quote-card">
+      <div class="quote-seal">
+        <span class="ring"></span>
+        <span class="core">
+          <span class="mark">V</span>
+          <span class="div"></span>
+          <span class="yr">Est. 2019</span>
+        </span>
+      </div>
       <p class="quote-text">
         Estamos disponíveis para analisar o seu projeto e apresentar
         uma <strong>solução à medida</strong> — com clareza, rigor e
