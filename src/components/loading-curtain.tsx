@@ -3,13 +3,19 @@
 import { useEffect, useState } from "react";
 
 /**
- * Tape measure loader — a single horizontal line extends from 0 → 100%
- * with tick marks every 10. Connects with the niche ("medir antes de
- * construir") without the heavy floor-plan animation. Hides itself once
- * window.load fires (with min hold + hard fallback).
+ * Minimal loading curtain — logo Volcatti centrado com uma única
+ * hairline bronze a desenhar-se por baixo. Sem ornamentos. Conecta
+ * com o nicho sem ser barulhento.
+ *
+ * Comportamento:
+ *  - Skip total se `prefers-reduced-motion` ou já visitado nesta
+ *    sessão (return navigation é instantânea).
+ *  - Hold mínimo 700ms para o reveal não ser instantâneo demais.
+ *  - Hard fallback 2.2s.
+ *  - Saída: fade out + slide subtil (sem clip-path complicado).
  */
 export function LoadingCurtain() {
-  const [phase, setPhase] = useState<"measuring" | "lifting" | "gone">("measuring");
+  const [phase, setPhase] = useState<"in" | "out" | "gone">("in");
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -20,14 +26,14 @@ export function LoadingCurtain() {
     }
     sessionStorage.setItem("volcatti.curtain.shown", "1");
 
-    const minHold = 1100;
+    const minHold = 700;
     let loaded = false;
     let minMet = false;
 
     const maybeProceed = () => {
       if (loaded && minMet) {
-        setPhase("lifting");
-        window.setTimeout(() => setPhase("gone"), 700);
+        setPhase("out");
+        window.setTimeout(() => setPhase("gone"), 500);
       }
     };
 
@@ -43,10 +49,11 @@ export function LoadingCurtain() {
       maybeProceed();
     }, minHold);
 
+    // Hard fallback — never block UI past 2.2s.
     const hardFallback = window.setTimeout(() => {
-      setPhase("lifting");
-      window.setTimeout(() => setPhase("gone"), 700);
-    }, 2500);
+      setPhase("out");
+      window.setTimeout(() => setPhase("gone"), 500);
+    }, 2200);
 
     return () => {
       window.removeEventListener("load", onLoad);
@@ -60,66 +67,41 @@ export function LoadingCurtain() {
   return (
     <div
       aria-hidden="true"
-      className={`fixed inset-0 z-[200] pointer-events-none bg-graphite text-offwhite flex flex-col items-center justify-center gap-10 transition-[clip-path,opacity] duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] ${
-        phase === "lifting" ? "[clip-path:inset(100%_0_0_0)] opacity-0" : "[clip-path:inset(0_0_0_0)] opacity-100"
+      className={`fixed inset-0 z-[200] pointer-events-none flex items-center justify-center bg-graphite transition-opacity duration-500 ease-out ${
+        phase === "out" ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* Top label */}
-      <div className="flex flex-col items-center gap-2">
-        <span className="font-mono text-[0.6rem] tracking-[0.32em] uppercase text-offwhite/45">
-          Volcatti
-        </span>
-        <span className="font-display font-light italic text-bronze text-base sm:text-lg">
-          medir · construir · entregar
-        </span>
-      </div>
+      <div className="flex flex-col items-center gap-6">
+        {/* Logo */}
+        <div className="flex items-center gap-3.5">
+          <svg viewBox="0 0 64 56" className="w-9 h-auto" fill="none" aria-hidden="true">
+            <path d="M4 6 L26 50 L48 6" stroke="#F4F1EA" strokeWidth="6" strokeLinecap="square" />
+            <path d="M14 6 L26 30 L38 6" stroke="#F4F1EA" strokeWidth="3.5" strokeLinecap="square" opacity="0.55" />
+            <path d="M40 6 L52 6 L40 28 Z" fill="#B88A2A" />
+          </svg>
+          <span className="font-sans font-semibold text-offwhite text-[1.1rem] tracking-[0.22em]">
+            VOLCATTI
+          </span>
+        </div>
 
-      {/* Tape measure */}
-      <div className="relative w-[80vw] max-w-[640px]" aria-hidden="true">
-        {/* Static tick rail */}
-        <svg viewBox="0 0 640 22" className="w-full h-5" preserveAspectRatio="none">
-          <line x1="0" y1="14" x2="640" y2="14" stroke="rgba(244,241,234,0.15)" strokeWidth="1" />
-          {Array.from({ length: 65 }, (_, i) => i).map((i) => {
-            const x = i * 10;
-            const isMajor = i % 10 === 0;
-            const isMid = i % 5 === 0;
-            return (
-              <line
-                key={i}
-                x1={x}
-                y1="14"
-                x2={x}
-                y2={isMajor ? 4 : isMid ? 8 : 11}
-                stroke={isMajor ? "rgba(184,138,42,0.5)" : "rgba(244,241,234,0.25)"}
-                strokeWidth="1"
-              />
-            );
-          })}
-          {[0, 100, 200, 300, 400, 500, 600].map((x) => (
-            <text key={x} x={x} y={22} fill="rgba(244,241,234,0.4)" fontSize="6" fontFamily="monospace" textAnchor="middle" letterSpacing="0.5">
-              {x}
-            </text>
-          ))}
-        </svg>
-
-        {/* Bronze fill line (animated) */}
-        <div
-          className="absolute top-[14px] left-0 h-px bg-bronze tape-fill"
-          style={{ width: 0 }}
-        />
-
-        {/* Travelling cursor mark */}
-        <div className="absolute top-[2px] tape-cursor" style={{ left: 0 }}>
-          <span className="block w-px h-4 bg-bronze" />
-          <span className="block w-2 h-2 -ml-1 -mt-1 bg-bronze rotate-45" />
+        {/* Hairline bronze drawing — single line */}
+        <div className="relative w-32 h-px overflow-hidden">
+          <span
+            className="absolute inset-y-0 left-0 bg-bronze loader-line"
+            style={{ width: 0 }}
+          />
         </div>
       </div>
 
       <style>{`
-        @keyframes tape-fill { from { width: 0 } to { width: 100% } }
-        @keyframes tape-cursor { from { left: 0 } to { left: 100% } }
-        .tape-fill { animation: tape-fill 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
-        .tape-cursor { animation: tape-cursor 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+        @keyframes loader-line {
+          0%   { width: 0; left: 0; }
+          50%  { width: 100%; left: 0; }
+          100% { width: 0; left: 100%; }
+        }
+        .loader-line {
+          animation: loader-line 1.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+        }
       `}</style>
     </div>
   );

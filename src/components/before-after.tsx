@@ -8,33 +8,69 @@ import { useEffect, useRef, useState } from "react";
  * Real Volcatti recuperação de piscina: água verde com algas (antes,
  * Setembro 2022) → piscina azul cristalina com deck (depois,
  * Outubro 2022). Mesma piscina, ~5 semanas de intervalo.
+ *
+ * Layout responsivo:
+ *  - Mobile/tablet: portrait 4:5 (mostra mais da piscina)
+ *  - Desktop: landscape 16:10 max-width 1080px (cinematográfico,
+ *    sem ocupar viewport inteiro com altura excessiva)
  */
 export function BeforeAfter() {
   const [pos, setPos] = useState(50);
-  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef(false);
 
+  // Set initial pos to 50 only once (avoid hydration mismatch)
   useEffect(() => {
-    const onMove = (clientX: number) => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
+    const update = (clientX: number) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
       const p = ((clientX - rect.left) / rect.width) * 100;
       setPos(Math.max(0, Math.min(100, p)));
     };
-    const onMouse = (e: MouseEvent) => draggingRef.current && onMove(e.clientX);
-    const onTouch = (e: TouchEvent) => draggingRef.current && e.touches[0] && onMove(e.touches[0].clientX);
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!draggingRef.current) return;
+      e.preventDefault();
+      update(e.clientX);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!draggingRef.current || !e.touches[0]) return;
+      update(e.touches[0].clientX);
+    };
     const stop = () => (draggingRef.current = false);
-    window.addEventListener("mousemove", onMouse);
-    window.addEventListener("touchmove", onTouch, { passive: true });
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("mouseup", stop);
     window.addEventListener("touchend", stop);
+    window.addEventListener("mouseleave", stop);
+
     return () => {
-      window.removeEventListener("mousemove", onMouse);
-      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("mouseup", stop);
       window.removeEventListener("touchend", stop);
+      window.removeEventListener("mouseleave", stop);
     };
   }, []);
+
+  // Keyboard accessibility — arrow keys move the divider
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      setPos((p) => Math.max(0, p - 5));
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      setPos((p) => Math.min(100, p + 5));
+    }
+  };
+
+  const startDrag = (clientX: number) => {
+    draggingRef.current = true;
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setPos(Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100)));
+  };
 
   return (
     <section
@@ -60,17 +96,22 @@ export function BeforeAfter() {
         </header>
 
         <div
-          ref={ref}
-          className="relative aspect-[3/4] sm:aspect-[4/5] lg:aspect-[3/4] max-w-[760px] mx-auto overflow-hidden border border-offwhite/12 select-none"
+          ref={containerRef}
+          role="slider"
+          aria-label="Comparar piscina antes e depois"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(pos)}
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+          className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[16/10] max-w-[1080px] mx-auto overflow-hidden border border-offwhite/15 select-none touch-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-bronze focus-visible:outline-offset-4"
           onMouseDown={(e) => {
-            draggingRef.current = true;
-            const rect = ref.current!.getBoundingClientRect();
-            setPos(Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100)));
+            e.preventDefault();
+            startDrag(e.clientX);
           }}
           onTouchStart={(e) => {
-            draggingRef.current = true;
-            const rect = ref.current!.getBoundingClientRect();
-            setPos(Math.max(0, Math.min(100, ((e.touches[0].clientX - rect.left) / rect.width) * 100)));
+            if (!e.touches[0]) return;
+            startDrag(e.touches[0].clientX);
           }}
           data-cursor="Arrastar"
         >
@@ -79,53 +120,98 @@ export function BeforeAfter() {
             src="/portfolio/piscina-depois-v2.jpg"
             alt="Piscina recuperada — azul cristalina com deck e jardim"
             fill
+            priority={false}
             loading="lazy"
-            quality={78}
-            sizes="(min-width:1024px) 760px, 100vw"
-            className="object-cover volcatti-look"
+            quality={80}
+            sizes="(min-width:1024px) 1080px, 100vw"
+            className="object-cover volcatti-look pointer-events-none"
+            draggable={false}
           />
+
           {/* BEFORE (clipped on left) — piscina com água verde */}
           <div
-            className="absolute inset-0 overflow-hidden"
-            style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+            className="absolute inset-0 overflow-hidden pointer-events-none"
+            style={{
+              clipPath: `inset(0 ${100 - pos}% 0 0)`,
+              willChange: "clip-path",
+            }}
           >
             <Image
               src="/portfolio/piscina-antes-v2.jpg"
               alt="Piscina antes — algas verdes, em manutenção pela equipa Volcatti"
               fill
+              priority={false}
               loading="lazy"
-              quality={72}
-              sizes="(min-width:1024px) 760px, 100vw"
-              className="object-cover"
+              quality={75}
+              sizes="(min-width:1024px) 1080px, 100vw"
+              className="object-cover pointer-events-none"
+              draggable={false}
             />
           </div>
 
-          {/* Labels */}
-          <span className="absolute top-5 left-5 font-mono text-[0.65rem] tracking-[0.22em] uppercase text-offwhite/85 px-2.5 py-1 bg-graphite/70 border border-offwhite/20">
-            Antes
-          </span>
-          <span className="absolute top-5 right-5 font-mono text-[0.65rem] tracking-[0.22em] uppercase text-graphite px-2.5 py-1 bg-bronze">
-            Depois
-          </span>
+          {/* Labels — top corners, with refined design */}
+          <div className="absolute top-4 left-4 lg:top-5 lg:left-5 z-[3] pointer-events-none">
+            <span className="inline-flex items-center gap-2 font-mono text-[0.6rem] lg:text-[0.65rem] tracking-[0.22em] uppercase text-offwhite px-2.5 py-1 bg-graphite/80 backdrop-blur-sm border-l border-offwhite/30">
+              <span className="w-1 h-1 bg-offwhite/60" /> Antes
+            </span>
+          </div>
+          <div className="absolute top-4 right-4 lg:top-5 lg:right-5 z-[3] pointer-events-none">
+            <span className="inline-flex items-center gap-2 font-mono text-[0.6rem] lg:text-[0.65rem] tracking-[0.22em] uppercase text-graphite px-2.5 py-1 bg-bronze border-l border-graphite/20">
+              <span className="w-1 h-1 bg-graphite/70" /> Depois
+            </span>
+          </div>
 
-          {/* Divider */}
+          {/* Divider — vertical bronze line with handle in centre */}
           <div
-            className="absolute top-0 bottom-0 w-px bg-bronze pointer-events-none"
-            style={{ left: `${pos}%` }}
+            className="absolute top-0 bottom-0 w-px bg-bronze pointer-events-none z-[2]"
+            style={{ left: `${pos}%`, willChange: "left" }}
           >
-            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-bronze flex items-center justify-center shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
-                <path d="M9 6 L4 12 L9 18" stroke="#111" strokeWidth="1.5" strokeLinecap="square" />
-                <path d="M15 6 L20 12 L15 18" stroke="#111" strokeWidth="1.5" strokeLinecap="square" />
+            {/* Top/bottom arrows (technical-drawing convention) */}
+            <span className="absolute top-3 left-1/2 -translate-x-1/2 w-2 h-2 border-t border-l border-bronze rotate-45 -translate-y-1/2 opacity-60" />
+            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 w-2 h-2 border-b border-r border-bronze -rotate-45 translate-y-1/2 opacity-60" />
+
+            {/* Centre handle */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-bronze flex items-center justify-center shadow-[0_6px_24px_rgba(0,0,0,0.4)]">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 lg:w-5 lg:h-5" fill="none" aria-hidden="true">
+                <path d="M9 6 L4 12 L9 18" stroke="#111" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
+                <path d="M15 6 L20 12 L15 18" stroke="#111" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
               </svg>
             </div>
           </div>
+
+          {/* Position readout — bottom-right, technical readout */}
+          <div className="absolute bottom-4 right-4 lg:bottom-5 lg:right-5 z-[3] pointer-events-none">
+            <span className="font-mono text-[0.58rem] lg:text-[0.62rem] tracking-[0.2em] uppercase text-offwhite/85 px-2 py-1 bg-graphite/70 backdrop-blur-sm">
+              <span className="text-bronze">▸</span> Pos {Math.round(pos).toString().padStart(2, "0")} / 100
+            </span>
+          </div>
+
+          {/* Hint micro-text — only visible at idle position 50 */}
+          <div
+            className={`absolute bottom-4 left-4 lg:bottom-5 lg:left-5 z-[3] pointer-events-none font-mono text-[0.55rem] lg:text-[0.6rem] tracking-[0.2em] uppercase text-offwhite/65 transition-opacity duration-500 ${
+              pos > 30 && pos < 70 ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <span className="text-bronze">←</span> Arrastar <span className="text-bronze">→</span>
+          </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 font-mono text-[0.65rem] tracking-[0.18em] uppercase text-offwhite/55 max-w-[760px] mx-auto">
-          <span>Cliente · Piscina particular · Setúbal</span>
-          <span>Tipo · Recuperação + tratamento + envolvente</span>
-          <span>Duração · 5 semanas</span>
+        {/* Metadata strip below */}
+        <div className="mt-5 lg:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 max-w-[1080px] mx-auto">
+          {[
+            { label: "Cliente", value: "Piscina particular · Setúbal" },
+            { label: "Tipo", value: "Recuperação + tratamento + envolvente" },
+            { label: "Duração", value: "5 semanas" },
+          ].map((m) => (
+            <div key={m.label} className="flex flex-col gap-0.5 border-l border-offwhite/15 pl-3">
+              <span className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-bronze">
+                ▸ {m.label}
+              </span>
+              <span className="font-mono text-[0.66rem] tracking-[0.14em] uppercase text-offwhite/75">
+                {m.value}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
