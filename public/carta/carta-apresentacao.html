@@ -36,7 +36,7 @@
   .page {
     width: 210mm;
     height: 297mm;
-    padding: 14mm;
+    padding: 12mm 14mm;
     position: relative;
     background: var(--offwhite);
     overflow: hidden;
@@ -83,7 +83,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding-bottom: 5mm;
+    padding-bottom: 4mm;
     border-bottom: 0.2mm solid var(--line);
   }
   .page.dark .page-header { border-bottom-color: rgba(244,241,234,0.15); }
@@ -343,14 +343,14 @@
   /* Page footer */
   .page-footer {
     position: absolute;
-    bottom: 8mm; left: 14mm; right: 14mm;
-    padding-top: 3mm;
+    bottom: 6mm; left: 14mm; right: 14mm;
+    padding-top: 2mm;
     border-top: 0.2mm solid var(--line);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.9mm;
+    font-size: 1.7mm;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ink-3);
@@ -364,21 +364,21 @@
 
   .section-head {
     display: flex; justify-content: space-between; align-items: baseline;
-    margin-bottom: 4mm;
-    padding-bottom: 2mm;
+    margin-bottom: 3mm;
+    padding-bottom: 1.5mm;
     border-bottom: 0.2mm solid rgba(244,241,234,0.18);
   }
   .section-head .title {
     font-family: "Fraunces", serif;
     font-weight: 300;
-    font-size: 6mm;
+    font-size: 5.4mm;
     letter-spacing: -0.025em;
     color: var(--offwhite);
   }
   .section-head .title em { font-style: italic; color: var(--bronze); font-weight: 300; }
   .section-head .meta {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.8mm;
+    font-size: 1.7mm;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: rgba(244,241,234,0.55);
@@ -387,7 +387,7 @@
 
   /* Services grid (page 2) */
   .services-block {
-    margin-top: 8mm;
+    margin-top: 5mm;
   }
   .services-grid {
     display: grid;
@@ -396,46 +396,55 @@
     border: 0.2mm solid rgba(244,241,234,0.12);
   }
   .service {
-    padding: 5mm 4mm;
+    padding: 3.5mm 3.5mm;
     border-right: 0.2mm solid rgba(244,241,234,0.10);
     border-bottom: 0.2mm solid rgba(244,241,234,0.10);
-    display: flex; flex-direction: column; gap: 2mm;
+    display: flex; flex-direction: column; gap: 1.2mm;
     background: rgba(244,241,234,0.02);
+    position: relative;
   }
   .service:nth-child(4n) { border-right: none; }
   .service:nth-child(n+5) { border-bottom: none; }
+  .service::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 4mm; height: 0.2mm;
+    background: var(--bronze);
+    opacity: 0.55;
+  }
   .service-num {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.8mm;
-    letter-spacing: 0.18em;
+    font-size: 1.7mm;
+    letter-spacing: 0.2em;
     color: var(--bronze);
   }
   .service-name {
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 3.8mm;
+    font-size: 3.3mm;
     letter-spacing: -0.015em;
     color: var(--offwhite);
     line-height: 1.15;
   }
   .service-desc {
     font-family: "Inter", sans-serif;
-    font-size: 2.2mm;
+    font-size: 2mm;
     line-height: 1.4;
     color: rgba(244,241,234,0.6);
-    margin-top: 1mm;
+    margin-top: 0.5mm;
   }
 
   /* Gallery (page 2) */
   .gallery-block {
-    margin-top: 8mm;
+    margin-top: 6mm;
   }
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2mm;
   }
-  .g-item { background: var(--graphite); overflow: hidden; aspect-ratio: 1/1.25; position: relative; }
+  .g-item { background: var(--graphite); overflow: hidden; aspect-ratio: 1/1; position: relative; }
   .g-item img {
     width: 100%; height: 100%; object-fit: cover;
     filter: contrast(1.05) saturate(0.93);
@@ -456,14 +465,14 @@
 
   /* Method + Commitments — two-column row */
   .bottom-block {
-    margin-top: 8mm;
+    margin-top: 6mm;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6mm;
   }
   .block-title {
     font-family: "JetBrains Mono", monospace;
-    font-size: 2.2mm;
+    font-size: 2mm;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -482,10 +491,10 @@
   .method-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3mm 2mm;
+    gap: 2.5mm 2mm;
   }
   .method-step {
-    padding-top: 3mm;
+    padding-top: 2.5mm;
     border-top: 0.2mm solid rgba(244,241,234,0.18);
     position: relative;
   }
@@ -500,30 +509,30 @@
   .method-step .num {
     font-family: "Fraunces", serif;
     font-weight: 300;
-    font-size: 5mm;
+    font-size: 4.5mm;
     color: var(--bronze);
     letter-spacing: -0.02em;
     line-height: 1;
   }
   .method-step .name {
-    margin-top: 1.5mm;
+    margin-top: 1.2mm;
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 3.2mm;
+    font-size: 2.9mm;
     color: var(--offwhite);
     line-height: 1.15;
     letter-spacing: -0.01em;
   }
   .method-step .desc {
-    margin-top: 1mm;
+    margin-top: 0.8mm;
     font-family: "Inter", sans-serif;
-    font-size: 1.9mm;
-    line-height: 1.4;
+    font-size: 1.8mm;
+    line-height: 1.35;
     color: rgba(244,241,234,0.55);
   }
 
   /* Commitments list */
-  .commit-list { display: flex; flex-direction: column; gap: 2.5mm; }
+  .commit-list { display: flex; flex-direction: column; gap: 2mm; }
   .commit-item {
     display: grid;
     grid-template-columns: 5mm 1fr;
@@ -532,95 +541,122 @@
   }
   .commit-num {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.9mm;
+    font-size: 1.8mm;
     color: var(--bronze);
     padding-top: 0.5mm;
   }
   .commit-title-text {
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 3mm;
+    font-size: 2.8mm;
     line-height: 1.25;
     color: var(--offwhite);
     letter-spacing: -0.01em;
   }
   .commit-desc {
     font-family: "Inter", sans-serif;
-    font-size: 2.1mm;
+    font-size: 2mm;
     color: rgba(244,241,234,0.6);
-    line-height: 1.4;
-    margin-top: 0.5mm;
+    line-height: 1.35;
+    margin-top: 0.3mm;
   }
 
   /* Quote + contacts row */
   .closing {
-    margin-top: 8mm;
+    margin-top: 6mm;
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    gap: 6mm;
+    gap: 5mm;
   }
   .quote-card {
     background: var(--bronze);
     color: var(--graphite);
-    padding: 7mm 6mm;
+    padding: 5mm 5mm 5mm 5mm;
     position: relative;
     display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
   }
   .quote-card::before {
     content: "«";
     position: absolute;
-    top: 1mm; left: 3.5mm;
+    top: -1mm; left: 2.5mm;
     font-family: "Fraunces", serif;
-    font-size: 22mm;
+    font-size: 18mm;
     line-height: 1;
-    color: rgba(17,17,17,0.2);
+    color: rgba(17,17,17,0.18);
+  }
+  /* Volcatti stamp seal — top-right of quote card */
+  .quote-card::after {
+    content: "VOLCATTI · 2026";
+    position: absolute;
+    top: 3mm; right: 3mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.5mm;
+    letter-spacing: 0.22em;
+    color: rgba(17,17,17,0.45);
+    text-transform: uppercase;
+    border: 0.3mm solid rgba(17,17,17,0.3);
+    padding: 1mm 2mm;
   }
   .quote-text {
     font-family: "Fraunces", serif;
     font-weight: 300;
     font-style: italic;
-    font-size: 4.2mm;
+    font-size: 3.7mm;
     line-height: 1.35;
     letter-spacing: -0.015em;
-    margin-left: 4mm;
+    margin-left: 3mm;
     color: var(--graphite);
   }
   .quote-text strong { font-style: normal; font-weight: 500; }
   .quote-sig {
-    margin-top: 4mm;
-    margin-left: 4mm;
+    margin-top: 3mm;
+    margin-left: 3mm;
+    padding-top: 2mm;
+    border-top: 0.2mm solid rgba(17,17,17,0.25);
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.9mm;
+    font-size: 1.8mm;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--graphite);
+    display: flex; justify-content: space-between;
   }
   .quote-sig .bronze-mark { color: rgba(17,17,17,0.5); margin-right: 1mm; }
 
   .contacts-card {
     background: rgba(244,241,234,0.04);
     border: 0.2mm solid rgba(244,241,234,0.12);
-    padding: 6mm;
+    padding: 5mm;
     display: flex; flex-direction: column;
-    gap: 3mm;
+    gap: 2.5mm;
+    position: relative;
+  }
+  .contacts-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 6mm; height: 0.3mm;
+    background: var(--bronze);
   }
   .contacts-title {
     font-family: "JetBrains Mono", monospace;
-    font-size: 2mm;
+    font-size: 1.9mm;
     letter-spacing: 0.22em;
     color: var(--bronze);
-    padding-bottom: 2mm;
+    padding-bottom: 1.5mm;
     border-bottom: 0.2mm solid rgba(244,241,234,0.15);
+    display: flex; justify-content: space-between;
   }
+  .contacts-title .sub { color: rgba(244,241,234,0.5); letter-spacing: 0.16em; font-size: 1.6mm; }
   .contact-row {
     display: grid;
-    grid-template-columns: 16mm 1fr;
+    grid-template-columns: 14mm 1fr;
     gap: 2mm;
     align-items: baseline;
   }
   .contact-label {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.7mm;
+    font-size: 1.6mm;
     letter-spacing: 0.16em;
     color: rgba(244,241,234,0.5);
     text-transform: uppercase;
@@ -628,14 +664,14 @@
   .contact-value {
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 3mm;
+    font-size: 2.7mm;
     color: var(--offwhite);
     letter-spacing: -0.005em;
   }
   .contact-value.mono {
     font-family: "JetBrains Mono", monospace;
     letter-spacing: 0.08em;
-    font-size: 2.5mm;
+    font-size: 2.3mm;
   }
 </style>
 </head>
@@ -995,7 +1031,10 @@
     </div>
 
     <div class="contacts-card">
-      <div class="contacts-title">▸ Contactos</div>
+      <div class="contacts-title">
+        <span>▸ Contactos</span>
+        <span class="sub">Resposta · ≤ 24h</span>
+      </div>
       <div class="contact-row">
         <span class="contact-label">Tel</span>
         <span class="contact-value mono">+351 933 787 369</span>
