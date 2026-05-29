@@ -7,13 +7,13 @@ const FRAMES = [
   {
     title: "Estaleiro · Implantação",
     sub: "Levantamento técnico, marcação de cotas, validação com o cliente.",
-    img: "/portfolio/espaco-comercial.png",
+    img: "/portfolio/construcao-civil.jpg",
     label: "01 / 04",
   },
   {
     title: "Estrutura · Execução",
     sub: "Equipa própria, fornecedores certificados, controlo de qualidade diário.",
-    img: "/portfolio/marquise.png",
+    img: "/portfolio/wc-marmore.jpg",
     label: "02 / 04",
   },
   {
