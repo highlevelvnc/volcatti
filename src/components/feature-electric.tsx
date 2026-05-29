@@ -98,14 +98,14 @@ export function FeatureElectric() {
 
         <div className="relative aspect-[5/6] overflow-hidden order-first lg:order-last">
           <Image
-            src="/portfolio/marquise.png"
-            alt="Marquise envidraçada com iluminação técnica — projeto Volcatti"
+            src="/portfolio/eletrica-feature.jpg"
+            alt="Instalação elétrica Volcatti — quadro técnico organizado e seguro"
             fill
             loading="lazy"
-            quality={75}
+            quality={78}
             sizes="(min-width:1024px) 50vw, 100vw"
             className="object-cover"
-            style={{ filter: "grayscale(20%) contrast(1.05) brightness(0.95)" }}
+            style={{ filter: "contrast(1.05) saturate(0.92) brightness(0.97)" }}
           />
           <span className="absolute inset-0 border border-bronze/35 pointer-events-none" />
         </div>

@@ -60,8 +60,8 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     title: "Construção Civil",
     blurb:
       "Obras novas com método. Do alvará ao acabamento, tratamos cada fase com rigor técnico e responsabilidade.",
-    image: "/portfolio/espaco-comercial.png",
-    alt: "Espaço amplo recém-construído com iluminação técnica",
+    image: "/portfolio/construcao-civil.jpg",
+    alt: "Obra Volcatti — construção civil em estrutura armada",
     relatedCat: "construcao",
     intro:
       "Construímos do zero — fundações, estrutura, fachadas, acabamentos. Equipa própria coordenada com fornecedores certificados, cronograma transparente e reportes semanais. Cada obra acompanhada por um responsável técnico em estaleiro.",
@@ -85,8 +85,8 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     title: "Remodelações",
     blurb:
       "Casas, apartamentos e espaços comerciais transformados com soluções de alto padrão e atenção ao detalhe.",
-    image: "/portfolio/corredor-terracota.png",
-    alt: "Hall remodelado com pavimento terracota",
+    image: "/portfolio/remodelacoes.jpg",
+    alt: "Remodelação Volcatti — interior renovado com acabamentos finos",
     relatedCat: "remodelacao",
     intro:
       "Pegamos em espaços existentes e devolvemos-lhe valor. Apartamentos antigos, casas que precisam de ganhar luz, lojas que querem reposicionar-se — temos método para cada caso. Levantamento técnico, projeto faseado de demolição, e execução por capítulos para minimizar o impacto.",
@@ -136,8 +136,8 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     title: "Casas de Máquina",
     blurb:
       "Sistemas técnicos de piscinas — filtragem, tratamento, automação. Equipamento certificado e instalação profissional.",
-    image: "/portfolio/casa-maquinas-v2.jpg",
-    alt: "Casa de máquinas Volcatti com filtro de areia, bomba e painel de tratamento ENERGY SEL",
+    image: "/portfolio/casa-maquinas-v3.jpg",
+    alt: "Casa de máquinas Volcatti — filtragem, bomba e doseamento técnico instalado",
     relatedCat: "piscinas",
     intro:
       "A casa de máquinas é o coração de uma piscina. Dimensionamos cada sistema (filtragem, tratamento, doseamento, aquecimento) à medida do volume de água, escolhemos equipamento certificado e instalamos com canalização à régua. Resultado: água sempre limpa, manutenção simples, consumo eficiente.",
@@ -188,8 +188,8 @@ export const SERVICES: ReadonlyArray<ServiceItem> = [
     title: "Serviços Elétricos",
     blurb:
       "Instalações novas, certificações e melhorias com foco em segurança, eficiência e organização técnica.",
-    image: "/portfolio/marquise.png",
-    alt: "Marquise envidraçada com vista de cidade",
+    image: "/portfolio/servicos-eletricos.jpg",
+    alt: "Quadro elétrico Volcatti — instalação técnica certificada",
     relatedCat: "eletrica",
     intro:
       "Quadros novos, circuitos refeitos, certificações IEP. Trabalhamos com técnicos credenciados para garantir que tudo passa com nota máxima nas inspeções. Iluminação técnica, automação e domótica para casa ou empresa.",
@@ -306,8 +306,8 @@ export const GALLERY: ReadonlyArray<GalleryItem> = [
   },
   {
     slug: "casa-maquinas-piscina",
-    src: "/portfolio/casa-maquinas-v2.jpg",
-    alt: "Casa de máquinas de piscina com filtro de areia, bomba e painel ENERGY SEL",
+    src: "/portfolio/casa-maquinas-v3.jpg",
+    alt: "Casa de máquinas Volcatti — filtragem, bomba e doseamento técnico instalado",
     title: "Casa de Máquinas",
     cat: "piscinas",
     area: "4 m²",
