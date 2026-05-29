@@ -423,15 +423,15 @@
 
   /* ───────── Page 2 materials + accreditations strip ───────── */
   .materials-certs {
-    margin-top: 5mm;
+    margin-top: 4mm;
     display: grid;
     grid-template-columns: 1.25fr 1fr;
-    gap: 4mm;
+    gap: 3.5mm;
   }
   .materials-block, .certs-block {
     border: 0.2mm solid rgba(244,241,234,0.12);
     background: rgba(244,241,234,0.02);
-    padding: 3.5mm 4mm 4mm;
+    padding: 3mm 3.5mm 3.5mm;
     position: relative;
   }
   .materials-block::before, .certs-block::before {
@@ -445,8 +445,8 @@
   .mc-head {
     display: flex; justify-content: space-between; align-items: baseline;
     border-bottom: 0.2mm solid rgba(244,241,234,0.12);
-    padding-bottom: 2mm;
-    margin-bottom: 2.5mm;
+    padding-bottom: 1.5mm;
+    margin-bottom: 2mm;
   }
   .mc-head .ttl {
     font-family: "JetBrains Mono", monospace;
@@ -472,7 +472,7 @@
     display: flex; flex-direction: column; gap: 1.2mm;
   }
   .mat-sw {
-    width: 100%; height: 7mm;
+    width: 100%; height: 6mm;
     position: relative;
     border: 0.2mm solid rgba(244,241,234,0.12);
   }
@@ -508,8 +508,8 @@
   .cert {
     border: 0.2mm solid rgba(244,241,234,0.15);
     background: rgba(244,241,234,0.03);
-    padding: 2.2mm 2.5mm;
-    display: flex; flex-direction: column; gap: 0.5mm;
+    padding: 1.7mm 2.3mm;
+    display: flex; flex-direction: column; gap: 0.3mm;
     position: relative;
   }
   .cert::before {
@@ -529,17 +529,17 @@
   .cert .name {
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 2.3mm;
+    font-size: 2.1mm;
     color: var(--offwhite);
     letter-spacing: -0.01em;
-    line-height: 1.15;
+    line-height: 1.1;
   }
   .cert .desc {
     font-family: "Inter", sans-serif;
-    font-size: 1.6mm;
+    font-size: 1.5mm;
     color: rgba(244,241,234,0.55);
-    line-height: 1.3;
-    margin-top: 0.4mm;
+    line-height: 1.25;
+    margin-top: 0.2mm;
   }
 
   /* ───────── Header: Est. plate ───────── */
@@ -746,10 +746,10 @@
   .method-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2mm 2mm;
+    gap: 1.5mm 2mm;
   }
   .method-step {
-    padding-top: 2mm;
+    padding-top: 1.6mm;
     border-top: 0.2mm solid rgba(244,241,234,0.18);
     position: relative;
   }
@@ -764,30 +764,30 @@
   .method-step .num {
     font-family: "Fraunces", serif;
     font-weight: 300;
-    font-size: 4.5mm;
+    font-size: 4mm;
     color: var(--bronze);
     letter-spacing: -0.02em;
     line-height: 1;
   }
   .method-step .name {
-    margin-top: 1.2mm;
+    margin-top: 0.8mm;
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 2.9mm;
+    font-size: 2.6mm;
     color: var(--offwhite);
-    line-height: 1.15;
+    line-height: 1.1;
     letter-spacing: -0.01em;
   }
   .method-step .desc {
-    margin-top: 0.8mm;
+    margin-top: 0.5mm;
     font-family: "Inter", sans-serif;
-    font-size: 1.8mm;
-    line-height: 1.35;
+    font-size: 1.65mm;
+    line-height: 1.3;
     color: rgba(244,241,234,0.55);
   }
 
   /* Commitments list */
-  .commit-list { display: flex; flex-direction: column; gap: 1.6mm; }
+  .commit-list { display: flex; flex-direction: column; gap: 1.2mm; }
   .commit-item {
     display: grid;
     grid-template-columns: 5mm 1fr;
@@ -803,17 +803,17 @@
   .commit-title-text {
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 2.8mm;
-    line-height: 1.25;
+    font-size: 2.5mm;
+    line-height: 1.2;
     color: var(--offwhite);
     letter-spacing: -0.01em;
   }
   .commit-desc {
     font-family: "Inter", sans-serif;
-    font-size: 2mm;
+    font-size: 1.75mm;
     color: rgba(244,241,234,0.6);
-    line-height: 1.35;
-    margin-top: 0.3mm;
+    line-height: 1.3;
+    margin-top: 0.2mm;
   }
 
   /* Quote + contacts row */
@@ -821,12 +821,12 @@
     margin-top: 4mm;
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    gap: 5mm;
+    gap: 4mm;
   }
   .quote-card {
     background: var(--bronze);
     color: var(--graphite);
-    padding: 5mm 5mm 5mm 5mm;
+    padding: 4mm 4.5mm 4mm 4.5mm;
     position: relative;
     display: flex; flex-direction: column; justify-content: center;
     overflow: hidden;
@@ -886,10 +886,11 @@
     font-family: "Fraunces", serif;
     font-weight: 300;
     font-style: italic;
-    font-size: 3.7mm;
-    line-height: 1.35;
+    font-size: 3.3mm;
+    line-height: 1.3;
     letter-spacing: -0.015em;
     margin-left: 3mm;
+    margin-right: 20mm;
     color: var(--graphite);
   }
   .quote-text strong { font-style: normal; font-weight: 500; }
@@ -910,9 +911,9 @@
   .contacts-card {
     background: rgba(244,241,234,0.04);
     border: 0.2mm solid rgba(244,241,234,0.12);
-    padding: 5mm;
+    padding: 4mm 4.5mm;
     display: flex; flex-direction: column;
-    gap: 2.5mm;
+    gap: 1.8mm;
     position: relative;
   }
   .contacts-card::before {
@@ -924,23 +925,23 @@
   }
   .contacts-title {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.9mm;
+    font-size: 1.85mm;
     letter-spacing: 0.22em;
     color: var(--bronze);
-    padding-bottom: 1.5mm;
+    padding-bottom: 1.2mm;
     border-bottom: 0.2mm solid rgba(244,241,234,0.15);
     display: flex; justify-content: space-between;
   }
-  .contacts-title .sub { color: rgba(244,241,234,0.5); letter-spacing: 0.16em; font-size: 1.6mm; }
+  .contacts-title .sub { color: rgba(244,241,234,0.5); letter-spacing: 0.16em; font-size: 1.55mm; }
   .contact-row {
     display: grid;
-    grid-template-columns: 14mm 1fr;
+    grid-template-columns: 12mm 1fr;
     gap: 2mm;
     align-items: baseline;
   }
   .contact-label {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.6mm;
+    font-size: 1.5mm;
     letter-spacing: 0.16em;
     color: rgba(244,241,234,0.5);
     text-transform: uppercase;
@@ -948,30 +949,30 @@
   .contact-value {
     font-family: "Fraunces", serif;
     font-weight: 400;
-    font-size: 2.7mm;
+    font-size: 2.5mm;
     color: var(--offwhite);
     letter-spacing: -0.005em;
   }
   .contact-value.mono {
     font-family: "JetBrains Mono", monospace;
     letter-spacing: 0.08em;
-    font-size: 2.3mm;
+    font-size: 2.15mm;
   }
 
   /* QR block inside contacts card */
   .qr-block {
-    margin-top: 2.5mm;
-    padding-top: 3mm;
+    margin-top: 1.5mm;
+    padding-top: 2.5mm;
     border-top: 0.2mm solid rgba(244,241,234,0.15);
     display: grid;
-    grid-template-columns: 22mm 1fr;
-    gap: 3mm;
+    grid-template-columns: 17mm 1fr;
+    gap: 2.5mm;
     align-items: center;
   }
   .qr-img {
-    width: 22mm; height: 22mm;
+    width: 17mm; height: 17mm;
     background: var(--offwhite);
-    padding: 1.5mm;
+    padding: 1mm;
     display: block;
   }
   .qr-img svg, .qr-img img {
@@ -983,7 +984,7 @@
   }
   .qr-meta .label {
     font-family: "JetBrains Mono", monospace;
-    font-size: 1.7mm;
+    font-size: 1.55mm;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--bronze);
@@ -992,14 +993,14 @@
     font-family: "Fraunces", serif;
     font-weight: 400;
     font-style: italic;
-    font-size: 3.2mm;
+    font-size: 2.8mm;
     color: var(--offwhite);
     letter-spacing: -0.005em;
-    line-height: 1.2;
+    line-height: 1.15;
   }
   .qr-meta .url {
     font-family: "JetBrains Mono", monospace;
-    font-size: 2mm;
+    font-size: 1.85mm;
     letter-spacing: 0.06em;
     color: rgba(244,241,234,0.7);
   }

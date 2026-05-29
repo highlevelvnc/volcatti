@@ -21,7 +21,7 @@ export function Authority() {
           <div data-reveal data-d="100" className="hidden lg:block aspect-[3/4] w-full overflow-hidden border border-graphite/12 relative group">
             <Image
               src="/portfolio/posicionamento.jpg"
-              alt="WC remodelada pela Volcatti — mármore, carvalho e iluminação halo"
+              alt="Espaço comercial Volcatti — barbearia com acabamentos premium"
               fill
               loading="lazy"
               quality={82}
@@ -34,7 +34,7 @@ export function Authority() {
                 ▸ Obra Volcatti
               </span>
               <span className="block font-mono text-[0.6rem] tracking-[0.14em] uppercase text-offwhite/90">
-                WC Mármore · Carvalho · Halo
+                Espaço Comercial · Barbearia
               </span>
             </div>
           </div>
