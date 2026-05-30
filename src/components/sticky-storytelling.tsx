@@ -31,30 +31,63 @@ const FRAMES = [
 ];
 
 /**
- * Sticky scroll storytelling: text/image columns scroll together but the
- * image holder is sticky. Text on the right scrolls naturally; we detect
- * which "panel" is in view and swap the sticky image.
+ * Sticky scroll storytelling — scroll-linked crossfade.
+ * Progress 0..1 is computed continuously from the container's scroll
+ * position relative to the viewport. The sticky image crossfades
+ * fluidly between frames as you scroll, with subtle parallax and a
+ * bronze progress bar at the top. Much more responsive than the
+ * previous discrete IntersectionObserver fade.
  */
 export function StickyStorytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [active, setActive] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const idx = Number((e.target as HTMLElement).dataset.idx);
-            if (!Number.isNaN(idx)) setActive(idx);
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-    );
-    panelRefs.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
+    if (typeof window === "undefined") return;
+    // Respect reduced-motion preference — fall back to discrete steps
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let raf = 0;
+    const update = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const rect = container.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const scrollable = rect.height - vh;
+      if (scrollable <= 0) {
+        setProgress(0);
+        return;
+      }
+      const p = Math.max(0, Math.min(1, -rect.top / scrollable));
+      // Snap to discrete frames if reduced motion
+      if (reduce) {
+        const idx = Math.min(FRAMES.length - 1, Math.floor(p * FRAMES.length));
+        setProgress((idx + 0.5) / FRAMES.length);
+      } else {
+        setProgress(p);
+      }
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
+
+  const frameP = progress * FRAMES.length; // 0..N
+  const activeIndex = Math.min(
+    FRAMES.length - 1,
+    Math.max(0, Math.floor(frameP)),
+  );
 
   return (
     <section
@@ -81,30 +114,87 @@ export function StickyStorytelling() {
         </header>
 
         <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-20">
-          {/* Sticky image */}
+          {/* Sticky image — scroll-linked crossfade + parallax */}
           <div className="hidden lg:block">
-            <div className="sticky top-24 aspect-[4/5] overflow-hidden border border-offwhite/12">
-              {FRAMES.map((frame, i) => (
-                <Image
-                  key={frame.img}
-                  src={frame.img}
-                  alt={frame.title}
-                  fill
-                  loading="lazy"
-                  quality={70}
-                  sizes="50vw"
-                  className={`object-cover transition-opacity duration-700 ease-out ${
-                    active === i ? "opacity-100" : "opacity-0"
-                  }`}
-                  style={{ filter: "grayscale(15%) contrast(1.04)" }}
+            <div className="sticky top-24 aspect-[4/5] overflow-hidden border border-offwhite/12 relative bg-graphite-2">
+              {FRAMES.map((frame, i) => {
+                const center = i + 0.5;
+                const distance = Math.abs(frameP - center);
+                let opacity = Math.max(0, 1 - distance);
+                // Edge clamp: keep first/last frame solid at start/end
+                if (i === 0 && frameP < 0.5) opacity = 1;
+                if (i === FRAMES.length - 1 && frameP > FRAMES.length - 0.5) opacity = 1;
+                // Subtle parallax: image drifts -16..+16px through its window
+                const local = Math.max(-1, Math.min(1, frameP - i - 0.5));
+                const parallaxY = local * -16;
+
+                return (
+                  <Image
+                    key={frame.img}
+                    src={frame.img}
+                    alt={frame.title}
+                    fill
+                    loading={i === 0 ? "eager" : "lazy"}
+                    priority={i === 0}
+                    quality={72}
+                    sizes="50vw"
+                    className="object-cover"
+                    style={{
+                      opacity,
+                      transform: `translate3d(0, ${parallaxY}px, 0) scale(1.06)`,
+                      filter: "grayscale(15%) contrast(1.04)",
+                      willChange: "opacity, transform",
+                    }}
+                  />
+                );
+              })}
+
+              {/* Top progress bar — bronze, follows scroll */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-offwhite/10 z-[3] overflow-hidden">
+                <span
+                  className="absolute top-0 left-0 h-full w-full bg-bronze origin-left"
+                  style={{
+                    transform: `scaleX(${progress})`,
+                    willChange: "transform",
+                  }}
                 />
-              ))}
-              {/* Frame label */}
-              <span className="absolute top-5 left-5 z-[2] font-mono text-[0.65rem] tracking-[0.2em] uppercase text-offwhite/85 px-2.5 py-1 bg-graphite/55 backdrop-blur-sm">
-                {FRAMES[active].label}
+              </div>
+
+              {/* Frame label — updates with active */}
+              <span className="absolute top-5 left-5 z-[2] font-mono text-[0.65rem] tracking-[0.2em] uppercase text-offwhite/90 px-2.5 py-1 bg-graphite/65 backdrop-blur-sm border border-offwhite/10">
+                {FRAMES[activeIndex].label}
               </span>
-              {/* Bottom gradient */}
-              <div className="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-graphite/85 to-transparent z-[1] pointer-events-none" />
+
+              {/* Progress percentage — bronze */}
+              <span className="absolute top-5 right-5 z-[2] font-mono text-[0.6rem] tracking-[0.18em] uppercase text-bronze px-2 py-1 bg-graphite/65 backdrop-blur-sm border border-bronze/35">
+                {Math.round(progress * 100).toString().padStart(2, "0")}%
+              </span>
+
+              {/* Active title overlay — sits at the bottom of the image */}
+              <div className="absolute bottom-0 left-0 right-0 z-[2] px-5 pb-5 pt-16 bg-gradient-to-t from-graphite/95 via-graphite/50 to-transparent pointer-events-none">
+                <span className="block font-mono text-[0.58rem] tracking-[0.2em] uppercase text-bronze mb-1">
+                  ▸ Fase em curso
+                </span>
+                <span className="block font-display font-light text-offwhite tracking-[-0.01em]" style={{ fontSize: "1.4rem", lineHeight: 1.15 }}>
+                  {FRAMES[activeIndex].title}
+                </span>
+              </div>
+
+              {/* Vertical dot indicator — right side */}
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 z-[2] flex flex-col gap-2.5">
+                {FRAMES.map((_, j) => (
+                  <span
+                    key={j}
+                    className={`block w-[6px] rounded-full transition-all duration-500 ${
+                      activeIndex === j
+                        ? "bg-bronze h-6"
+                        : j < activeIndex
+                          ? "bg-bronze/45 h-2"
+                          : "bg-offwhite/25 h-2"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -113,15 +203,20 @@ export function StickyStorytelling() {
             {FRAMES.map((frame, i) => (
               <div
                 key={frame.title}
-                ref={(el) => {
-                  panelRefs.current[i] = el;
-                }}
                 data-idx={i}
                 className="lg:min-h-[60vh] flex flex-col justify-center"
               >
                 {/* Mobile-only image */}
                 <div className="lg:hidden mb-6 aspect-[4/5] overflow-hidden border border-offwhite/12 relative">
-                  <Image src={frame.img} alt={frame.title} fill loading="lazy" quality={70} sizes="100vw" className="object-cover" />
+                  <Image
+                    src={frame.img}
+                    alt={frame.title}
+                    fill
+                    loading="lazy"
+                    quality={70}
+                    sizes="100vw"
+                    className="object-cover"
+                  />
                   <span className="absolute top-4 left-4 font-mono text-[0.6rem] tracking-[0.2em] uppercase text-offwhite/85 px-2 py-0.5 bg-graphite/55">
                     {frame.label}
                   </span>
@@ -130,10 +225,16 @@ export function StickyStorytelling() {
                 <span className="font-mono text-[0.7rem] tracking-[0.2em] uppercase text-bronze mb-3">
                   {frame.label}
                 </span>
-                <h3 className="font-display font-normal text-offwhite leading-tight tracking-[-0.02em] mb-4" style={{ fontSize: "clamp(1.6rem, 2.6vw, 2.4rem)" }}>
+                <h3
+                  className="font-display font-normal text-offwhite leading-tight tracking-[-0.02em] mb-4"
+                  style={{ fontSize: "clamp(1.6rem, 2.6vw, 2.4rem)" }}
+                >
                   {frame.title}
                 </h3>
-                <p className="font-display font-light text-offwhite/75 max-w-[44ch]" style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.2rem)", lineHeight: 1.55 }}>
+                <p
+                  className="font-display font-light text-offwhite/75 max-w-[44ch]"
+                  style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.2rem)", lineHeight: 1.55 }}
+                >
                   {frame.sub}
                 </p>
 
@@ -142,7 +243,7 @@ export function StickyStorytelling() {
                     <span
                       key={j}
                       className={`h-px transition-all duration-500 ${
-                        active === j ? "bg-bronze w-12" : "bg-offwhite/25 w-6"
+                        activeIndex === j ? "bg-bronze w-12" : "bg-offwhite/25 w-6"
                       }`}
                     />
                   ))}
