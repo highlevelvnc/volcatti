@@ -1,24 +1,42 @@
-import Image from "next/image";
 import { STATS } from "@/lib/constants";
 import { StatCounter } from "./stat-counter";
 import { GhostNumber } from "./ghost-number";
+import { AuthorityImage } from "./authority-image";
+import Image from "next/image";
 
 export function Authority() {
   return (
     <section
       id="sobre"
-      className="relative texture-concrete bg-offwhite border-b border-graphite/12 overflow-hidden"
-      style={{ paddingBlock: "clamp(48px, 5.5vw, 80px)" }}
+      className="relative texture-concrete bg-offwhite border-b border-graphite/12"
+      style={{
+        paddingBlock: "clamp(80px, 9vw, 140px)",
+        // Section is intentionally taller than viewport so the sticky
+        // image has runway to pin + zoom through. Roughly 1.5–1.7× the
+        // viewport height.
+        minHeight: "180vh",
+        // overflow:clip (not hidden!) so the sticky descendant can pin
+        // properly. overflow:hidden makes the section a scroll context,
+        // which kills position:sticky on children.
+        overflow: "clip",
+      }}
     >
       <GhostNumber num="02" position="right" />
-      <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[320px_1fr] gap-10 lg:gap-14 xl:gap-20">
-        {/* Sidebar — index + showcase image */}
-        <aside className="flex flex-row lg:flex-col self-start gap-6 lg:gap-8 items-center lg:items-start">
-          <div data-reveal className="section-index">
+
+      <div className="relative max-w-container mx-auto px-5 md:px-8 lg:px-12 grid lg:grid-cols-[320px_1fr] gap-10 lg:gap-14 xl:gap-20 lg:min-h-[150vh]">
+        {/* Sidebar — index + pinned image (zooms with scroll).
+            Mobile: flex column. Desktop: BLOCK (not flex) so the
+            sticky child can pin properly — sticky inside a flex
+            parent has quirky behaviour in Chromium. lg:h-full
+            stretches it to the full grid row height (= 150vh). */}
+        <aside className="flex flex-col gap-6 items-center lg:block lg:gap-0 lg:h-full">
+          <div data-reveal className="section-index lg:mb-7">
             <span className="section-index__num">02</span>
             <span className="section-index__label">Posicionamento</span>
           </div>
-          <div data-reveal data-d="100" className="hidden lg:block aspect-[3/4] w-full overflow-hidden border border-graphite/12 relative group">
+
+          {/* Mobile-only static image (sticky/zoom is desktop only) */}
+          <div data-reveal data-d="100" className="lg:hidden aspect-[3/4] w-full max-w-[320px] overflow-hidden border border-graphite/12 relative">
             <Image
               src="/portfolio/posicionamento.jpg"
               alt="Espaço comercial Volcatti — barbearia com acabamentos premium"
@@ -26,9 +44,8 @@ export function Authority() {
               loading="lazy"
               quality={82}
               sizes="320px"
-              className="object-cover transition-transform duration-1000 group-hover:scale-[1.04] volcatti-look"
+              className="object-cover volcatti-look"
             />
-            {/* Project caption — bottom strip */}
             <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-graphite/85 to-transparent">
               <span className="block font-mono text-[0.58rem] tracking-[0.22em] uppercase text-bronze mb-0.5">
                 ▸ Obra Volcatti
@@ -38,9 +55,17 @@ export function Authority() {
               </span>
             </div>
           </div>
+
+          {/* Desktop — sticky pinned image with scroll-linked zoom */}
+          <AuthorityImage
+            src="/portfolio/posicionamento.jpg"
+            alt="Espaço comercial Volcatti — barbearia com acabamentos premium"
+            kicker="▸ Obra Volcatti"
+            caption="Espaço Comercial · Barbearia"
+          />
         </aside>
 
-        {/* Content */}
+        {/* Content — scrolls past the pinned image */}
         <div className="max-w-[920px]">
           <h2 className="display mb-8 lg:mb-10">
             <span data-reveal="line"><span>Precisão em cada etapa.</span></span>
@@ -96,6 +121,36 @@ export function Authority() {
                 </li>
               ))}
             </ul>
+
+            {/* Extra editorial blurb — gives the right column more height
+                so the sticky image has more pin range. */}
+            <div
+              data-reveal
+              data-d="500"
+              className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 pt-10 lg:pt-12 border-t border-graphite/12"
+            >
+              <div className="flex flex-col gap-3">
+                <span className="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-bronze">
+                  ▸ Como pensamos
+                </span>
+                <p className="font-display font-light text-graphite/80 leading-snug" style={{ fontSize: "clamp(1.05rem, 1.3vw, 1.18rem)" }}>
+                  Cada obra começa com um <em className="text-bronze italic font-normal">plano por escrito</em> —
+                  capítulos, cronograma, materiais e prazos. Nada se decide em obra que não tenha
+                  sido validado antes.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <span className="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-bronze">
+                  ▸ Como entregamos
+                </span>
+                <p className="font-display font-light text-graphite/80 leading-snug" style={{ fontSize: "clamp(1.05rem, 1.3vw, 1.18rem)" }}>
+                  Vistoria conjunta, ata assinada, garantia de obra de
+                  <em className="text-bronze italic font-normal"> cinco anos </em>
+                  para estrutura e impermeabilização. O cliente recebe o
+                  espaço sem afinações pendentes.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
