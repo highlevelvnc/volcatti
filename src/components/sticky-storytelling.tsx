@@ -131,15 +131,18 @@ export function StickyStorytelling() {
           </p>
         </header>
 
-        {/* items-start é CRÍTICO — sem isto o grid alinha as colunas
-            ao "center" e o sticky não tem altura útil para deslizar. */}
-        <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-20 items-start">
-          {/* PINNED IMAGE — left column */}
-          <div className="hidden lg:block">
+        {/* Grid stretch default: a coluna esquerda estica até à altura
+            da coluna direita (~280vh). O sticky child (~80vh) pode então
+            deslizar livremente dentro dessas ~200vh disponíveis. NUNCA
+            usar items-start aqui — colapsaria a coluna esquerda ao
+            tamanho do sticky child e o pin pararia de funcionar. */}
+        <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-20">
+          {/* PINNED IMAGE — left column (stretches full row height) */}
+          <div className="hidden lg:block relative">
             <div
-              className="sticky aspect-[4/5] overflow-hidden border border-offwhite/12 relative bg-graphite-2"
+              className="sticky aspect-[4/5] overflow-hidden border border-offwhite/12 bg-graphite-2"
               /* top = header height (84px) + breathing room */
-              style={{ top: "104px" }}
+              style={{ top: "104px", position: "sticky" }}
             >
               {FRAMES.map((frame, i) => (
                 <div
