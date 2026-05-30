@@ -438,6 +438,15 @@
     .hero-breathing { animation: none; }
   }
 
+  /* ───────── Generic fadeUp (used by sticky storytelling) ───────── */
+  @keyframes fadeUp {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [class*="animate-[fadeUp"] { animation: none !important; }
+  }
+
   /* ───────── Legal prose (privacidade/termos/cookies) ───────── */
   .legal-prose h2 {
     font-family: var(--ff-display);
