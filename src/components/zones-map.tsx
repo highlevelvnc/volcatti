@@ -1,24 +1,75 @@
 /**
- * Stylized SVG map of Portugal continental — silhueta reconhecível
- * (não geograficamente exacta, mas com proporções e features claras:
- * costa atlântica W, fronteira E, Cabo da Roca, Algarve, Tejo, Douro).
- * Markers nas zonas onde a Volcatti atua, com Agualva-Cacém / Sintra
- * como sede.
+ * ZonesMap — mapa fiel de Portugal Continental.
  *
- * SVG viewBox 0 0 360 540 (4:6 portrait — Portugal continental
- * tem ~2:3 ratio na realidade).
+ * Renderiza o GeoJSON real dos 18 distritos (simplificado para ~53kb)
+ * projetado com d3-geo `geoMercator.fitExtent`. Distritos onde a
+ * Volcatti atua (Lisboa + Setúbal) ficam em bronze; restantes em
+ * cinza tenue. Markers nas cidades específicas + sede destacada
+ * com pulse animado.
+ *
+ * Server component — d3-geo + GeoJSON são processados no build, o
+ * cliente recebe só SVG estático (sem JS runtime de mapa).
  */
 
-const ZONES = [
-  // Coordenadas em viewBox 360×540
-  { x: 130, y: 145, label: "Mafra",   count: "2 obras",   anchor: "left" as const },
-  { x: 152, y: 130, label: "Loures",  count: "3 obras",   anchor: "right" as const },
-  { x: 112, y: 165, label: "Sintra",  count: "Sede",      anchor: "left" as const, primary: true },
-  { x: 122, y: 178, label: "Cascais", count: "8 obras",   anchor: "left" as const },
-  { x: 150, y: 170, label: "Oeiras",  count: "4 obras",   anchor: "right" as const },
-  { x: 168, y: 180, label: "Lisboa",  count: "12 obras",  anchor: "right" as const },
-  { x: 165, y: 240, label: "Setúbal", count: "5 obras",   anchor: "right" as const },
+import { geoMercator, geoPath, type ExtendedFeatureCollection, type ExtendedFeature, type GeoPermissibleObjects } from "d3-geo";
+import distritosRaw from "@/lib/portugal-distritos.json";
+
+type DistritoProps = { name: string };
+
+const distritos = distritosRaw as unknown as ExtendedFeatureCollection<
+  ExtendedFeature<GeoJSON.Geometry, DistritoProps>
+>;
+
+// Distritos onde a Volcatti atua — highlight em bronze
+const ATIVOS = new Set(["Lisboa", "Setúbal"]);
+
+// Cidades específicas com obras (longitude, latitude reais)
+type Cidade = {
+  name: string;
+  count: string;
+  long: number;
+  lat: number;
+  anchor: "left" | "right";
+  primary?: boolean;
+};
+const CIDADES: Cidade[] = [
+  { name: "Mafra",   count: "2 obras",  long: -9.3260, lat: 38.9370, anchor: "left" },
+  { name: "Loures",  count: "3 obras",  long: -9.1700, lat: 38.8300, anchor: "right" },
+  { name: "Sintra",  count: "Sede",     long: -9.3700, lat: 38.7780, anchor: "left", primary: true },
+  { name: "Cascais", count: "8 obras",  long: -9.4216, lat: 38.6979, anchor: "left" },
+  { name: "Oeiras",  count: "4 obras",  long: -9.3100, lat: 38.6900, anchor: "right" },
+  { name: "Lisboa",  count: "12 obras", long: -9.1393, lat: 38.7223, anchor: "right" },
+  { name: "Setúbal", count: "5 obras",  long: -8.8929, lat: 38.5244, anchor: "right" },
 ];
+
+// SVG viewBox
+const W = 360;
+const H = 540;
+const PADDING = 16;
+
+// Projection — fit Portugal Continental into the viewBox
+const projection = geoMercator().fitExtent(
+  [
+    [PADDING, PADDING + 8],
+    [W - PADDING, H - PADDING - 28],
+  ],
+  distritos as unknown as GeoPermissibleObjects,
+);
+const pathGen = geoPath(projection);
+
+// Pré-projetar markers para coordenadas SVG
+const cidadesProj = CIDADES.map((c) => {
+  const xy = projection([c.long, c.lat]);
+  return { ...c, x: xy?.[0] ?? 0, y: xy?.[1] ?? 0 };
+});
+
+// Pre-render distritos paths (server-side)
+const distritosPaths = distritos.features.map((f, i) => {
+  const props = (f.properties ?? { name: "" }) as DistritoProps;
+  const d = pathGen(f as unknown as GeoPermissibleObjects) ?? "";
+  const ativo = ATIVOS.has(props.name);
+  return { d, name: props.name, ativo, key: `${props.name}-${i}` };
+});
 
 export function ZonesMap() {
   return (
@@ -38,163 +89,137 @@ export function ZonesMap() {
               <span data-reveal="line" data-d="100"><span><em>Grande Lisboa</em> e Setúbal.</span></span>
             </h2>
           </div>
-          <p data-reveal data-d="200" className="font-display font-light text-graphite/75 max-w-[44ch]" style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.2rem)", lineHeight: 1.55 }}>
+          <p
+            data-reveal
+            data-d="200"
+            className="font-display font-light text-graphite/75 max-w-[44ch]"
+            style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.2rem)", lineHeight: 1.55 }}
+          >
             Servimos toda a Grande Lisboa e Setúbal. Para projetos de maior
             escala, deslocamo-nos a outras zonas do país sem custo extra.
           </p>
         </header>
 
         <div data-reveal className="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-center">
-          {/* SVG Portugal map */}
-          <div className="relative aspect-[2/3] max-w-[420px] mx-auto w-full bg-graphite border border-graphite/12 overflow-hidden">
-            <svg viewBox="0 0 360 540" className="w-full h-full" aria-hidden="true">
-              {/* Grid background */}
+          {/* MAP — Portugal Continental */}
+          <div className="relative aspect-[2/3] max-w-[440px] mx-auto w-full bg-graphite border border-graphite/12 overflow-hidden">
+            <svg
+              viewBox={`0 0 ${W} ${H}`}
+              className="w-full h-full"
+              aria-label="Mapa de Portugal Continental — zona de atuação Volcatti"
+            >
               <defs>
+                {/* Grid background pattern */}
                 <pattern id="pt-grid" width="18" height="18" patternUnits="userSpaceOnUse">
                   <path d="M 18 0 L 0 0 0 18" fill="none" stroke="rgba(244,241,234,0.05)" strokeWidth="0.5" />
                 </pattern>
-                <linearGradient id="pt-fill" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="rgba(184,138,42,0.06)" />
-                  <stop offset="100%" stopColor="rgba(184,138,42,0.10)" />
-                </linearGradient>
+                {/* Bronze glow for active districts */}
+                <radialGradient id="bronze-glow" cx="50%" cy="50%" r="60%">
+                  <stop offset="0%" stopColor="rgba(184,138,42,0.45)" />
+                  <stop offset="100%" stopColor="rgba(184,138,42,0.14)" />
+                </radialGradient>
               </defs>
-              <rect width="360" height="540" fill="url(#pt-grid)" />
 
-              {/* Portugal continental — silhueta reconhecível */}
-              <path
-                d="
-                  M 165 60
-                  L 178 58
-                  L 195 62
-                  L 210 68
-                  L 222 80
-                  L 232 92
-                  L 240 110
-                  L 244 130
-                  L 248 152
-                  L 252 178
-                  L 252 200
-                  L 250 222
-                  L 246 245
-                  L 240 268
-                  L 234 290
-                  L 228 312
-                  L 220 332
-                  L 212 352
-                  L 204 370
-                  L 198 388
-                  L 196 408
-                  L 198 425
-                  L 204 440
-                  L 215 452
-                  L 230 460
-                  L 250 464
-                  L 270 462
-                  L 290 458
-                  L 305 450
-                  L 285 470
-                  L 258 478
-                  L 228 482
-                  L 198 484
-                  L 168 482
-                  L 142 476
-                  L 122 468
-                  L 110 458
-                  L 102 444
-                  L 98 426
-                  L 96 405
-                  L 100 380
-                  L 102 355
-                  L 102 330
-                  L 105 305
-                  L 110 280
-                  L 116 255
-                  L 122 232
-                  L 128 210
-                  L 132 188
-                  L 130 168
-                  L 128 148
-                  L 130 130
-                  L 134 112
-                  L 142 95
-                  L 152 78
-                  L 165 60
-                  Z
-                "
-                fill="url(#pt-fill)"
-                stroke="rgba(184,138,42,0.55)"
-                strokeWidth="0.8"
-                strokeLinejoin="round"
-              />
+              {/* Grid background */}
+              <rect width={W} height={H} fill="url(#pt-grid)" />
 
-              {/* Tejo river — line subtle */}
-              <path
-                d="M 252 200 Q 220 200 195 195 Q 170 195 145 195"
-                fill="none"
-                stroke="rgba(244,241,234,0.15)"
-                strokeWidth="0.8"
-                strokeDasharray="3 2"
-              />
-              {/* Douro river — north */}
-              <path
-                d="M 252 100 Q 215 100 180 100 Q 150 100 132 110"
-                fill="none"
-                stroke="rgba(244,241,234,0.15)"
-                strokeWidth="0.8"
-                strokeDasharray="3 2"
-              />
+              {/* Inactive districts — faint outline */}
+              {distritosPaths
+                .filter((d) => !d.ativo)
+                .map((d) => (
+                  <path
+                    key={d.key}
+                    d={d.d}
+                    fill="rgba(244,241,234,0.035)"
+                    stroke="rgba(244,241,234,0.18)"
+                    strokeWidth="0.4"
+                    strokeLinejoin="round"
+                  />
+                ))}
+
+              {/* Active districts (Lisboa + Setúbal) — bronze fill + stroke */}
+              {distritosPaths
+                .filter((d) => d.ativo)
+                .map((d) => (
+                  <path
+                    key={d.key}
+                    d={d.d}
+                    fill="url(#bronze-glow)"
+                    stroke="rgba(184,138,42,0.85)"
+                    strokeWidth="0.7"
+                    strokeLinejoin="round"
+                  />
+                ))}
 
               {/* Cardinal points */}
-              <text x="180" y="35" fill="rgba(244,241,234,0.4)" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="2">N</text>
-              <text x="180" y="510" fill="rgba(244,241,234,0.4)" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="2">S</text>
-              <text x="20" y="275" fill="rgba(244,241,234,0.4)" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="2">O</text>
-              <text x="340" y="275" fill="rgba(244,241,234,0.4)" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="2">E</text>
+              <text x={W / 2} y={20} fill="rgba(244,241,234,0.4)" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="2">N</text>
+              <text x={W / 2} y={H - 8} fill="rgba(244,241,234,0.4)" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="2">S</text>
 
               {/* Country label */}
-              <text x="180" y="385" fill="rgba(184,138,42,0.55)" fontSize="9" fontFamily="monospace" textAnchor="middle" letterSpacing="3" fontWeight="500">
+              <text
+                x={W / 2}
+                y={H - 28}
+                fill="rgba(184,138,42,0.6)"
+                fontSize="9"
+                fontFamily="monospace"
+                textAnchor="middle"
+                letterSpacing="3"
+                fontWeight="500"
+              >
                 PORTUGAL
               </text>
 
-              {/* Scale */}
-              <g transform="translate(28 510)">
+              {/* Scale bar */}
+              <g transform={`translate(28 ${H - 18})`}>
                 <line x1="0" y1="0" x2="46" y2="0" stroke="rgba(244,241,234,0.45)" strokeWidth="0.8" />
                 <line x1="0" y1="-3" x2="0" y2="3" stroke="rgba(244,241,234,0.45)" strokeWidth="0.8" />
                 <line x1="23" y1="-2" x2="23" y2="2" stroke="rgba(244,241,234,0.3)" strokeWidth="0.6" />
                 <line x1="46" y1="-3" x2="46" y2="3" stroke="rgba(244,241,234,0.45)" strokeWidth="0.8" />
-                <text x="23" y="-6" fill="rgba(244,241,234,0.55)" fontSize="6.5" fontFamily="monospace" textAnchor="middle" letterSpacing="1.5">50 KM</text>
+                <text x="23" y="-6" fill="rgba(244,241,234,0.55)" fontSize="6.5" fontFamily="monospace" textAnchor="middle" letterSpacing="1.5">
+                  50 KM
+                </text>
               </g>
 
               {/* Compass */}
-              <g transform="translate(310 50)">
+              <g transform={`translate(${W - 30} 36)`}>
                 <circle r="14" fill="none" stroke="rgba(244,241,234,0.25)" strokeWidth="0.6" />
                 <line x1="0" y1="-12" x2="0" y2="-2" stroke="#B88A2A" strokeWidth="1.4" />
                 <line x1="0" y1="2" x2="0" y2="12" stroke="rgba(244,241,234,0.5)" strokeWidth="1" />
                 <text x="0" y="-16" fill="rgba(244,241,234,0.55)" fontSize="6" fontFamily="monospace" textAnchor="middle" letterSpacing="1">N</text>
               </g>
 
-              {/* Markers */}
-              {ZONES.map((z) => (
-                <g key={z.label}>
-                  {z.primary && (
+              {/* City markers */}
+              {cidadesProj.map((c) => (
+                <g key={c.name}>
+                  {c.primary && (
                     <>
-                      <circle cx={z.x} cy={z.y} r="14" fill="none" stroke="#B88A2A" strokeWidth="0.6" opacity="0.5">
-                        <animate attributeName="r" values="6;16;6" dur="2.5s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.7;0;0.7" dur="2.5s" repeatCount="indefinite" />
+                      {/* Outer pulse ring */}
+                      <circle cx={c.x} cy={c.y} r="14" fill="none" stroke="#B88A2A" strokeWidth="0.6" opacity="0.5">
+                        <animate attributeName="r" values="6;18;6" dur="2.4s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.7;0;0.7" dur="2.4s" repeatCount="indefinite" />
                       </circle>
+                      {/* Inner static ring */}
+                      <circle cx={c.x} cy={c.y} r="8" fill="none" stroke="#B88A2A" strokeWidth="0.5" opacity="0.6" />
                     </>
                   )}
-                  <circle cx={z.x} cy={z.y} r={z.primary ? 5 : 3.5} fill="#B88A2A" />
+                  {/* Marker dot */}
+                  <circle cx={c.x} cy={c.y} r={c.primary ? 4.5 : 3.2} fill="#B88A2A" />
+                  {c.primary && (
+                    <circle cx={c.x} cy={c.y} r={1.5} fill="#F4F1EA" />
+                  )}
+                  {/* Label */}
                   <text
-                    x={z.x + (z.anchor === "left" ? -8 : 8)}
-                    y={z.y + 2.5}
+                    x={c.x + (c.anchor === "left" ? -7 : 7)}
+                    y={c.y + 2.5}
                     fill="rgba(244,241,234,0.92)"
                     fontSize="8"
                     fontFamily="monospace"
                     letterSpacing="1"
-                    textAnchor={z.anchor === "left" ? "end" : "start"}
-                    fontWeight={z.primary ? "500" : "400"}
+                    textAnchor={c.anchor === "left" ? "end" : "start"}
+                    fontWeight={c.primary ? "500" : "400"}
+                    style={{ paintOrder: "stroke", stroke: "rgba(17,17,17,0.7)", strokeWidth: "2px", strokeLinejoin: "round" }}
                   >
-                    {z.label.toUpperCase()}
+                    {c.name.toUpperCase()}
                   </text>
                 </g>
               ))}
@@ -205,34 +230,50 @@ export function ZonesMap() {
               Carta · Portugal Continental
             </span>
             <span className="absolute top-3 right-3 font-mono text-[0.55rem] tracking-[0.22em] uppercase text-bronze">
-              1 : 200 000
+              Datum · WGS 84
             </span>
+
+            {/* Bottom legend */}
+            <div className="absolute bottom-3 right-3 flex items-center gap-3 px-2.5 py-1.5 bg-graphite/85 border border-bronze/30 backdrop-blur-sm">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-bronze rounded-full" />
+                <span className="font-mono text-[0.5rem] tracking-[0.18em] uppercase text-offwhite/85">Atuação</span>
+              </span>
+              <span className="w-px h-2.5 bg-offwhite/20" />
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-offwhite/30" />
+                <span className="font-mono text-[0.5rem] tracking-[0.18em] uppercase text-offwhite/55">Restante</span>
+              </span>
+            </div>
           </div>
 
           {/* Zones list */}
           <ul className="space-y-px bg-graphite/12 border border-graphite/12">
-            {ZONES.map((z, i) => (
+            {CIDADES.map((c, i) => (
               <li
-                key={z.label}
+                key={c.name}
                 className={`px-5 py-4 flex items-center justify-between gap-4 ${
-                  z.primary ? "bg-bronze/10 border-l-2 border-bronze" : "bg-offwhite-2"
+                  c.primary ? "bg-bronze/10 border-l-2 border-bronze" : "bg-offwhite-2"
                 }`}
               >
                 <div className="flex items-center gap-3.5">
                   <span className="font-mono text-[0.6rem] tracking-[0.16em] text-bronze">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-display text-graphite leading-tight" style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.25rem)" }}>
-                    {z.label}
+                  <span
+                    className="font-display text-graphite leading-tight"
+                    style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.25rem)" }}
+                  >
+                    {c.name}
                   </span>
-                  {z.primary && (
+                  {c.primary && (
                     <span className="font-mono text-[0.55rem] tracking-[0.18em] uppercase text-bronze px-1.5 py-0.5 border border-bronze/50">
                       Sede
                     </span>
                   )}
                 </div>
                 <span className="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-graphite/55">
-                  {z.count}
+                  {c.count}
                 </span>
               </li>
             ))}
