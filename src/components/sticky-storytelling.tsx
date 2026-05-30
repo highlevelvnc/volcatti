@@ -44,39 +44,9 @@ const FRAMES = [
  */
 export function StickyStorytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  // Active panel — IO with a "in view if center 40% crosses" rule.
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        // Pick the entry closest to the viewport center.
-        const vCenter = window.innerHeight / 2;
-        let bestIdx = -1;
-        let bestDist = Infinity;
-        entries.forEach((e) => {
-          const idx = Number((e.target as HTMLElement).dataset.idx);
-          if (Number.isNaN(idx)) return;
-          const r = e.target.getBoundingClientRect();
-          const eCenter = r.top + r.height / 2;
-          const dist = Math.abs(eCenter - vCenter);
-          if (dist < bestDist) {
-            bestDist = dist;
-            bestIdx = idx;
-          }
-        });
-        if (bestIdx >= 0) setActive(bestIdx);
-      },
-      // Wide rootMargin so we observe even before they perfectly center.
-      { rootMargin: "-20% 0px -20% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
-    );
-    panelRefs.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
-  // Continuous scroll progress (0..1) through the whole section.
+  // Continuous scroll progress (0..1) — drives both crossfade and parallax.
   useEffect(() => {
     if (typeof window === "undefined") return;
     let raf = 0;
@@ -106,6 +76,13 @@ export function StickyStorytelling() {
       window.removeEventListener("resize", onScroll);
     };
   }, []);
+
+  // Active index derived from scroll progress.
+  const frameP = progress * FRAMES.length; // 0..N
+  const active = Math.min(
+    FRAMES.length - 1,
+    Math.max(0, Math.floor(frameP)),
+  );
 
   return (
     <section
@@ -144,31 +121,43 @@ export function StickyStorytelling() {
               /* top = header height (84px) + breathing room */
               style={{ top: "104px", position: "sticky" }}
             >
-              {FRAMES.map((frame, i) => (
-                <div
-                  key={frame.img}
-                  className={`absolute inset-0 transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    active === i
-                      ? "opacity-100 scale-100"
-                      : i < active
-                        ? "opacity-0 -translate-y-3 scale-[1.02]"
-                        : "opacity-0 translate-y-3 scale-[1.02]"
-                  }`}
-                  style={{ willChange: "opacity, transform" }}
-                >
-                  <Image
-                    src={frame.img}
-                    alt={frame.title}
-                    fill
-                    loading={i === 0 ? "eager" : "lazy"}
-                    priority={i === 0}
-                    quality={72}
-                    sizes="50vw"
-                    className="object-cover"
-                    style={{ filter: "grayscale(15%) contrast(1.04)" }}
-                  />
-                </div>
-              ))}
+              {FRAMES.map((frame, i) => {
+                // Scroll-linked crossfade: opacity = 1 - distance to frame center.
+                // Edge-clamp first/last so the image never goes below 1 at the
+                // section start/end (avoids visible "dark" gap).
+                const center = i + 0.5;
+                const distance = Math.abs(frameP - center);
+                let opacity = Math.max(0, 1 - distance);
+                if (i === 0 && frameP < 0.5) opacity = 1;
+                if (i === FRAMES.length - 1 && frameP > FRAMES.length - 0.5) opacity = 1;
+                // Subtle parallax: image drifts -10..+10px within its window.
+                const local = Math.max(-1, Math.min(1, frameP - i - 0.5));
+                const parallaxY = local * -10;
+
+                return (
+                  <div
+                    key={frame.img}
+                    className="absolute inset-0"
+                    style={{
+                      opacity,
+                      transform: `translate3d(0, ${parallaxY}px, 0) scale(1.04)`,
+                      willChange: "opacity, transform",
+                    }}
+                  >
+                    <Image
+                      src={frame.img}
+                      alt={frame.title}
+                      fill
+                      loading={i === 0 ? "eager" : "lazy"}
+                      priority={i === 0}
+                      quality={72}
+                      sizes="50vw"
+                      className="object-cover"
+                      style={{ filter: "grayscale(15%) contrast(1.04)" }}
+                    />
+                  </div>
+                );
+              })}
 
               {/* Top progress bar — scroll-linked */}
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-offwhite/12 z-[3] overflow-hidden">
@@ -229,10 +218,6 @@ export function StickyStorytelling() {
             {FRAMES.map((frame, i) => (
               <div
                 key={frame.title}
-                ref={(el) => {
-                  panelRefs.current[i] = el;
-                }}
-                data-idx={i}
                 className="lg:min-h-[70vh] flex flex-col justify-center"
               >
                 {/* Mobile-only image — desktop uses the sticky one */}
