@@ -11,67 +11,82 @@ type Props = {
 };
 
 /**
- * Sticky image pinned to the left column of the Authority section.
- * Scroll-linked: zooms from 1.0 → 1.32 as you scroll through, then
- * subtle fade-out at the very end so it "hands off" to the next
- * section instead of cutting hard.
+ * Sticky image pinned to the left of the Authority section, with a
+ * scroll-linked zoom (1.0 → 1.32) and soft fade-out at the end.
+ *
+ * Why the ref-based imperative transform (not React state):
+ * Updating scale via setState forces a re-render every scroll frame
+ * which, combined with any CSS `transition` on transform, makes the
+ * image visibly pulse on smooth-scroll. We instead write transform
+ * STRAIGHT to the DOM inside a continuous RAF loop — buttery smooth
+ * regardless of scroll source (wheel, trackpad, Lenis).
+ *
+ * State (`progress`) is still updated, but throttled and only used
+ * for non-critical UI bits (the zoom badge + opacity fade), where
+ * a stale value of a few frames is invisible.
  */
 export function AuthorityImage({ src, alt, kicker, caption }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLSpanElement>(null);
+  const [displayProgress, setDisplayProgress] = useState(0);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // The section to track is the closest <section> ancestor.
     const section = wrapperRef.current?.closest("section");
-    if (!section) return;
+    const inner = innerRef.current;
+    const wrapper = wrapperRef.current;
+    const bar = barRef.current;
+    if (!section || !inner || !wrapper) return;
 
     let raf = 0;
-    const update = () => {
+    let lastStateUpdate = 0;
+
+    const tick = () => {
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const scrollable = r.height - vh;
-      if (scrollable <= 0) {
-        setProgress(0);
-        return;
+      const p = scrollable <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / scrollable));
+
+      // Direct DOM writes — bypass React re-render for the hot path
+      const scale = 1 + p * 0.32;
+      inner.style.transform = `scale(${scale.toFixed(4)})`;
+
+      const fadeStart = 0.88;
+      const opacity =
+        p < fadeStart ? 1 : Math.max(0, 1 - (p - fadeStart) / (1 - fadeStart));
+      wrapper.style.opacity = opacity.toFixed(3);
+
+      if (bar) bar.style.transform = `scaleX(${p.toFixed(4)})`;
+
+      // Throttled state — only for the visible "Zoom · X%" badge.
+      // 120ms cadence is invisible to the eye but saves ~7× re-renders.
+      const now = performance.now();
+      if (now - lastStateUpdate > 120) {
+        setDisplayProgress(p);
+        lastStateUpdate = now;
       }
-      const p = Math.max(0, Math.min(1, -r.top / scrollable));
-      setProgress(p);
+
+      raf = requestAnimationFrame(tick);
     };
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
-  // Scale 1.00 → 1.32 across the section; soft fade in the final 12%.
-  const scale = 1 + progress * 0.32;
-  const fadeStart = 0.88;
-  const opacity =
-    progress < fadeStart ? 1 : Math.max(0, 1 - (progress - fadeStart) / (1 - fadeStart));
+  const scaleDisplay = 1 + displayProgress * 0.32;
 
   return (
     <div
       ref={wrapperRef}
       className="sticky hidden lg:block aspect-[3/4] w-full overflow-hidden border border-graphite/12 bg-graphite"
-      style={{ top: "104px", opacity, willChange: "opacity" }}
+      style={{ top: "104px", willChange: "opacity" }}
     >
       <div className="absolute inset-0 overflow-hidden">
-        {/* Image with scroll-linked scale */}
+        {/* Image — transform applied imperatively in the RAF loop */}
         <div
+          ref={innerRef}
           className="absolute inset-0 will-change-transform"
-          style={{
-            transform: `scale(${scale})`,
-            transition: "transform 80ms linear",
-          }}
+          style={{ transformOrigin: "center center" }}
         >
           <Image
             src={src}
@@ -84,21 +99,18 @@ export function AuthorityImage({ src, alt, kicker, caption }: Props) {
           />
         </div>
 
-        {/* Top progress bar — bronze, scroll-linked */}
+        {/* Top progress bar — scaleX written imperatively too */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-offwhite/10 z-[3] overflow-hidden">
           <span
+            ref={barRef}
             className="absolute top-0 left-0 h-full w-full bg-bronze origin-left"
-            style={{
-              transform: `scaleX(${progress})`,
-              willChange: "transform",
-              transition: "transform 80ms linear",
-            }}
+            style={{ willChange: "transform", transform: "scaleX(0)" }}
           />
         </div>
 
-        {/* Zoom indicator — bronze */}
+        {/* Zoom indicator — uses throttled state (invisible 120ms cadence) */}
         <span className="absolute top-3 right-3 z-[2] font-mono text-[0.55rem] tracking-[0.22em] uppercase text-bronze px-2 py-1 bg-graphite/65 backdrop-blur-sm border border-bronze/35">
-          Zoom · {Math.round(scale * 100)}%
+          Zoom · {Math.round(scaleDisplay * 100)}%
         </span>
 
         {/* Caption — bottom */}
