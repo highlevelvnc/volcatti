@@ -60,15 +60,15 @@ export function Hero() {
       {/* Background image */}
       <div ref={tiltRef} className="absolute -inset-[3%] -z-[2] will-change-transform">
         <Image
-          src="/portfolio/hero-volcatti.jpg"
-          alt="Obra Volcatti — construção residencial premium"
+          src="/portfolio/hero-vivenda.jpg"
+          alt="Vivenda contemporânea com piscina e jardim — projeto Volcatti"
           fill
           priority
           fetchPriority="high"
           quality={88}
           sizes="100vw"
           className="object-cover hero-zoom"
-          style={{ objectPosition: "center 40%", filter: "contrast(1.05) saturate(1.02)" }}
+          style={{ objectPosition: "center 55%", filter: "contrast(1.04) saturate(1.02)" }}
         />
       </div>
 
