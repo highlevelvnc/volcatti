@@ -20,7 +20,9 @@ const distritos = distritosRaw as unknown as ExtendedFeatureCollection<
   ExtendedFeature<GeoJSON.Geometry, DistritoProps>
 >;
 
-// Distritos onde a Volcatti atua — highlight em bronze
+// Distrito-base (operação principal) — highlight bronze forte.
+// Os restantes distritos são servidos com deslocação técnica e
+// recebem um tint bronze subtil (todo o território nacional).
 const ATIVOS = new Set(["Lisboa", "Setúbal"]);
 
 // Cidades específicas com obras (longitude, latitude reais)
@@ -86,7 +88,7 @@ export function ZonesMap() {
             </div>
             <h2 className="display">
               <span data-reveal="line"><span>Onde trabalhamos.</span></span>
-              <span data-reveal="line" data-d="100"><span><em>Grande Lisboa</em> e Setúbal.</span></span>
+              <span data-reveal="line" data-d="100"><span>Todo o <em>território nacional.</em></span></span>
             </h2>
           </div>
           <p
@@ -95,8 +97,10 @@ export function ZonesMap() {
             className="font-display font-light text-graphite/75 max-w-[44ch]"
             style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.2rem)", lineHeight: 1.55 }}
           >
-            Servimos toda a Grande Lisboa e Setúbal. Para projetos de maior
-            escala, deslocamo-nos a outras zonas do país sem custo extra.
+            A nossa base operacional é a Grande Lisboa e Setúbal. Intervenções
+            fora desta área são realizadas em todo o país, com deslocação
+            técnica orçamentada de forma transparente — em função da
+            distância, logística e duração da obra.
           </p>
         </header>
 
@@ -124,20 +128,21 @@ export function ZonesMap() {
               <rect width={W} height={H} fill="url(#pt-grid)" />
 
               {/* Inactive districts — faint outline */}
+              {/* Served districts (todo o país) — subtle bronze tint */}
               {distritosPaths
                 .filter((d) => !d.ativo)
                 .map((d) => (
                   <path
                     key={d.key}
                     d={d.d}
-                    fill="rgba(244,241,234,0.035)"
-                    stroke="rgba(244,241,234,0.18)"
+                    fill="rgba(184,138,42,0.07)"
+                    stroke="rgba(184,138,42,0.30)"
                     strokeWidth="0.4"
                     strokeLinejoin="round"
                   />
                 ))}
 
-              {/* Active districts (Lisboa + Setúbal) — bronze fill + stroke */}
+              {/* Base districts (Lisboa + Setúbal) — bronze forte */}
               {distritosPaths
                 .filter((d) => d.ativo)
                 .map((d) => (
@@ -237,12 +242,12 @@ export function ZonesMap() {
             <div className="absolute bottom-3 right-3 flex items-center gap-3 px-2.5 py-1.5 bg-graphite/85 border border-bronze/30 backdrop-blur-sm">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 bg-bronze rounded-full" />
-                <span className="font-mono text-[0.5rem] tracking-[0.18em] uppercase text-offwhite/85">Atuação</span>
+                <span className="font-mono text-[0.5rem] tracking-[0.18em] uppercase text-offwhite/85">Base</span>
               </span>
               <span className="w-px h-2.5 bg-offwhite/20" />
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-offwhite/30" />
-                <span className="font-mono text-[0.5rem] tracking-[0.18em] uppercase text-offwhite/55">Restante</span>
+                <span className="w-2 h-2 rounded-full bg-bronze/30" />
+                <span className="font-mono text-[0.5rem] tracking-[0.18em] uppercase text-offwhite/55">Território servido</span>
               </span>
             </div>
           </div>

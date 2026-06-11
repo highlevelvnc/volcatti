@@ -21,6 +21,7 @@ type LeadPayload = {
   phone?: string;
   service: string;
   message: string;
+  attachments?: { filename: string; content: Buffer }[];
 };
 
 const SERVICE_LABELS: Record<string, string> = {
@@ -44,7 +45,7 @@ export async function sendLead(payload: LeadPayload): Promise<{ ok: true } | { o
     // Soft fallback — log + return ok. The user UX still feels
     // successful and the lead is preserved in the dev logs.
     console.warn("[email] RESEND_API_KEY not set — lead logged, not sent.");
-    console.log("[email lead]", payload);
+    console.log("[email lead]", { ...payload, attachments: payload.attachments?.map((a) => a.filename) });
     return { ok: true };
   }
 
@@ -62,6 +63,9 @@ export async function sendLead(payload: LeadPayload): Promise<{ ok: true } | { o
       subject,
       html,
       text,
+      attachments: payload.attachments?.length
+        ? payload.attachments.map((a) => ({ filename: a.filename, content: a.content }))
+        : undefined,
     });
 
     if (result.error) {
@@ -105,6 +109,10 @@ function renderEmail(p: LeadPayload): string {
               <td style="font-family:monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6e6c64;padding:8px 0">Serviço</td>
               <td style="font-size:15px;padding:8px 0">${escape(service)}</td>
             </tr>
+            ${p.attachments?.length ? `<tr>
+              <td style="font-family:monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6e6c64;padding:8px 0">Anexos</td>
+              <td style="font-size:15px;padding:8px 0">${p.attachments.length} ficheiro(s) — ${escape(p.attachments.map((a) => a.filename).join(", "))}</td>
+            </tr>` : ""}
           </table>
         </td></tr>
         <tr><td style="padding:24px 32px">
@@ -130,6 +138,7 @@ function renderText(p: LeadPayload): string {
     `Email:   ${p.email}`,
     p.phone ? `Telefone: ${p.phone}` : "",
     `Serviço: ${service}`,
+    p.attachments?.length ? `Anexos: ${p.attachments.length} — ${p.attachments.map((a) => a.filename).join(", ")}` : "",
     "",
     "MENSAGEM:",
     p.message,

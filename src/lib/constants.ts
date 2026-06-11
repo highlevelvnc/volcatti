@@ -12,6 +12,8 @@ export const COMPANY = {
   email: "geral@volcatti.pt",
   phone: "+351 933 787 369",
   phoneCompact: "+351933787369",
+  landline: "+351 212 445 790",
+  landlineCompact: "+351212445790",
   nipc: "000 000 000",
   url: "https://volcatti.pt",
   geo: { lat: 38.7666, lng: -9.2980 },
@@ -487,8 +489,9 @@ export const STATS = [
   {
     num: 5,
     suffix: " anos",
+    prefix: "Até ",
     label: "Garantia de obra",
-    back: { value: "Por escrito", label: "Em contrato" },
+    back: { value: "Mediante acordo", label: "Definida em contrato" },
   },
   {
     num: 98,

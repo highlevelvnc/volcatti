@@ -57,7 +57,8 @@ export function Footer() {
               Contacto
             </h4>
             <ul className="flex flex-col gap-4">
-              <ContactItem label="Telefone" value={COMPANY.phone} href={`tel:${COMPANY.phoneCompact}`} />
+              <ContactItem label="Telemóvel" value={COMPANY.phone} href={`tel:${COMPANY.phoneCompact}`} />
+              <ContactItem label="Fixo" value={COMPANY.landline} href={`tel:${COMPANY.landlineCompact}`} />
               <ContactItem label="WhatsApp" value={COMPANY.phone} href={WHATSAPP_URL} />
               <ContactItem label="Email" value={COMPANY.email} href={`mailto:${COMPANY.email}`} />
               <li className="flex flex-col gap-0.5">

@@ -53,7 +53,7 @@ export function CtaFinal() {
 
           <p data-reveal data-d="300" className="lead lead--light mb-10 max-w-[52ch]">
             Conte-nos sobre o seu projeto. Visita técnica gratuita,
-            orçamento detalhado em 5 dias úteis.
+            orçamento detalhado em 10 dias úteis.
           </p>
 
           <div data-reveal data-d="400" className="flex flex-wrap gap-3 mb-10">
@@ -73,7 +73,8 @@ export function CtaFinal() {
           <div data-reveal data-d="500" className="grid grid-cols-2 gap-x-6 gap-y-5 pt-8 border-t border-offwhite/15 max-w-[420px]">
             {[
               { lbl: "Email", val: COMPANY.email },
-              { lbl: "Telefone", val: COMPANY.phone },
+              { lbl: "Telemóvel", val: COMPANY.phone },
+              { lbl: "Fixo", val: COMPANY.landline },
               { lbl: "Sede", val: COMPANY.region },
               { lbl: "Resposta", val: "≤ 24h úteis" },
             ].map((c) => (

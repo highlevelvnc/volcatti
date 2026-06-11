@@ -5,10 +5,15 @@ import { sendLead } from "@/lib/email";
 export type ContactState = {
   status: "idle" | "ok" | "error";
   message?: string;
-  errors?: Partial<Record<"name" | "email" | "phone" | "service" | "message", string>>;
+  errors?: Partial<Record<"name" | "email" | "phone" | "service" | "message" | "attachments", string>>;
 };
 
 const SERVICES = ["construcao", "remodelacao", "piscina", "casa-maquinas", "assistencia-piscina", "eletrica", "acabamentos", "manutencao", "outro"] as const;
+
+// Anexos — limites e tipos aceites
+const MAX_FILES = 5;
+const MAX_TOTAL_BYTES = 10 * 1024 * 1024; // 10 MB no total
+const ACCEPTED = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif", "application/pdf"];
 
 export async function submitContact(_prev: ContactState, formData: FormData): Promise<ContactState> {
   const name = String(formData.get("name") ?? "").trim();
@@ -27,11 +32,32 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
   if (!service || !SERVICES.includes(service as (typeof SERVICES)[number])) errors.service = "Escolha um serviço.";
   if (!message || message.length < 10) errors.message = "Descreva o seu projeto (mínimo 10 caracteres).";
 
+  // Anexos (opcional) — validar tipo, número e tamanho total
+  const rawFiles = formData.getAll("attachments").filter((f): f is File => f instanceof File && f.size > 0);
+  const attachments: { filename: string; content: Buffer }[] = [];
+  if (rawFiles.length > 0) {
+    if (rawFiles.length > MAX_FILES) {
+      errors.attachments = `Máximo ${MAX_FILES} ficheiros.`;
+    } else {
+      const total = rawFiles.reduce((sum, f) => sum + f.size, 0);
+      const badType = rawFiles.find((f) => f.type && !ACCEPTED.includes(f.type));
+      if (total > MAX_TOTAL_BYTES) {
+        errors.attachments = "Anexos excedem 10 MB no total.";
+      } else if (badType) {
+        errors.attachments = "Só aceitamos imagens (JPG, PNG, WEBP) e PDF.";
+      } else {
+        for (const f of rawFiles) {
+          attachments.push({ filename: f.name, content: Buffer.from(await f.arrayBuffer()) });
+        }
+      }
+    }
+  }
+
   if (Object.keys(errors).length > 0) {
     return { status: "error", errors, message: "Verifique os campos." };
   }
 
-  const send = await sendLead({ name, email, phone: phone || undefined, service, message });
+  const send = await sendLead({ name, email, phone: phone || undefined, service, message, attachments });
 
   if (!send.ok) {
     return { status: "error", message: send.error };

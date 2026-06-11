@@ -100,7 +100,7 @@ export function Authority() {
                   <div className="stat-flip-inner relative w-full transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] [transform-style:preserve-3d]">
                     {/* Front */}
                     <div className="flex flex-col gap-2 items-center text-center sm:items-start sm:text-left [backface-visibility:hidden]">
-                      <StatCounter target={s.num} suffix={s.suffix} />
+                      <StatCounter target={s.num} suffix={s.suffix} prefix={"prefix" in s ? s.prefix : undefined} />
                       <span className="font-mono text-[0.72rem] tracking-[0.14em] uppercase text-graphite/60">
                         {s.label}
                       </span>
@@ -144,10 +144,10 @@ export function Authority() {
                   ▸ Como entregamos
                 </span>
                 <p className="font-display font-light text-graphite/80 leading-snug" style={{ fontSize: "clamp(1.05rem, 1.3vw, 1.18rem)" }}>
-                  Vistoria conjunta, ata assinada, garantia de obra de
-                  <em className="text-bronze italic font-normal"> cinco anos </em>
-                  para estrutura e impermeabilização. O cliente recebe o
-                  espaço sem afinações pendentes.
+                  Vistoria conjunta, ata assinada e garantia de obra
+                  <em className="text-bronze italic font-normal"> definida por mútuo acordo </em>
+                  — até cinco anos sobre estrutura e impermeabilização,
+                  conforme o âmbito de cada projeto.
                 </p>
               </div>
             </div>

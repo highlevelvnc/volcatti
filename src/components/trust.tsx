@@ -1,12 +1,11 @@
 import { GhostNumber } from "./ghost-number";
 
 const CERTIFICATIONS = [
-  { code: "AICCOPN", label: "Construção" },
-  { code: "CERTIEL", label: "Elétrica" },
-  { code: "ISO 9001", label: "Qualidade" },
+  { code: "IMPIC", label: "Construção" },
+  { code: "Analítica", label: "Elétrica" },
   { code: "RC PRO", label: "Seguro" },
-  { code: "AT — DGCI", label: "Fiscal" },
-  { code: "INCI", label: "Engenharia" },
+  { code: "TOConline", label: "Fiscal" },
+  { code: "Equipa própria", label: "Engenharia" },
 ];
 
 const PARTNERS = ["Sika", "Saint-Gobain", "Ferrum", "Roca", "Maxit", "Hilti", "Schüco", "Cinca"];
@@ -41,7 +40,7 @@ export function Trust() {
         </header>
 
         {/* Certifications grid */}
-        <div data-reveal className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-offwhite/[0.08] border border-offwhite/12 mb-12 lg:mb-16">
+        <div data-reveal className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-offwhite/[0.08] border border-offwhite/12 mb-12 lg:mb-16">
           {CERTIFICATIONS.map((c) => (
             <div key={c.code} className="bg-graphite p-5 lg:p-7 flex flex-col gap-2 items-start">
               <span className="font-display font-light text-offwhite leading-none tracking-[-0.01em]" style={{ fontSize: "clamp(1.05rem, 1.4vw, 1.3rem)" }}>

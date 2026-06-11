@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { submitContact, type ContactState } from "@/app/actions/contact";
 import { ArrowRight } from "./icons";
 
@@ -81,6 +81,8 @@ export function ContactForm() {
         placeholder="O que pretende construir, remodelar, instalar..."
         error={state.errors?.message}
       />
+
+      <FileField error={state.errors?.attachments} />
 
       <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
         <p className="font-mono text-[0.65rem] tracking-[0.16em] uppercase text-offwhite/45 max-w-[40ch]">
@@ -225,6 +227,82 @@ function SelectField({
           <path d="M3 6 L8 11 L13 6" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       </div>
+      {error && (
+        <span className="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-red-300/80">
+          ▲ {error}
+        </span>
+      )}
+    </label>
+  );
+}
+
+function FileField({ error }: { error?: string }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [files, setFiles] = useState<File[]>([]);
+
+  const fmtSize = (b: number) =>
+    b > 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`;
+
+  return (
+    <label className="flex flex-col gap-2">
+      <span className="font-mono text-[0.66rem] tracking-[0.18em] uppercase text-offwhite/55">
+        Anexar projeto <span className="text-offwhite/35">(opcional)</span>
+      </span>
+
+      <input
+        ref={inputRef}
+        type="file"
+        name="attachments"
+        multiple
+        accept="image/jpeg,image/png,image/webp,image/heic,image/heif,application/pdf"
+        className="sr-only"
+        onChange={(e) => setFiles(Array.from(e.target.files ?? []))}
+      />
+
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        className="group flex items-center gap-3 w-full border border-dashed border-offwhite/30 hover:border-bronze py-4 px-4 transition-colors duration-300 text-left"
+        data-cursor="Escolher"
+      >
+        <svg viewBox="0 0 24 24" className="w-5 h-5 text-bronze flex-shrink-0" fill="none" aria-hidden="true">
+          <path d="M12 16V4m0 0L7 9m5-5 5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="square" />
+          <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" stroke="currentColor" strokeWidth="1.4" />
+        </svg>
+        <span className="font-sans text-[0.92rem] text-offwhite/70 group-hover:text-offwhite transition-colors">
+          {files.length > 0
+            ? `${files.length} ficheiro${files.length > 1 ? "s" : ""} selecionado${files.length > 1 ? "s" : ""}`
+            : "Plantas, fotos ou PDF — arraste ou clique"}
+        </span>
+      </button>
+
+      {files.length > 0 && (
+        <ul className="flex flex-col gap-1.5 mt-1">
+          {files.map((f, i) => (
+            <li key={`${f.name}-${i}`} className="flex items-center justify-between gap-3 font-mono text-[0.66rem] tracking-[0.04em] text-offwhite/60 border-l border-bronze/40 pl-3 py-0.5">
+              <span className="truncate">{f.name}</span>
+              <span className="text-offwhite/40 flex-shrink-0">{fmtSize(f.size)}</span>
+            </li>
+          ))}
+          <li>
+            <button
+              type="button"
+              onClick={() => {
+                setFiles([]);
+                if (inputRef.current) inputRef.current.value = "";
+              }}
+              className="font-mono text-[0.6rem] tracking-[0.16em] uppercase text-offwhite/40 hover:text-bronze transition-colors mt-1"
+            >
+              ✕ Limpar anexos
+            </button>
+          </li>
+        </ul>
+      )}
+
+      <span className="font-mono text-[0.6rem] tracking-[0.12em] uppercase text-offwhite/30">
+        JPG · PNG · PDF — até 5 ficheiros, 10 MB
+      </span>
+
       {error && (
         <span className="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-red-300/80">
           ▲ {error}

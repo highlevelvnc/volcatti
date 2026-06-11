@@ -7,7 +7,7 @@
 export const FAQS_HOME = [
   {
     q: "Como funciona o pedido de orçamento?",
-    a: "Recebemos o seu contacto, marcamos uma visita técnica gratuita e enviamos uma proposta detalhada por escrito em até 5 dias úteis — organizada por capítulos, com prazos, materiais e valores claros.",
+    a: "Recebemos o seu contacto, marcamos uma visita técnica gratuita e enviamos uma proposta detalhada por escrito em até 10 dias úteis — organizada por capítulos, com prazos, materiais e valores claros.",
   },
   {
     q: "Quanto demora uma obra de remodelação?",
@@ -15,7 +15,7 @@ export const FAQS_HOME = [
   },
   {
     q: "Existe garantia sobre os trabalhos?",
-    a: "Sim. Garantia de 5 anos sobre estrutura e impermeabilização, 2 anos sobre instalações elétricas e canalização, e 1 ano sobre acabamentos. Tudo por escrito no contrato.",
+    a: "Sim. As condições de garantia são definidas por mútuo acordo e ficam por escrito no contrato, em função do âmbito da obra — podendo ir até 5 anos sobre estrutura e impermeabilização. Acabamentos e instalações têm períodos próprios, sempre acordados antes de iniciar.",
   },
   {
     q: "Trabalham com fornecedores próprios ou aceitam materiais que eu compre?",
@@ -27,7 +27,7 @@ export const FAQS_HOME = [
   },
   {
     q: "Quais zonas servem?",
-    a: "Trabalhamos em toda a Grande Lisboa (Lisboa, Cascais, Sintra, Oeiras, Loures, Mafra) e Setúbal. Para projetos de maior escala, deslocamo-nos a outras zonas do país.",
+    a: "Servimos todo o território nacional. A nossa base operacional é a Grande Lisboa (Lisboa, Cascais, Sintra, Oeiras, Loures, Mafra) e Setúbal — intervenções fora desta área incluem deslocação técnica, orçamentada de forma transparente em função da distância, logística e duração da obra.",
   },
   {
     q: "Como decorre o pagamento?",

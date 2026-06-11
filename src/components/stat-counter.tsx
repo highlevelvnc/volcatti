@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react";
 type Props = {
   target: number;
   suffix?: string;
+  prefix?: string;
 };
 
-export function StatCounter({ target, suffix = "" }: Props) {
+export function StatCounter({ target, suffix = "", prefix = "" }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
   const [val, setVal] = useState(0);
   const startedRef = useRef(false);
@@ -41,6 +42,7 @@ export function StatCounter({ target, suffix = "" }: Props) {
 
   return (
     <span ref={ref} className="font-display font-light leading-none tracking-[-0.03em] text-graphite" style={{ fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)" }}>
+      {prefix && <span className="text-graphite/55" style={{ fontSize: "0.42em" }}>{prefix}</span>}
       {val}
       <span className="text-bronze">{suffix}</span>
     </span>

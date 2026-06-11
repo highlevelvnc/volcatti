@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: [],
+    // Pedido de orçamento permite anexar projetos (imagens/PDF).
+    // Default do Server Action é 1MB — subimos para acomodar anexos.
+    serverActions: {
+      bodySizeLimit: "12mb",
+    },
   },
   poweredByHeader: false,
   compress: true,
